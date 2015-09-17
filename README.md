@@ -3,19 +3,19 @@
 ##Client
 
  - Dr. Igor Crk
-	- icrk@siue.ede
+	- icrk@siue.edu
 	
 	
 ##Team Members
 
- - Dylan William: Qualtiy Assurance Manager
+ - Dylan Williams: Quality Assurance Manager
  - Spencer Smith: Client Proxy
  - Nathan Reinhardt: Scrum Master
  
 
 ## Product Description
 
-Software for the detection of frequently modified files and functions from commit logs and souce changes of revision-constrolled codebases.
+Software for the detection of frequently modified files and functions from commit logs and source changes of revision-constrolled codebases.
 
 
 ##References
