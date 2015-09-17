@@ -1,4 +1,4 @@
-#Project Hostspotter
+#Project Hotspotter
 
 ##Client
 
