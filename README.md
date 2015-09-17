@@ -1,7 +1,6 @@
 #Project Hostspotter
+###README
 -------------------------------------------------------------------------------------------------------------------------------------------
-
-##README
 
 
 ####Client
@@ -10,7 +9,7 @@
 	- icrk@siue.edu
 	
 	
-####Team Memeber
+####Team Members
 -------------------------------------------------------------------------------------------------------------------------------------------
  - Dylan William: Qualtiy Assurance Manager
  - Spencer Smith: Client Proxy
@@ -20,8 +19,6 @@
 #### Product Description
 -------------------------------------------------------------------------------------------------------------------------------------------
 Software for the detection of frequently modified files and functions from commit logs and souce changes of revision-constrolled codebases.
-
-
 
 
 ####References
