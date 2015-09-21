@@ -1,4 +1,4 @@
-#Project Hostspotter
+#Project Hotspotter
 
 ##Client
 
@@ -15,7 +15,7 @@
 
 ## Product Description
 
-Software for the detection of frequently modified files and functions from commit logs and source changes of revision-constrolled codebases.
+Software for the detection of frequently modified files and functions from commit logs and source changes of revision-controlled codebases.
 
 
 ##References
