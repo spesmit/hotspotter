@@ -24,3 +24,29 @@ Software for the detection of frequently modified files and functions from commi
  - http://google-engtools.blogspot.com/2011/12/bug-prediction-at-google.html
  - http://landley.net/writing/git-bisect-howto.html
  - http://macbeth.cs.ucdavis.edu/fse2011.pdf
+ 
+ 
+ ###Tech Stack###
+- AngularJs
+- Express
+- Nodejs
+- MongoDb
+
+###TO RUN###
+
+*Assuming you have node and mongo installed*
+
+Travel to the base directory of this project where you saved it.
+####Setup####
+
+These steps will download the required dependencies to run the app.
+
+- 1: run 'npm install' 
+- 2: run 'bower install'
+
+####Running####
+- 1: run 'grunt dev' in one console
+- 2: run 'mongod'  in a new console to start up your mongo database
+- Finally: run 'node server' in a new console to start up the application
+
+Now travel to localhost:8080 in your browsers
