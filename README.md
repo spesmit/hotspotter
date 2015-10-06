@@ -48,6 +48,7 @@ https://www.mongodb.org/downloads#production
 #####Install Grunt-Cli and bower globally#####
 
 npm install -g bower
+
 npm install -g grunt-cli
 
 
