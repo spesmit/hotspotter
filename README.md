@@ -27,6 +27,7 @@ Software for the detection of frequently modified files and functions from commi
  
  
  ###Tech Stack###
+ 
 - AngularJs
 - Express
 - Nodejs
