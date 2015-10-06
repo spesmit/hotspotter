@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="ng-ap" ng-app='hotspotter'>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <base href="/">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
     <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
 
+
+<!--JAVASCRIPT-->
+<script type="text/javascript" src="dependencies/third-party.js"></script>
+<script type="text/javascript" src="dependencies/internal.js"></script>
+
+
+<body>
+<div id="wrapper">
+    <!--CONTENT VIEW-->
+    <div ng-view></div>
+</div>
 </body>
 </html>
