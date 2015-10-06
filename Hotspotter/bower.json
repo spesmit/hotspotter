@@ -1,21 +1,18 @@
 {
 "name": "hotspotter",
 "version": "0.0.1",
-"ignore": [
-"**/.*",
-"node_modules",
-"bower_components",
-"test",
-"tests"
-],
-"dependencies": {
-"angular-bootstrap": "0.13.x",
-"angular-resource": "1.4.x",
-"bootstrap": "~3.3.5",
-"angular": "1.4.x",
-"angular-route": "~1.4.4"
-},
-"resolutions": {
-"angular": "1.4.x"
-}
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "0.13.x",
+    "angular-resource": "1.4.x",
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.4",
+    "angular-route": "~1.4.4"
+  }
 }

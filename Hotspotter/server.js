@@ -1,15 +1,17 @@
-//Server Dependencies//
+//====================================Server Dependencies=========================================//
 //Tell the server to use express as middle ware
 var express = require('express');
-//Assigning axpress to our app
+//Assigning express to our app
 var app = express();
 //Telling the server to use body-parser which is needed to parse out json
 var  bodyParser = require('body-parser');
 //Tell the sever to use mongoose for our domain object mocker
 var  mongoose = require('mongoose');
-
 //Allows server to use HTTP verbs such as PUT and DELETE.
 var methodOverride = require('method-override');
+//==============================================================================================//
+
+
 
 //Makes connection to the local mongo database
 mongoose.connect('mongodb://localhost:27017/hotspotter');
@@ -29,11 +31,18 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 
 //Point the server at project dependencies brought in from doing a "npm install" and "bower install"
+
+app.use('/', express.static(__dirname + '/client'));
+app.use('/views', express.static(__dirname + '/client/dashboard/dashboard.html'));
+
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
-app.use('/node_modules', express.static(__dirname +'/node_modules'));
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
+
+//app.use('/bower_components', express.static(__dirname + '/bower_components'));
+//app.use('/node_modules', express.static(__dirname +'/node_modules'));
 
 
-require('./server/routes')(app);
+//require('./server/routes')(app);
 //Server is listening to port 3000
 app.listen(3000);
 console.log('Im Listening...');

@@ -8,4 +8,5 @@ node_modules
 
 
 #Concat Files#
-client/dependencies
+internal.js
+third-party.js

@@ -11,9 +11,6 @@ module.exports = function(grunt) {
         EXTERNAL_JS_FILES = [
             BOWER_DIR + "/angular/angular.js",
             BOWER_DIR + "/angular-resource/angular-resource.js",
-            BOWER_DIR + "/angular-animate/angular-animate.js",
-            BOWER_DIR + "/angular-aria/angular-aria.js",
-            BOWER_DIR + "/angular-material/angular-material.js",
             BOWER_DIR + "/angular-route/angular-route.js"
         ],
         INTERNAL_JS_FILES = [
@@ -42,11 +39,11 @@ module.exports = function(grunt) {
         concat: {
             internal: {
                 src: INTERNAL_JS_FILES,
-                dest: 'client/dependencies/internal.js'
+                dest: 'client/internal.js'
             },
             external: {
                 src: EXTERNAL_JS_FILES,
-                dest: 'client/dependencies/third-party.js'
+                dest: 'client/third-party.js'
             }
         },
         watch: {
