@@ -43,6 +43,14 @@ https://www.mongodb.org/downloads#production
 
 
 ####Setup####
+
+
+#####Install Grunt-Cli and bower globaly#####
+
+npm install -g bower
+npm install -g grunt-cli
+
+
 Travel to the base directory of this project where you saved it.
 
 These steps will download the required dependencies to run the app.

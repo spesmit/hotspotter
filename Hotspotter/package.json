@@ -1,5 +1,8 @@
 {
   "name": "hotspotter",
+  "description": "Software for the detection of frequently modified files and functions from commit logs and source changes of revision-controlled codebases",
+  "repository": "https://bitbucket.org/gamayer/hotspotter",
+  "private": true,
   "version": "0.0.1",
   "dependencies": {
     "angular": "^1.4.4",
