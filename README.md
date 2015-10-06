@@ -26,7 +26,7 @@ Software for the detection of frequently modified files and functions from commi
  - http://macbeth.cs.ucdavis.edu/fse2011.pdf
  
  
- ###Tech Stack###
+###Tech Stack###
  
 - AngularJs
 - Express
