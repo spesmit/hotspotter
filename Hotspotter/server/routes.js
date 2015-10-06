@@ -1,9 +1,8 @@
 module.exports = function(app) {
-    // server routes ===========================================================
-    // handle things like api calls
-    // authentication routes
-
-    // frontend routes =========================================================
+// =============================Server Routes ===========================================================
+   //TODO: These will be our api routes
+   //
+//============================= Frontend Routes =========================================================
     // route to handle all angular requests
     app.get('*', function(req, res) {
         res.sendFile('index.html', { root: './client' });
