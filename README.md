@@ -35,9 +35,12 @@ Software for the detection of frequently modified files and functions from commi
 ###TO RUN###
 
 *Assuming you have node and mongo installed*
+https://nodejs.org/en/
+https://www.mongodb.org/downloads#production
 
-Travel to the base directory of this project where you saved it.
+
 ####Setup####
+Travel to the base directory of this project where you saved it.
 
 These steps will download the required dependencies to run the app.
 
@@ -49,4 +52,4 @@ These steps will download the required dependencies to run the app.
 - 2: run 'mongod'  in a new console to start up your mongo database
 - Finally: run 'node server' in a new console to start up the application
 
-Now travel to localhost:8080 in your browsers
+Now travel to localhost:8080 in your browser
