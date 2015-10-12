@@ -1,0 +1,12 @@
+#IDE PROJECT FILES#
+.idea/
+
+
+#Generated Dependencies#
+bower_components/
+node_modules
+
+
+#Concat Files#
+internal.js
+third-party.js
