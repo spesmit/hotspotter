@@ -20,10 +20,10 @@ Software for the detection of frequently modified files and functions from commi
 
 ##References##
 
- - https://github.com/igrigorik/bugspots
- - http://google-engtools.blogspot.com/2011/12/bug-prediction-at-google.html
- - http://landley.net/writing/git-bisect-howto.html
- - http://macbeth.cs.ucdavis.edu/fse2011.pdf
+ - (https://github.com/igrigorik/bugspots)
+ - (http://google-engtools.blogspot.com/2011/12/bug-prediction-at-google.html)
+ - (http://landley.net/writing/git-bisect-howto.html)
+ - (http://macbeth.cs.ucdavis.edu/fse2011.pdf)
 
  ________________________________________________________________________________________
 
@@ -41,9 +41,9 @@ ________________________________________________________________________________
 
 *Assuming you have node and mongo installed*
 
-https://nodejs.org/en/
+(https://nodejs.org/en/)
 
-https://www.mongodb.org/downloads#production
+(https://www.mongodb.org/downloads#production)
 
 
 ##Setup##
@@ -81,56 +81,56 @@ ________________________________________________________________________________
 
 ##Back End/NodeJS##
 
-http://loopback.io/
+(http://loopback.io/)
 
-https://www.youtube.com/watch?v=GK-tFvpIR7c
+(https://www.youtube.com/watch?v=GK-tFvpIR7c)
 
-https://www.airpair.com/node.js/posts/top-10-mistakes-node-developers-make
+(https://www.airpair.com/node.js/posts/top-10-mistakes-node-developers-make)
 
 ##Front End/AngularJS##
 
 ####Angular Best Practices/Style Guide###
 
-https://github.com/johnpapa/angular-styleguide
+(https://github.com/johnpapa/angular-styleguide)
 
 ####Angular Attribute Binding Explanation####
 
-https://gist.github.com/CMCDragonkai/6282750
+(https://gist.github.com/CMCDragonkai/6282750)
 
 
 ##MEAN setup guides##
 
-https://scotch.io/tutorials/setting-up-a-mean-stack-single-page-application
+(https://scotch.io/tutorials/setting-up-a-mean-stack-single-page-application)
 
-https://www.youtube.com/watch?v=JnMvok0Yks8
+(https://www.youtube.com/watch?v=JnMvok0Yks8)
 
-http://modernweb.com/2014/04/21/mean-stack-a-quick-start-guide/
+(http://modernweb.com/2014/04/21/mean-stack-a-quick-start-guide/)
 
-http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/
+(http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/)
 
-https://thinkster.io/mean-stack-tutorial
+(https://thinkster.io/mean-stack-tutorial)
 
-https://egghead.io/
+(https://egghead.io/)
 
 
 ##Angular Front End Styling Libraries ##
 
-http://www.google.com/design/spec/style/color.html#
+(http://www.google.com/design/spec/style/color.html#)
 
-https://www.google.com/design/spec/material-design/introduction.html
+(https://www.google.com/design/spec/material-design/introduction.html)
 
-http://tympanus.net/codrops/
+(http://tympanus.net/codrops/)
 
-https://design.google.com/
+(https://design.google.com/)
 
-http://stackoverflow.com/questions/14741988/twitter-bootstrap-navbar-with-angular-js-collapse-not-functioning
+(http://stackoverflow.com/questions/14741988/twitter-bootstrap-navbar-with-angular-js-collapse-not-functioning)
 
-https://www.codementor.io/angularjs/tutorial/making-a-sliding-menu-with-directives-less-css
+(https://www.codementor.io/angularjs/tutorial/making-a-sliding-menu-with-directives-less-css)
 
-https://material.angularjs.org/latest/
+(https://material.angularjs.org/latest/)
 
 ##Grunt Guides##
 
-http://raibledesigns.com/rd/entry/using_grunt_with_angularjs_for
+(http://raibledesigns.com/rd/entry/using_grunt_with_angularjs_for)
 
-https://scotch.io/tutorials/a-simple-guide-to-getting-started-with-grunt
+(https://scotch.io/tutorials/a-simple-guide-to-getting-started-with-grunt)
