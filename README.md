@@ -98,7 +98,7 @@ https://github.com/johnpapa/angular-styleguide
 https://gist.github.com/CMCDragonkai/6282750
 
 
-####MEAN setup guides####
+##MEAN setup guides##
 
 https://scotch.io/tutorials/setting-up-a-mean-stack-single-page-application
 
@@ -113,7 +113,7 @@ https://thinkster.io/mean-stack-tutorial
 https://egghead.io/
 
 
-####Angular Front End Styling Libraries ####
+##Angular Front End Styling Libraries ##
 
 http://www.google.com/design/spec/style/color.html#
 
@@ -129,7 +129,7 @@ https://www.codementor.io/angularjs/tutorial/making-a-sliding-menu-with-directiv
 
 https://material.angularjs.org/latest/
 
-####Grunt Guides####
+##Grunt Guides##
 
 http://raibledesigns.com/rd/entry/using_grunt_with_angularjs_for
 
