@@ -75,9 +75,10 @@ ________________________________________________________________________________
 
 ________________________________________________________________________________________
  
+I recommend everyone start here 
 
+(https://www.youtube.com/watch?v=AEE7DY2AYvI&list=PLFl3T969CR9TJVLgjn8rtBUIqb27EqqMi&index=1)
 
-#MEAN Stack Reference Material#
 
 ##Back End/NodeJS##
 
