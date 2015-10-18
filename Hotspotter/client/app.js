@@ -4,7 +4,8 @@
     var app = angular.module('hotspotter', [
         'ngRoute',
         'ngResource',
-        'hotspotter.dashboardCtrl'
+        'hotspotter.dashboardCtrl',
+        'hotspotter.repo_service'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render

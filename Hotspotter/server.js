@@ -12,7 +12,7 @@ var methodOverride = require('method-override');
 //==============================================================================================//
 
 
-
+//require('./server/module')
 //Makes connection to the local mongo database
 mongoose.connect('mongodb://localhost:27017/hotspotter');
 
@@ -25,8 +25,6 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 //Use X-HTTP=Method-Override for verbiage
 app.use(methodOverride('X-HTTP-Method-Override'));
-
-
 
 
 app.use('/', express.static(__dirname + '/client'));
