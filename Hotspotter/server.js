@@ -41,5 +41,9 @@ require('./server/routes')(app);
 app.listen(3000);
 console.log('Im Listening...');
 
+// Database test
+require('./server/repository/repo_test');
+
+
 
 exports = module.exports = app;
