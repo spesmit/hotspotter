@@ -1,6 +1,9 @@
-var Repo = require('./repo_model');
 
-function create (callback) {
+
+//var Repo = require('./repo_model');
+
+var Repo = require('./repo_model');
+module.exports.create = function () {
 	// 
 	var test1 = new Repo({
 		url: 'url1',
@@ -25,22 +28,18 @@ function create (callback) {
 		else console.log('Saved : ', test2, '\n');
 	})
 	
-	callback();
 }
 
-function find () {
+module.exports.find = function () {
 	Repo.find(function(err, tests) {
 		console.log(tests);
 	})
 }
 
-function run_test (create, find) {
+module.exports.clear = function () {
 	// Clean database 
 	Repo.remove({}, function(err) {
 		console.log('\nCleared database... \n');
-		// Create model
-		create(find);
 	});
 }
 
-run_test(create, find);

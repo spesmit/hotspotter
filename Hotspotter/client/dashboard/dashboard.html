@@ -17,6 +17,12 @@
             	</div>
         		<button type="submit" class="btn btn-primary">Add Repository</button>
             </form>
+
+            <label class="control-label" for="repoUrl">Database:</label>
+            <div ng-repeat="item in items">
+                <li>{{item.URL}}</li>
+            </div>
+            
         </div>
     </div>
     <!-- /.row -->

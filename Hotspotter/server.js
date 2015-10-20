@@ -12,7 +12,6 @@ var methodOverride = require('method-override');
 //==============================================================================================//
 
 
-//require('./server/module')
 //Makes connection to the local mongo database
 mongoose.connect('mongodb://localhost:27017/hotspotter');
 
@@ -41,9 +40,7 @@ require('./server/routes')(app);
 app.listen(3000);
 console.log('Im Listening...');
 
-// Database test
-require('./server/repository/repo_test');
-
-
+var test = require('./server/repository/repo_test');
+//test.clear();
 
 exports = module.exports = app;
