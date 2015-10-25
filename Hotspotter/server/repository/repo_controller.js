@@ -1,7 +1,8 @@
 var Repo = require('./repo_model');
-
-module.exports.create = function (req, res) {
-	var repo = new Repo(req.body);
+var Git = require('../git/gitService');
+module.exports.create = function (gitUrl, res) {
+	var repo = new Repo(gitUrl.body);
+	Git.gitCheckout(repo);
 	repo.save(function (err, result) {
 		res.json(result);
 	});
@@ -12,3 +13,4 @@ module.exports.list = function (req, res) {
         res.json(results);
     });
 };
+
