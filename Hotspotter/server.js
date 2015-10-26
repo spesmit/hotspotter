@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/hotspotter');
 app.use(bodyParser.json());
 // parse application/vnd.api+json as json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-// parse application/x-www-form-urlencoded
+// parse application/x-www-form-urlencodedg
 app.use(bodyParser.urlencoded({ extended: true }));
 //Use X-HTTP=Method-Override for verbiage
 app.use(methodOverride('X-HTTP-Method-Override'));

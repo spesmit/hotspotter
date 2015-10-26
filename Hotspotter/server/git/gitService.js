@@ -1,11 +1,21 @@
 /**
  * Created by natem on 10/25/2015.
  */
-//var simpleGit = require('simple-git')();
+
+
+var localPath = ('./tempProjects');
+var simpleGit = require('simple-git')();
+var fs = require('fs');
 
 exports.gitCheckout = function (repoURL){
-    console.log("REPO URL:" + repoURL.URL);
-    console.log("Helllo")
+    console.log("REPO URL:" + repoURL);
+    simpleGit
+        .outputHandler(function (command, stdout, stderr) {
+            stdout.pipe(process.stdout);
+            stderr.pipe(process.stderr);
+        })
+        .clone(repoURL,localPath);
+
 };
 
 
