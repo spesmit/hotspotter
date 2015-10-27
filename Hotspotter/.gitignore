@@ -1,6 +1,6 @@
 #IDE PROJECT FILES#
 .idea/
-
+npm-debug.log
 
 #Generated Dependencies#
 bower_components/
@@ -10,3 +10,8 @@ node_modules
 #Concat Files#
 internal.js
 third-party.js
+
+
+#git parsing dir
+
+tempProjects
