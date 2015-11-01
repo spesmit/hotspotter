@@ -2,8 +2,19 @@
 <div class="container" ng-controller="fileViewCtrl">
      <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
+            
+            <!-- http://blog.stackfull.com/2014/02/trees-in-angularjs/ -->
+            <script type="text/ng-template"  id="node.html">
+              {{node.name}}
+              <ul>
+                <li ng-repeat="node in node.children" ng-include="'node.html'"></li>
+              </ul>
+            </script>
             <ul>
-                <li ng-repeat="file in files"> {{ file }} </li>
+                <li ng-include="'node.html'" ng-init="node=treeData"></li>
+            </ul>
+            <ul>
+                <li ng-repeat="path in tree">{{path}}</li>
             </ul>
         </div>
     </div>
