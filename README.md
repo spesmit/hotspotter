@@ -1,3 +1,4 @@
+[![Build Status](http://vm-09.cs.siue.edu:8180/jenkins/buildStatus/icon?job=Hotspotter)](http://vm-09.cs.siue.edu:8180/jenkins/job/Hotspotter)
 #Project Hotspotter##
 
 ##Client##
