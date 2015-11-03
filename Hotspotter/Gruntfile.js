@@ -15,7 +15,8 @@ module.exports = function(grunt) {
         ],
         INTERNAL_JS_FILES = [
             CLIENT_DIR + "/app.js",
-            CLIENT_DIR + "/dashboard/*.js"
+            CLIENT_DIR + "/dashboard/*.js",
+            CLIENT_DIR + "/fileView/*.js"
         ];
 
     // ===========================================================================
