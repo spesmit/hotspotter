@@ -13,7 +13,7 @@
 		]};
 
 		// list of file paths
-	    var list = ["/dir1/file1", "/file2", "/dir2/dir3/file3", "/dir4/dir1/file4"];
+	    var list = ["/dir1/file1", "/dir1/file2", "/dir1/dir3/file3", "/dir4/dir1/file4"];
 	    
 	    // create json object in tree format
 	    $scope.structure = ParsingService.ParsingAPI(list);
