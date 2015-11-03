@@ -63,6 +63,12 @@ These steps will download the required dependencies to run the app.
 - 1: run 'npm install' 
 - 2: run 'bower install'
 
+Travel to bower_components directory of this project.
+
+These steps will download required angular tree view dependency to run the app.
+
+- 1: git clone 'https://github.com/axel-zarate/angular-tree-view.git'
+
 ###Running###
 - 1: run 'grunt dev' in one console
 - 2: run 'mongod'  in a new console to start up your mongo database
