@@ -22,8 +22,8 @@
 	        name: "file3"
 	      }]
 	    };
-	   var list = ["/dir1/file1", "/file2", "/dir2/dir3/file3"];
-	   $scope.tree = ParsingService.ParsingAPI(list);
+	   var list = ["/dir1/file1", "/file2", "/dir2/dir3/file3", "/dir4/dir1/file4"];
+	   $scope.treeData = ParsingService.ParsingAPI(list);
 	  });
    
 }(window.angular));

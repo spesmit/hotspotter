@@ -29,7 +29,6 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use('/', express.static(__dirname + '/client'));
 app.use('/views', express.static(__dirname + '/client/dashboard/dashboard.html'));
 
-
 //Point the server at project dependencies brought in from doing a "npm install" and "bower install"
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
