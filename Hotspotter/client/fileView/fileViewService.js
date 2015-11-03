@@ -1,48 +1,41 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.fileViewService', []);
-
-    function recurseTree(tree, depth, path) {
-    var child = null;
-    //console.log(tree);
-    //console.log(depth);
-    //console.log(path);
-  	//var tempObject = {};
-  	
-	if (tree.indexOf(path[depth]) < 0) {
-    	tree.push({name: path[depth], children: []});
-  	} 
-    if (depth === path.length -1) {
-        	return;
-    }
-    // find current tree's child
-    tree.forEach(function(entry) {
-    	if (entry.name == path[depth]) {
-    	for(var key in entry) {
-    		//console.log(key);
-	        if (key == 'children') {
-	            child = entry.children; // found a child
-	            break;
-	        } 
-    	}
-    }
-    });
-
-    //console.log(child);
-    if (child) { // recursively process on child
-        recurseTree(child, depth+1, path);
-    }
-}
-
 	ngModule.service('ParsingService', function () {
 	this.ParsingAPI = function(list) {
-		var treeData = {name: "/", children: []};
+		var treeData = {folders: [], files: []};
+        var tree = treeData;
 		angular.forEach(list, function(value) {
-			// Split file paths into tree structure
+			// Split file paths into array and loop through 
 			var pathSplit = value.replace(/\//g,'/,').split(/,/);
-			//angular.forEach(pathSplit, function(value) {
-			recurseTree(treeData.children, 1, pathSplit);
-			//}, treeData);
+			angular.forEach(pathSplit, function(value) {
+                
+                // ignore '/' root directory
+                if (value != '/') {
+                    
+                    // insert file name
+                    if (value.indexOf('/') < 0) {
+                        tree.files.push({name: value});
+                    // insert directory name
+                    } else {
+
+                        // directory doesn't exists so create folder object
+                        if (tree.folders.indexOf(value) < 0) {
+                            tree.folders.push({name: value, folders: [], files: []});
+                        } 
+
+                        // find next directory in path
+                        for(var key in tree.folders) {
+                            if (tree.folders[key].name == value) {
+                                tree = tree.folders[key];
+                                break;
+                            } 
+                        }
+                	    
+                    }    
+                }      
+			}, treeData);
+        tree = treeData;
 		}, treeData);
 	return treeData;
 	};
