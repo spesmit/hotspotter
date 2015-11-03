@@ -17,7 +17,14 @@ module.exports.list = function (req, res) {
 };
 
 module.exports.view = function (req, res) {
-	var repoID = req.params.repo;
-	
 	// build file structure json object from request and return
+	var repoID = req.params.repo;
+	Glob("tempProjects/" + repoID + "/**/*", function (err, files) {
+		if(err) {
+			console.log("ERR: " + err);
+			res.json([]);
+		} else {
+	  		res.json(files);
+	  	}
+	});
 };
