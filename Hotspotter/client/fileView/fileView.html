@@ -2,7 +2,16 @@
 <div class="container" ng-controller="fileViewCtrl">
      <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <div tree-view="structure" tree-view-options="options"></div>
+        	<div ng-if="database == true">
+            	<label class="control-label" for="repoUrl">Database:</label>
+            	<div ng-repeat="item in items">
+                	<div class="clearfix">{{item.URL}}
+                		<button class="btn btn-primary pull-right" ng-click='viewRepository(item.URL)'>View</button>
+                	</div><br>
+            	</div>
+        	</div>
+
+            <div ng-if="files == true" tree-view="structure" tree-view-options="options"></div>
         </div>
     </div>
 </div>
