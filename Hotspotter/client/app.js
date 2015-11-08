@@ -4,6 +4,7 @@
     var app = angular.module('hotspotter', [
         'ngRoute',
         'ngResource',
+        'AxelSoft',
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
         'hotspotter.fileViewService'
