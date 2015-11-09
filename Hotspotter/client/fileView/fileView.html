@@ -1,6 +1,11 @@
-
+<style type="text/css">
+.tree .tree-folder .tree-folder-header, .tree .tree-item {
+    height: inherit;
+}
+</style>
 <div class="container" ng-controller="fileViewCtrl">
      <div class="row">
+     <button class="btn btn-primary pull-right" ng-click='viewRepository("test")'>View</button>
         <div class="col-sm-6 col-sm-offset-3">
         	<div ng-if="database == true">
             	<label class="control-label">Database:</label>
