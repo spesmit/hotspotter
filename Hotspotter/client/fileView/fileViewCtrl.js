@@ -22,22 +22,22 @@
 	    	$scope.files = true;
 	    	$scope.database = false;
 
+	    	// Fetch file structure from API endpoint
+	    	var Repo = $resource("/api/repo/:repoUrl");
+	    	var	repo = Repo.query({repoUrl: "url"}, function() {
+
+			    	// create json object in tree format fome path array
+			    	$scope.structure = ParsingService.ParsingAPI(repo);
+
+			    	$scope.options = {
+			    	onNodeSelect: function (node, breadcrums) {
+			        	$scope.breadcrums = breadcrums;
+			    		}
+					};
+	    		});
+
 	    	// Debugging
 	    	console.log(url);
-
-	    	var list = ["/dir1/file1", "/dir1/file2", "/dir1/dir3/file3", "/dir4/dir1/file4"];
-
-	    	// create json object in tree format fome path array
-	    	$scope.structure = ParsingService.ParsingAPI(list);
-
-	    	$scope.options = {
-	    	onNodeSelect: function (node, breadcrums) {
-	        	$scope.breadcrums = breadcrums;
-	    		}
-			};
-
     	};
-
-	  });
-   
+	});
 }(window.angular));

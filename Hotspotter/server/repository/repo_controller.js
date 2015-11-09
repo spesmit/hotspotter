@@ -1,6 +1,6 @@
 var Repo = require('./repo_model');
 var Git = require('../git/gitService');
-var Glob = require('glob');
+var Glob = require('glob').Glob;
 
 module.exports.create = function (gitUrl, res) {
 	var repo = new Repo(gitUrl.body);
@@ -18,8 +18,11 @@ module.exports.list = function (req, res) {
 
 module.exports.view = function (req, res) {
 	// build file structure json object from request and return
-	var repoID = req.params.repo;
-	Glob("tempProjects/" + repoID + "/**/*", function (err, files) {
+	var repoUrl = req.params.repo;
+
+
+	//Glob("tempProjects/" + repoUrl + "/**/*.*", function (err, files) {
+	Glob("tempProjects/**/*.*", function (err, files) {
 		if(err) {
 			console.log("ERR: " + err);
 			res.json([]);
