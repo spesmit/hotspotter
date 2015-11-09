@@ -4,7 +4,10 @@
     var app = angular.module('hotspotter', [
         'ngRoute',
         'ngResource',
-        'hotspotter.dashboardCtrl'
+        'AxelSoft',
+        'hotspotter.dashboardCtrl',
+        'hotspotter.fileViewCtrl',
+        'hotspotter.fileViewService'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -15,6 +18,14 @@
                 pageName: 'Dashboard',
                 controller: 'dashboardCtrl'
             });
+
+        $routeProvider.when(
+            '/fileView', {
+                templateUrl: 'fileView/fileView.html',
+                pageName: 'FileView',
+                controller: 'fileViewCtrl'
+            });
+
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);
 

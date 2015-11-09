@@ -1,0 +1,23 @@
+<style type="text/css">
+.tree .tree-folder .tree-folder-header, .tree .tree-item {
+    height: inherit;
+}
+</style>
+<div class="container" ng-controller="fileViewCtrl">
+     <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+        	<div ng-if="database == true">
+            	<label class="control-label">Database:</label>
+            	<div ng-repeat="item in items">
+                	<div class="clearfix">{{item.URL}}
+                		<button class="btn btn-primary pull-right" ng-click='viewRepository(item.URL)'>View</button>
+                	</div><br>
+            	</div>
+        	</div>
+        	<div ng-if="files == true">
+        		<label class="control-label">File System:</label>
+            	<div tree-view="structure" tree-view-options="options"></div>
+        	</div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,6 @@ start grunt dev
 wait;
 start mongod
 wait;
-start node server
+start nodemon server
 wait;
 start chrome "http://localhost:3000"
