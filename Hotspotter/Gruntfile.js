@@ -11,11 +11,13 @@ module.exports = function(grunt) {
         EXTERNAL_JS_FILES = [
             BOWER_DIR + "/angular/angular.js",
             BOWER_DIR + "/angular-resource/angular-resource.js",
-            BOWER_DIR + "/angular-route/angular-route.js"
+            BOWER_DIR + "/angular-route/angular-route.js",
+	    BOWER_DIR + "/angular-tree-view/js/treeView.js"
         ],
         INTERNAL_JS_FILES = [
             CLIENT_DIR + "/app.js",
-            CLIENT_DIR + "/dashboard/*.js"
+            CLIENT_DIR + "/dashboard/*.js",
+            CLIENT_DIR + "/fileView/*.js"
         ];
 
     // ===========================================================================
