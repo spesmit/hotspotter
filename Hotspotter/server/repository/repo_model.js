@@ -8,5 +8,4 @@ module.exports = mongoose.model('repo', {
 	LastUpdated: Date,
 	ProjectOwner: String
 
-	//name: String
 });
