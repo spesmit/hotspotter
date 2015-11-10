@@ -3,5 +3,9 @@ var mongoose = require('mongoose');
 
 module.exports = mongoose.model('repo', {
 	URL: String,
-	//name: String
+	Id: String,
+	FileCount: Number,
+	LastUpdated: Date,
+	ProjectOwner: String
+
 });
