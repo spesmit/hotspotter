@@ -93,7 +93,7 @@
 					collapsible = options.collapsible;
 				//var isEditing = false;
 
-				scope.expanded = collapsible == false;
+				scope.expanded = collapsible === false;
 				//scope.newNodeName = '';
 				//scope.addErrorMessage = '';
 				//scope.editName = '';
@@ -103,8 +103,8 @@
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
 				};
 				
-				scope.getFileIconClass = typeof options.mapIcon === 'function' 
-					? options.mapIcon
+				scope.getFileIconClass = typeof options.mapIcon === 'function' ?
+					 options.mapIcon
 					: function (file) {
 						return 'icon-file';
 					};

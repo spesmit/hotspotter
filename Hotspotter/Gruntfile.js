@@ -33,7 +33,6 @@ module.exports = function(grunt) {
         // configure jshint to validate js files -----------------------------------
         jshint: {
             options: {
-                ignore : [CLIENT_DIR + "/thirdParty/**/*.js"],
                 reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
 
             },
