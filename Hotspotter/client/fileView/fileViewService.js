@@ -3,12 +3,13 @@
     var ngModule = angular.module('hotspotter.fileViewService', []);
 	ngModule.service('ParsingService', function () {
 	this.ParsingAPI = function(list) {
+        console.log(list);
 		var treeData = {folders: [], files: []};
         var tree = treeData;
         // loop through file paths
 		angular.forEach(list, function(value) {
 			// Split file paths into array and loop through 
-			var pathSplit = value.replace(/\//g,'/,').split(/,/);
+			var pathSplit = value.Name.replace(/\//g,'/,').split(/,/);
 			angular.forEach(pathSplit, function(value) {
                 
                 // ignore '/' root directory
