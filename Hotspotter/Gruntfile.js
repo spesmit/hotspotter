@@ -12,12 +12,13 @@ module.exports = function(grunt) {
             BOWER_DIR + "/angular/angular.js",
             BOWER_DIR + "/angular-resource/angular-resource.js",
             BOWER_DIR + "/angular-route/angular-route.js",
-	    BOWER_DIR + "/angular-tree-view/js/treeView.js"
+	        BOWER_DIR + "/angular-tree-view/js/treeView.js"
         ],
         INTERNAL_JS_FILES = [
             CLIENT_DIR + "/app.js",
             CLIENT_DIR + "/dashboard/*.js",
-            CLIENT_DIR + "/fileView/*.js"
+            CLIENT_DIR + "/fileView/*.js",
+            CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js"
         ];
 
     // ===========================================================================
@@ -32,7 +33,9 @@ module.exports = function(grunt) {
         // configure jshint to validate js files -----------------------------------
         jshint: {
             options: {
+                ignore : [CLIENT_DIR + "/thirdParty/**/*.js"],
                 reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
+
             },
 
             // when this task is run, lint the Gruntfile and all js files in src

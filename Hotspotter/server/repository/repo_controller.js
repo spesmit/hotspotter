@@ -41,7 +41,7 @@ module.exports.view = function (req, res) {
 				
 			}
 			res.json(files);
-			console.log(files);
+			//console.log(files);
 	  	}
 	});
 };
