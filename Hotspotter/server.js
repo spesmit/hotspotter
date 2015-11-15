@@ -39,7 +39,7 @@ require('./server/routes')(app);
 app.listen(3000);
 console.log('Im Listening...');
 
-var test = require('./server/repository/repo_test');
+var test = require('./server/repository/repoSpec');
 //test.clear();
 
 exports = module.exports = app;

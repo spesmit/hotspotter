@@ -1,4 +1,4 @@
-var Repo = require('./repo_model');
+var Repo = require('./repoModel');
 var Git = require('../git/gitService');
 var Glob = require('glob').Glob;
 var File = require('../file/fileModel');
