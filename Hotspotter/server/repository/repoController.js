@@ -26,7 +26,6 @@ module.exports.view = function (req, res) {
             res.json([]);
         } else {
             gitService.gitLogCommits(filePaths, function (files) {
-                //console.log(files);
                 res.json(files);
             });
         }
