@@ -23,24 +23,13 @@ module.exports.view = function (req, res) {
     var repoUrl = req.params.repo;
 
     var files = [];
-    //Glob("tempProjects/" + repoUrl + "/**/*.*", function (err, files) {
     Glob("tempProjects/**/*.*", function (err, filePaths) {
-
         if(err) {
             console.log("ERR: " + err);
             res.json([]);
         } else {
-            async.each(filePaths, function(file, callback){
-                 gitService.gitLogCommits(file);
-                //console.log(newFile.Name);
-                //files.push(new File({
-                //    Name: res.filePath,
-                //    Commits: res.total
-                //}));
-                callback()
-            });
+            gitService.gitLogCommits(filePaths);
             }
-
         });
     console.log(files);
     res.json(files);
