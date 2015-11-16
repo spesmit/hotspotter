@@ -233,7 +233,7 @@
 						'<div class="tree-folder" ng-repeat="node in ' + attrs.treeViewNode + '.' + foldersProperty + '">' +
 							'<a href="#" class="tree-folder-header inline" ng-click="selectNode($event)" ng-class="{ selected: isSelected(node) }">' +
 								'<i class="icon-folder-close" ng-class="getFolderIconClass()"></i> ' +
-								'<span class="tree-folder-name">{{ node.' + displayProperty + ' }}</span> ' +
+								'<span class="tree-folder-name">{{ node.' + displayProperty +  ' }}</span> ' +
 							'</a>' +
 							'<div class="tree-folder-content"'+ (collapsible ? ' ng-show="expanded"' : '') + '>' +
 								'<div tree-view-node="node">' +

@@ -40,6 +40,7 @@ body {
 .tree .tree-folder .tree-folder-header .tree-folder-name,
 .tree .tree-item .tree-item-name {
 	display: inline;
+	background-color: hsl(143, 80%, 50%);
 	z-index: 2;
 }
 .tree .tree-folder .tree-folder-header > [class*="icon-"]:first-child,

@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.fileViewService', []);
-	ngModule.service('ParsingService', function () {
+	ngModule.service('fileViewService', function () {
 	this.ParsingAPI = function(list) {
         console.log(list);
 		var treeData = {folders: [], files: []};
