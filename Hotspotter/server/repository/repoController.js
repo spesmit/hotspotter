@@ -20,9 +20,6 @@ module.exports.list = function (req, res) {
 
 module.exports.view = function (req, res) {
     // build file structure json object from request and return
-    var repoUrl = req.params.repo;
-
-    var files = [];
     Glob("tempProjects/**/*.*", function (err, filePaths) {
         if(err) {
             console.log("ERR: " + err);
