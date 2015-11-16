@@ -14,7 +14,7 @@
                 
                 // ignore '/' root directory
                 if (value != '/') {
-                    
+
                     // insert file name
                     if (value.indexOf('/') < 0) {
                         tree.files.push({name: value});
