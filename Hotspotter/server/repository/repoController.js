@@ -31,7 +31,7 @@ module.exports.view = function (req, res) {
             res.json([]);
         } else {
             async.each(filePaths, function(file, callback){
-                newFile = gitService.gitLogCommits(file);
+                 gitService.gitLogCommits(file);
                 //console.log(newFile.Name);
                 //files.push(new File({
                 //    Name: res.filePath,

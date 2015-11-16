@@ -23,7 +23,7 @@ exports.gitLogCommits = function (filePath, res) {
             Name: filePath,
             Commits: log.total
         });
-        console.log("Number Of Commits " + res.Commits + " for file: " + res.Name);
+        console.log("File " + res.Name + " has  " + res.Commits + " commits" );
     });
 };
 
