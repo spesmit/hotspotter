@@ -30,18 +30,12 @@ module.exports.view = function (req, res) {
             console.log("ERR: " + err);
             res.json([]);
         } else {
-            async.each(filePaths, function(file, callback){
-                 gitService.gitLogCommits(file);
-                //console.log(newFile.Name);
-                //files.push(new File({
-                //    Name: res.filePath,
-                //    Commits: res.total
-                //}));
-                callback()
+            gitService.gitLogCommits(filePaths, function (files) {
+                //console.log(files);
+                res.json(files);
             });
-            }
+        }
 
         });
-    console.log(files);
-    res.json(files);
+   
 };

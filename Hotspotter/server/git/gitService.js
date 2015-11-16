@@ -17,14 +17,19 @@ exports.gitCheckout = function (repoURL){
         .clone(repoURL,localPath);
 };
 
-exports.gitLogCommits = function (filePath, res) {
-    simpleGit.log({'file': filePath.replace('tempProjects/', '')}, function (err, log) {
-        res = new File({
-            Name: filePath,
-            Commits: log.total
+exports.gitLogCommits = function (filePaths, res) {
+    var files = [];
+    async.each(filePaths, function (filePath, callback) {
+        simpleGit.log({'file': filePath.replace('tempProjects/', '')}, function (err, log) {
+            files.push(new File({
+                Name: filePath,
+                Commits: log.total
+            }));
+            callback();
         });
-        console.log("File " + res.Name + " has  " + res.Commits + " commits" );
+    },
+    function (err) {
+        console.log(files);
+        res(files);
     });
 };
-
-
