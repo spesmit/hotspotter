@@ -2,7 +2,10 @@
  * Created by natem on 10/25/2015.
  */
 var localPath = ('./tempProjects');
+var File = require('../file/fileModel');
 var simpleGit = require('simple-git')(localPath);
+var async = require("async");
+
 
 exports.gitCheckout = function (repoURL){
     console.log("REPO URL: " + repoURL);
@@ -14,11 +17,14 @@ exports.gitCheckout = function (repoURL){
         .clone(repoURL,localPath);
 };
 
-exports.gitLogCommits = function (filePath, res){
-    console.log("File Path: " + filePath);
-    simpleGit
-    .log({'file' : filePath.replace('tempProjects/', '')}, function(err, log) {
-        res(log.total, filePath);
-    })
+exports.gitLogCommits = function (filePath, res) {
+    simpleGit.log({'file': filePath.replace('tempProjects/', '')}, function (err, log) {
+        res = new File({
+            Name: filePath,
+            Commits: log.total
+        });
+        console.log("Number Of Commits " + res.Commits + " for file: " + res.Name);
+    });
 };
+
 
