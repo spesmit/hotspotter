@@ -23,9 +23,7 @@ module.exports.view = function (req, res) {
     var repoUrl = req.params.repo;
 
     var files = [];
-    //Glob("tempProjects/" + repoUrl + "/**/*.*", function (err, files) {
     Glob("tempProjects/**/*.*", function (err, filePaths) {
-
         if(err) {
             console.log("ERR: " + err);
             res.json([]);
@@ -35,7 +33,6 @@ module.exports.view = function (req, res) {
                 res.json(files);
             });
         }
-
-        });
+    });
    
 };

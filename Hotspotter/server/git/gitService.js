@@ -32,4 +32,5 @@ exports.gitLogCommits = function (filePaths, res) {
         console.log(files);
         res(files);
     });
+
 };
