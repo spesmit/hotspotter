@@ -5,6 +5,7 @@
 		foldersProperty: 'folders',
 		filesProperty: 'files',
 		displayProperty: 'name',
+		commitProperty: 'commits',
 		collapsible: true
 	});
 	
@@ -75,6 +76,7 @@
 				*/
 				self.getOptions = function () {
 					return options;
+
 				};
 			}]
 		};
@@ -90,15 +92,14 @@
 					foldersProperty = options.foldersProperty,
 					filesProperty = options.filesProperty,
 					displayProperty = options.displayProperty,
+					commitProperty = options.commitProperty,
 					collapsible = options.collapsible;
 				//var isEditing = false;
-
 				scope.expanded = collapsible === false;
 				//scope.newNodeName = '';
 				//scope.addErrorMessage = '';
 				//scope.editName = '';
-				//scope.editErrorMessage = '';
-
+				//scope.editErrorMessage = '';;
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
 				};
@@ -134,12 +135,13 @@
 				scope.selectFile = function (file, event) {
 					event.preventDefault();
 					//if (isEditing) return;
-
+					console.log(file);
 					var breadcrumbs = [file[displayProperty]];
 					var nodeScope = scope;
 					while (nodeScope.node) {
 						breadcrumbs.push(nodeScope.node[displayProperty]);
 						nodeScope = nodeScope.$parent;
+						console.log(breadcrumbs);
 					}
 					controller.selectFile(file, breadcrumbs.reverse());
 				};
@@ -240,8 +242,8 @@
 								'</div>' +
 							'</div>' +
 						'</div>' +
-						'<a href="#" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
-							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty+ ' }}</span>' +
+						'<a href="#" style="background: hsl({{ file.' + commitProperty + ' }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
+							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty + ' }} {{ file.' + commitProperty + ' }}</span>' +
 						'</a>';
 
 					//Rendering template.

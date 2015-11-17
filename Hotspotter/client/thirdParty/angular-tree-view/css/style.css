@@ -80,7 +80,7 @@ body {
 	border-width: 0 0 0 1px;
 }
 .tree .tree-item {
-	background: hsl(143, 80%, 50%);
+	/*//background: hsl(143, 80%, 50%);*/
 	position: relative;
 	height: 20px;
 	line-height: 20px;
@@ -88,6 +88,7 @@ body {
 }
 .tree .tree-item .tree-item-name {
 	margin-left: 3px;
+	color: white;
 }
 .tree .tree-item .tree-item-name > [class*="icon-"]:first-child {
 	margin-right: 3px;
