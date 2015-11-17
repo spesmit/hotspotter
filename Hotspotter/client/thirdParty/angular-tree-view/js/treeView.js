@@ -5,7 +5,7 @@
 		foldersProperty: 'folders',
 		filesProperty: 'files',
 		displayProperty: 'name',
-		commitProperty: 'commits',
+		scoreProperty: 'score',
 		collapsible: true
 	});
 	
@@ -92,7 +92,7 @@
 					foldersProperty = options.foldersProperty,
 					filesProperty = options.filesProperty,
 					displayProperty = options.displayProperty,
-					commitProperty = options.commitProperty,
+					scoreProperty = options.scoreProperty,
 					collapsible = options.collapsible;
 				//var isEditing = false;
 				scope.expanded = collapsible === false;
@@ -242,7 +242,7 @@
 								'</div>' +
 							'</div>' +
 						'</div>' +
-						'<a href="#" style="background: hsl({{ file.' + commitProperty + ' }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
+						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + ')*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
 							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty + ' }} {{ file.' + commitProperty + ' }}</span>' +
 						'</a>';
 

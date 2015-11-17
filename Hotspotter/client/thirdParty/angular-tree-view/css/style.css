@@ -88,7 +88,7 @@ body {
 }
 .tree .tree-item .tree-item-name {
 	margin-left: 3px;
-	color: white;
+	color: black;
 }
 .tree .tree-item .tree-item-name > [class*="icon-"]:first-child {
 	margin-right: 3px;
