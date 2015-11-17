@@ -28,7 +28,7 @@
 
 			    	// create json object in tree format fome path array
 			    	$scope.structure = fileViewService.ParsingAPI(repo);
-					console.log(repo[0].Commits);
+					console.log($scope.structure);
 			    	$scope.options = {
 			    	onNodeSelect: function (node, breadcrums) {
 			        	$scope.breadcrums = breadcrums;

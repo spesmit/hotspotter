@@ -11,16 +11,13 @@
 			// Split file paths into array and loop through 
 			var pathSplit = value.Name.replace(/\//g,'/,').split(/,/);
 			angular.forEach(pathSplit, function(value) {
-                
                 // ignore '/' root directory
                 if (value != '/') {
-
                     // insert file name
                     if (value.indexOf('/') < 0) {
                         tree.files.push({name: value});
                     // insert directory name
                     } else {
-
                         // find next directory in path
                         var found = 0;
                         for(var index in tree.folders) {
@@ -30,7 +27,6 @@
                                 break;
                             } 
                         }
-
                         // directory doesn't exists so create folder object
                         if (found === 0) {
                             tree.folders.push({name: value, folders: [], files: []});
