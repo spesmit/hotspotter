@@ -26,9 +26,9 @@ body {
 }
 .tree .tree-folder .tree-folder-header {
 	position: relative;
-	height: 20px;
 	line-height: 20px;
 	cursor: pointer;
+	height: inherit;
 }
 .tree .tree-folder .tree-folder-header:hover,
 .tree .tree-folder .tree-folder-header:focus,
@@ -82,7 +82,7 @@ body {
 .tree .tree-item {
 	/*//background: hsl(143, 80%, 50%);*/
 	position: relative;
-	height: 20px;
+	height: inherit;
 	line-height: 20px;
 	cursor: pointer;
 }
