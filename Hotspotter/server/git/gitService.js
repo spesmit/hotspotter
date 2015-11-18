@@ -3,13 +3,13 @@
  */
 var localPath = ('./tempProjects');
 var File = require('../file/fileModel');
-var simpleGit = require('simple-git')(localPath);
 var async = require("async");
 
 
 exports.gitCheckout = function (repoURL){
+    var simpleGitClone = require('simple-git')();
     console.log("REPO URL: " + repoURL);
-    simpleGit
+    simpleGitClone
         .outputHandler(function (command, stdout, stderr) {
             stdout.pipe(process.stdout);
             stderr.pipe(process.stderr);
@@ -18,6 +18,7 @@ exports.gitCheckout = function (repoURL){
 };
 
 exports.gitLogCommits = function (filePaths, res) {
+    var simpleGit = require('simple-git')(localPath);
     var files = [];
     async.each(filePaths, function (filePath, callback) {
         simpleGit.log({'file': filePath.replace('tempProjects/', '')}, function (err, log) {

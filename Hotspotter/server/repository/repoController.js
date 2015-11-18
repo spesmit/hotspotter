@@ -6,7 +6,7 @@ var async = async = require("async");
 
 module.exports.create = function (gitUrl, res) {
     var repo = new Repo(gitUrl.body);
-    Git.gitCheckout(repo.URL);
+    gitService.gitCheckout(repo.URL);
     repo.save(function (err, result) {
         res.json(result);
     });
