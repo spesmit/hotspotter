@@ -5,22 +5,22 @@
             <div ng-if="success == true">
                 <p>Repository at <a href="{{added_repo}}" target="_blank">{{added_repo}}</a> is now being analyzed and monitored...</p>
             </div>
-            <form ng-submit="addRepository()">
+            <form name="addRepo">
             	<div class="form-group">
             		<label class="control-label" for="repoUrl">Repository:</label>
             		<input  type="text"
-                            ng-model="repoUrl"
+                            ng-model="repoUrl" required
                             pattern="^https?://.+\.git$"
                             id="repoUrl" 
                             class="form-control" 
-                            placeholder="https://github.com/example/repository.git" required /></label>
+                            placeholder="https://github.com/example/repository.git"/>
             	</div>
-        		<button type="submit" class="btn btn-primary">Add Repository</button>
+        		<button ng-disabled="addRepo.$invalid" ng-click ="addRepository()" class="btn btn-primary">Add Repository</button>
             </form>
 
             <label class="control-label" for="repoUrl">Database:</label>
-            <div ng-repeat="item in items">
-                <li>{{item.URL}}</li>
+            <div ng-repeat="repo in repos">
+                <li>{{repo.URL}}</li>
             </div>
             
         </div>
