@@ -1,7 +1,7 @@
-var repo_controller = require('./repository/repo_controller');
+var repo_controller = require('./repository/repoController');
 
 module.exports = function(app) {
-	var repositoryController = require('./repository/repo_controller');
+	var repositoryController = require('./repository/repoController');
 // =============================Server Routes ===========================================================
    app.get('/api/repo', repo_controller.list);
    app.post('/api/repo', repo_controller.create);

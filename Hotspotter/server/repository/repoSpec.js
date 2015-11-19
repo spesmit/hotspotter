@@ -2,7 +2,7 @@
 
 //var Repo = require('./repo_model');
 
-var Repo = require('./repo_model');
+var Repo = require('./repoModel');
 module.exports.create = function () {
 	// 
 	var test1 = new Repo({
