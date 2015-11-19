@@ -12,13 +12,17 @@ module.exports = function(grunt) {
             BOWER_DIR + "/angular/angular.js",
             BOWER_DIR + "/angular-resource/angular-resource.js",
             BOWER_DIR + "/angular-route/angular-route.js",
-	        BOWER_DIR + "/angular-tree-view/js/treeView.js"
+	        BOWER_DIR + "/angular-tree-view/js/treeView.js",
+            BOWER_DIR + "/bootstrap/dist/js/bootstrap.js",
+            BOWER_DIR + "/jquery/dist/jquery.js"
+
         ],
         INTERNAL_JS_FILES = [
             CLIENT_DIR + "/app.js",
             CLIENT_DIR + "/dashboard/*.js",
             CLIENT_DIR + "/fileView/*.js",
             CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js"
+
         ];
 
     // ===========================================================================
