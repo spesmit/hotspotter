@@ -1,6 +1,6 @@
 {
-"name": "hotspotter",
-"version": "0.0.1",
+  "name": "hotspotter",
+  "version": "0.0.1",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -12,6 +12,9 @@
     "angular-bootstrap": "0.13.x",
     "angular-resource": "1.4.x",
     "angular": "~1.4.4",
-    "angular-route": "~1.4.4"
+    "angular-route": "~1.4.4",
+    "bootstrap-ui-navbar": "~0.0.2",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5"
   }
 }

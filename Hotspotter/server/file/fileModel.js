@@ -5,6 +5,6 @@ module.exports = mongoose.model('file', {
     RepoId: String,
     Name: String,
     Score: Number,
-    LastUpdated: Date
-
+    LastUpdated: Date,
+    Commits: Number
 });

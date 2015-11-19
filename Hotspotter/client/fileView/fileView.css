@@ -1,0 +1,26 @@
+
+.legend-label{
+    display: table;
+    margin: 0 auto;
+}
+.hot-label{
+    font-weight: bold;
+    display:inline;
+    float: left;
+
+}
+
+.cold-label{
+    font-weight: bold;
+    display:inline;
+    float: right;
+}
+
+.color-legend {
+    height: 20px;
+    background: -webkit-linear-gradient(left, hsl(0,80%,50%), hsl(25,80%,50%), hsl(50,80%,50%), hsl(75,80%,50%), hsl(100,80%,50%), hsl(125,80%,50%), hsl(150,80%,50% )); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, hsl(0,80%,50%), hsl(25,80%,50%), hsl(50,80%,50%), hsl(75,80%,50%), hsl(100,80%,50%), hsl(125,80%,50%), hsl(150,80%,50% )); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, hsl(0,80%,50%), hsl(25,80%,50%), hsl(50,80%,50%), hsl(75,80%,50%), hsl(100,80%,50%), hsl(125,80%,50%), hsl(150,80%,50% )); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, hsl(0,80%,50%), hsl(25,80%,50%), hsl(50,80%,50%), hsl(75,80%,50%), hsl(100,80%,50%), hsl(125,80%,50%), hsl(150,80%,50% )); /* Standard syntax (must be last) */
+}
+

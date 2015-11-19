@@ -10,14 +10,20 @@ module.exports = function(grunt) {
 
         EXTERNAL_JS_FILES = [
             BOWER_DIR + "/angular/angular.js",
+            BOWER_DIR + "/jquery/dist/jquery.js",
             BOWER_DIR + "/angular-resource/angular-resource.js",
             BOWER_DIR + "/angular-route/angular-route.js",
-	    BOWER_DIR + "/angular-tree-view/js/treeView.js"
+	        BOWER_DIR + "/angular-tree-view/js/treeView.js",
+            BOWER_DIR + "/bootstrap/dist/js/bootstrap.js"
+
+
         ],
         INTERNAL_JS_FILES = [
             CLIENT_DIR + "/app.js",
             CLIENT_DIR + "/dashboard/*.js",
-            CLIENT_DIR + "/fileView/*.js"
+            CLIENT_DIR + "/fileView/*.js",
+            CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js"
+
         ];
 
     // ===========================================================================
@@ -33,6 +39,7 @@ module.exports = function(grunt) {
         jshint: {
             options: {
                 reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
+
             },
 
             // when this task is run, lint the Gruntfile and all js files in src
