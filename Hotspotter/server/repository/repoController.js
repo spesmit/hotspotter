@@ -20,7 +20,7 @@ module.exports.list = function (req, res) {
 
 module.exports.view = function (req, res) {
     // build file structure json object from request and return
-    Glob("tempProjects/**/*.*", function (err, filePaths) {
+    Glob("tempProjects/**/*",{nodir:true},function (err, filePaths) {
         if(err) {
             console.log("ERR: " + err);
             res.json([]);
