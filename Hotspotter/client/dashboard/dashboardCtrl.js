@@ -5,21 +5,23 @@
     	var Repo = $resource("/api/repo");
 
     	$scope.success 		= false;
-
+        $scope.repos = [];
     	$scope.addRepository = function() {
     		// Create new repository object and save URL
     		var repo = new Repo();
     		repo.URL = $scope.repoUrl;
-    		repo.$save();
-
+                repo.$save(function (result){
+                    $scope.repos.push(result);
+                });
     		// Update frontend display
     		$scope.success = true;
     		$scope.added_repo = $scope.repoUrl;
     		$scope.repoUrl = '';
     	};
-
         // Log debug
-        $scope.items = Repo.query({});
+        Repo.query(function (results){
+            $scope.repos = results;
+        });
 
     });
 }(window.angular));
