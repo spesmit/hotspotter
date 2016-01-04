@@ -1,4 +1,4 @@
-cd ~/hotspotter/hotspotter/Hotspotter
+cd /hotspotter/hotspotter/Hotspotter
 git pull
 npm install
 npm install bower
