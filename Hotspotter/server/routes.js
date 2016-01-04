@@ -1,12 +1,12 @@
-var repo_controller = require('./repository/repoController');
+var repoCtrl = require('./repository/repoCtrl');
 
 module.exports = function(app) {
 
 // =============================Server Routes ===========================================================
-   app.get('/api/repo', repo_controller.list);
-   app.post('/api/repo', repo_controller.create);
+   app.get('/api/repo', repoCtrl.list);
+   app.post('/api/repo', repoCtrl.create);
 
-   app.get('/api/repo/:repo', repo_controller.view);
+   app.get('/api/repo/:repo', repoCtrl.view);
    //
 //============================= Frontend Routes =========================================================
     // route to handle all angular requests
