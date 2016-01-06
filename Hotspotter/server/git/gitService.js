@@ -30,7 +30,7 @@ exports.gitLogCommits = function (filePaths, res) {
         });
     },
     function (err) {
-        console.log(files);
+        //console.log(files);
         res(files);
     });
 
