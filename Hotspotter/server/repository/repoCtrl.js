@@ -43,9 +43,9 @@ module.exports.view = function (req, res) {
                 function (err) {
                     var treeData = {folders: [], files: []};
                     var tree = treeData;
-                    async.each(files, function (filePaths, callback) {
+                    async.each(files, function (filePaths, callback1) {
                         var pathSplit = filePaths.Name.replace(/\//g,'/,').split(/,/);
-                        async.each(pathSplit, function (path, callback) {
+                        async.each(pathSplit, function (path, callback2) {
                              // ignore '/' root directory
                             //console.log(filePaths);
                             if (path != '/') {
@@ -55,31 +55,33 @@ module.exports.view = function (req, res) {
                                 // insert directory name
                                 } else {
                                 // find next directory in path
-                                var found = 0;
                                 //console.log(tree);
-                                async.each(tree.folders, function (folder, callback) {
+                                async.each(tree.folders, function (folder, callback3) {
                                     if (folder.name == path) {
                                         tree = folder;
-                                        found = 1;
-                                        //break;
+                                        var found = new Error();
+                                        found.break = true;
+                                        return callback3(found);
                                     } 
-                                    callback();
+                                    callback3();
                                 },
                                 function (err) {
                                     // directory doesn't exists so create folder object
-                                    if (found === 0) {
+                                    if (err && err.break) {
+                                        // do nothing
+                                    } else {
                                         tree.folders.push({name: path, folders: [], files: []});
                                         tree = tree.folders[tree.folders.length-1];
-                                    }  
+                                    }
                                 });
                                 }
                             }
-                            callback();
+                            callback2();
                         },
                         function (err) {
                             tree = treeData;
                         });
-                    callback();
+                    callback1();
                     },
                     function (err) {
                         res.json(treeData)
