@@ -30,7 +30,7 @@ module.exports.view = function (req, res) {
                 var Max = 0;
                 var Min = Number.MAX_VALUE;
                 
-                async.each(files, function (file, callback) {
+                async.each(files, function (files, callback) {
                     if (file.Commits > Max) {
                         Max=file.Commits;
                     }
