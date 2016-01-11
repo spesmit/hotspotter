@@ -25,12 +25,12 @@ module.exports.view = function (req, res) {
             console.log("ERR: " + err);
             res.json([]);
         } else {
-            gitService.gitLogCommits(filePaths, function (list) {
+            gitService.gitLogCommits(filePaths, function (files) {
                 //console.log(files);
                 var Max = 0;
                 var Min = Number.MAX_VALUE;
                 
-                async.each(files, function (files, callback) {
+                async.each(files, function (file, callback) {
                     if (file.Commits > Max) {
                         Max=file.Commits;
                     }
