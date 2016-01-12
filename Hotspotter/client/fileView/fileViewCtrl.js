@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.fileViewCtrl', ['AxelSoft']);
-    ngModule.controller('fileViewCtrl', function ($scope, $resource, fileViewService) {
+    ngModule.controller('fileViewCtrl', function ($scope, $resource) {
         // Do stuff
         var Repo = $resource("/api/repo");
 
@@ -29,7 +29,6 @@
             var repo = Repo.query({repoUrl: "url"}, function () {
 
                 // create json object in tree format fome path array
-                // $scope.structure = fileViewService.ParsingAPI(repo);
                 $scope.structure = repo;
                 $scope.options = {
                     onNodeSelect: function (node, breadcrums) {
