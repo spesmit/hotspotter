@@ -1,5 +1,6 @@
 var Repo = require('./repoModel');
 var gitService = require('../git/gitService');
+var repoService = require('./repoService');
 var Glob = require('glob').Glob;
 var File = require('../file/fileModel');
 var async = async = require("async");
@@ -26,9 +27,11 @@ module.exports.view = function (req, res) {
             res.json([]);
         } else {
             gitService.gitLogCommits(filePaths, function (files) {
-                res.json(files);
+                repoService.createTree(files, function (tree) {
+                    res.json(tree);
+                });
             });
         }
     });
-   
+       
 };
