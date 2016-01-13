@@ -6,7 +6,6 @@
         //"Global Variables"
         var Repo = $resource("/api/repo");
 
-
         var vm = this;
         vm.success = false;
         vm.repos = [];
