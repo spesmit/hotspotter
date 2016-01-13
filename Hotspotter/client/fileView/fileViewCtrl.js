@@ -29,9 +29,7 @@
             vm.database = false;
 
             // Fetch file structure from API endpoint
-            var Repo = $resource("/api/repo/:repoUrl",
-                {},
-                {'query': {method: 'GET', isArray: false}});
+            var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
             var repo = Repo.query({repoUrl: "url"}, function () {
 
                 // These must be bound to scope in order for treeview to find them.
