@@ -32,7 +32,6 @@
             var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
             var repo = Repo.query({repoUrl: "url"}, function () {
 
-                // These must be bound to scope in order for treeview to find them.
                 // Example structure
                 /*$scope.structure = { folders: [
                  { name: 'Folder 1', files: [{ name: 'File 1.jpg' }, { name: 'File 2.png' }],
@@ -41,6 +40,7 @@
                  ]},{ name: 'Folder 2', files: [], folders: [] }
                  ]};*/
 
+                // Structure and Options must be bound to scope in order for treeview to find them.
                 $scope.structure = repo;
                 $scope.options = {
                     onNodeSelect: function (node, breadcrums) {
