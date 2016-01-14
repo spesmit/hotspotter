@@ -23,7 +23,8 @@ exports.createTree = function (files, res) {
         var treeData = {folders: [], files: []};
         var tree = treeData;
         async.each(files, function (filePaths, callback1) {
-            var pathSplit = filePaths.Name.replace(/\//g,'/,').split(/,/);
+            //console.log(files);
+            var pathSplit = filePaths.FullPath.replace(/\//g,'/,').split(/,/);
             async.each(pathSplit, function (path, callback2) {
                  // ignore '/' root directory
                 //console.log(filePaths);

@@ -6,7 +6,8 @@
         'ngResource',
         'AxelSoft',
         'hotspotter.dashboardCtrl',
-        'hotspotter.fileViewCtrl'
+        'hotspotter.fileViewCtrl',
+        'hotspotter.adminCtrl'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -23,6 +24,13 @@
                 templateUrl: 'fileView/fileView.html',
                 pageName: 'FileView',
                 controller: 'fileViewCtrl'
+            });
+
+         $routeProvider.when(
+            '/admin', {
+                templateUrl: 'admin/admin.html',
+                pageName: 'admin',
+                controller: 'adminCtrl'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});
