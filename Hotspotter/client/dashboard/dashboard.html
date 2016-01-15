@@ -1,25 +1,25 @@
 <!-- Page Content -->
-<div class="container" ng-controller="dashboardCtrl">
+<div class="container" ng-controller="dashboardCtrl as vm">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <div ng-if="success == true">
-                <p>Repository at <a href="{{added_repo}}" target="_blank">{{added_repo}}</a> is now being analyzed and monitored...</p>
+            <div ng-if="vm.success == true">
+                <p>Repository at <a href="{{vm.addedRepo}" target="_blank">{{vm.addedRepo}}</a> is now being analyzed and monitored...</p>
             </div>
             <form name="addRepo">
             	<div class="form-group">
             		<label class="control-label" for="repoUrl">Repository:</label>
             		<input  type="text"
-                            ng-model="repoUrl" required
+                            ng-model="vm.repoUrl" required
                             pattern="^https?://.+\.git$"
                             id="repoUrl" 
                             class="form-control" 
                             placeholder="https://github.com/example/repository.git"/>
             	</div>
-        		<button ng-disabled="addRepo.$invalid" ng-click ="addRepository()" class="btn btn-primary">Add Repository</button>
+        		<button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository()" class="btn btn-primary">Add Repository</button>
             </form>
 
             <label class="control-label" for="repoUrl">Database:</label>
-            <div ng-repeat="repo in repos">
+            <div ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>
             </div>
             
