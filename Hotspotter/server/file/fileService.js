@@ -6,20 +6,36 @@ var Repo = require('../repository/repoModel');
 var File = require('./fileModel');
 var async = require("async");
 
-exports.storeFiles = function (files, repoID, res) { 
+exports.storeFiles = function (files, url, res) { 
 	//console.log(files);
 	
 	async.each(files, function (file, callback) {
 		var file_temp = new File({
-			RepoID: repoID,
 			FullPath: file.FullPath,  
 			Commits: file.Commits 
 		});
+		file_temp.save(function(err) {
+			if(err) {
+				console.log(err);
+			} else {
+				Repo.findOne({URL:url}, function(err, repo) {
+					if (err) {
+						console.log(err);
+					} else {
+						repo.Files.push(file_temp);
+						repo.save(function (err, result) {
+							if (err) console.log(err);
+						 	//else console.log('Saved : ', result, '\n');
+						});
+					}
+				});
+			}
+		});
 
-		file_temp.save(function (err, result) {
-        	if (err) console.log(err);
-			else console.log('Saved : ', result, '\n');
-    	});
+		// file_temp.save(function (err, result) {
+  //       	if (err) console.log(err);
+		// 	else console.log('Saved : ', result, '\n');
+  //   	});
 
     	callback();
     },
@@ -28,16 +44,16 @@ exports.storeFiles = function (files, repoID, res) {
     });
 }
 
-exports.fetchFiles = function (repoID, res) {
-	File.findOne({ RepoID: repoID }, function (err, results) {
-       	res(results);
+exports.fetchFiles = function (url, res) {
+	Repo.findOne({URL:url}, function (err, results) {
+       	res(results.Files);
     });
 }
 
-exports.findRepoID = function (gitURL, res) {
-	Repo.findOne({ URL: gitURL }, function (err, results) {
-		console.log(results);
-		res(results._id);
-	});
-}
+// exports.findRepoID = function (gitURL, res) {
+// 	Repo.findOne({ URL: gitURL }, function (err, results) {
+// 		//console.log(results);
+// 		res(results._id);
+// 	});
+// }
 

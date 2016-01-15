@@ -2,9 +2,32 @@
 <div class="container" ng-controller="adminCtrl as vm">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <div class="clearfix">
-                <button ng-click="vm.clearFiles()" class="btn btn-primary pull-right">Clear</button>
+            <form name="clearFiles">
+                <div class="form-group">
+                    <label class="control-label" for="repoUrl">Repository:</label>
+                    <input  type="text"
+                            ng-model="vm.repoUrl" required
+                            id="repoUrl" 
+                            class="form-control"/>
+                </div>
+                <button ng-click="vm.clearFiles()" class="btn btn-primary">Clear</button>
+            </form>
+            
+            <form name="listFiles">
+                <div class="form-group">
+                    <label class="control-label" for="listUrl">Repository:</label>
+                    <input  type="text"
+                            ng-model="vm.listUrl" required
+                            id="listUrl" 
+                            class="form-control"/>
+                </div>
+                <button ng-click="vm.listFiles()" class="btn btn-primary">List</button>
+            </form>
+            <br>
+            <div>
+                <button class="btn btn-primary" ng-click='vm.clearRepo()'>Clear Repos</button>
             </div>
+            <br>
             <label class="control-label" >Database:</label>
             <div ng-repeat="file in vm.files">
                 <li>{{file.FullPath}}</li>

@@ -16,6 +16,7 @@ module.exports.create = function (gitUrl, res) {
 
 module.exports.list = function (req, res) {
     Repo.find({}, function (err, results) {
+        //console.log(results);
         res.json(results);
     });
 };
@@ -25,31 +26,36 @@ module.exports.view = function (gitUrl, res) {
 
     var url = gitUrl.params.repo;
 
-    fileService.findRepoID(url, function (repoID) {
-        File.findOne({ RepoID: repoID }, function(err, results) {
-            //console.log(results)
-            if (results == undefined) {
-                Glob("tempProjects/**/*",{nodir:true},function (err, filePaths) {
-                    if(err) {
-                        console.log("ERR: " + err);
-                        res.json([]);
-                    } else {
-                        gitService.gitLogCommits(filePaths, function (files) {
-                            fileService.storeFiles(files, repoID, function (files) {
-                                repoService.createTree(files, function (tree) {
-                                    res.json(tree);
-                                }); 
-                            });               
-                        });
-                    }
-                });
-            } else {
-                fileService.fetchFiles(repoID, function (files) {
-                    repoService.createTree(files, function (tree) {
-                        res.json(tree);
-                    }); 
-                });
-            }
-        });
+    Repo.findOne({ URL : url }, 'Files', function(err, results) {
+        //console.log(results.Files.length);
+        if (results.Files.length == 0) {
+            Glob("tempProjects/**/*",{nodir:true},function (err, filePaths) {
+                if(err) {
+                    console.log("ERR: " + err);
+                    res.json([]);
+                } else {
+                    gitService.gitLogCommits(filePaths, function (files) {
+                        fileService.storeFiles(files, url, function (files) {
+                            repoService.createTree(files, function (tree) {
+                                res.json(tree);
+                            }); 
+                        });               
+                    });
+                }
+            });
+        } else {
+            fileService.fetchFiles(url, function (files) {
+                repoService.createTree(files, function (tree) {
+                    res.json(tree);
+                }); 
+            });
+        }
+    });
+
+};
+
+module.exports.clear = function (req, res) {
+    Repo.remove({}, function(err) {
+        console.log('\nCleared database... \n');
     });
 };

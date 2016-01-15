@@ -8,6 +8,7 @@
         $scope.files = false;
         $scope.database = true;
         $scope.items = Repo.query({});
+        console.log($scope.items);
 
         // Example stucture
         /*$scope.structure = { folders: [

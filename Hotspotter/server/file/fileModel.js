@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 
-module.exports = mongoose.model('file', {
+var file = mongoose.Schema({
     Id: String,
-    RepoId: String,
     FullPath: String,
     Score: Number,
     LastUpdated: Date,
     Commits: Number
 });
+
+module.exports = mongoose.model('File', file);
