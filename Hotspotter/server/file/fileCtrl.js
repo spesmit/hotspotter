@@ -6,7 +6,7 @@ var File = require('./fileModel');
 var Repo = require('../repository/repoModel');
 
 module.exports.list = function (req, res) {
-    Repo.findOne({URL:req.params.listUrl}, 'Files', function (err, results) {
+    Repo.findOne({URL:req.params.repoUrl}, 'Files', function (err, results) {
         if (err) {
             console.log("ERR: " + err);
         } else {

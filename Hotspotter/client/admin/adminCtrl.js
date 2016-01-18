@@ -4,13 +4,13 @@
     ngModule.controller('adminCtrl', function ($scope, $resource) {
 
         //"Global Variables"
-        var File_repo = $resource("/api/file/:repoUrl");
-        var File_list = $resource("/api/file/:listUrl");
+        var File = $resource("/api/file/:repoUrl");
+        var Repo_del = $resource("/api/repo/:repoUrl");
         var Repo = $resource("/api/repo");
 
         var vm = this;
-        vm.success = false;
         vm.files = [];
+        vm.repos = [];
 
         vm.clearFiles = clearFiles;
         vm.listFiles = listFiles;
@@ -20,20 +20,24 @@
 
         //Anything that needs to be instantiated on page load goes in the init
         function init() {
-            
+            listRepos();
+        }
+
+        function listRepos() {
+            vm.repos = Repo.query();
         }
 
         //Lists all files 
-        function listFiles() {
-            vm.files = File_list.query({listUrl: vm.listUrl});
+        function listFiles(url) {
+            vm.files = File.query({repoUrl: url});
         }
 
-        function clearRepo() {
-            Repo.remove();
+        function clearRepo(url) {
+            Repo_del.remove({repoUrl: url});
         }
 
-        function clearFiles() {
-            File_repo.remove({repoUrl: vm.repoUrl});
+        function clearFiles(url) {
+            File.remove({repoUrl: url});
         }
 
     });

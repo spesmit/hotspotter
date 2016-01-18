@@ -65,7 +65,13 @@ module.exports.view = function (req, res) {
 }
 
 module.exports.clear = function (req, res) {
-    Repo.remove({}, function(err) {
-        console.log('\nCleared database... \n');
+    var repoURL = req.params.repoUrl;
+    //console.log(repoURL);
+    Repo.remove({URL: repoURL}, function(err, results) {
+        if (err) {
+            console.log("ERR: " + err);
+        } else {
+            console.log('\n' + repoURL + ' repo deleted... \n');
+        }
     });
 };
