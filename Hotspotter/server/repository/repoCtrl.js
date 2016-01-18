@@ -4,7 +4,12 @@ var fileService = require('../file/fileService');
 var repoService = require('./repoService');
 var Glob = require('glob').Glob;
 var File = require('../file/fileModel');
-var async = async = require("async");
+var async = require("async");
+var crypto    = require("crypto");
+
+var sha1      = function(input) {
+  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
+}
 
 module.exports.create = function (gitUrl, res) {
     var repo = new Repo(gitUrl.body);
@@ -16,26 +21,25 @@ module.exports.create = function (gitUrl, res) {
 
 module.exports.list = function (req, res) {
     Repo.find({}, function (err, results) {
-        //console.log(results);
         res.json(results);
     });
 };
 
-module.exports.view = function (gitUrl, res) {
+module.exports.view = function (req, res) {
     // build file structure json object from request and return
+    var repoURL     = req.params.repo;
+    var repoURLHash = sha1(repoURL);
+    var repoPath    = "tempProjects/" + repoURLHash;
 
-    var url = gitUrl.params.repo;
-
-    Repo.findOne({ URL : url }, 'Files', function(err, results) {
-        //console.log(results.Files.length);
+    Repo.findOne({ URL : repoURL }, 'Files', function(err, results) {
         if (results.Files.length == 0) {
-            Glob("tempProjects/**/*",{nodir:true},function (err, filePaths) {
+            Glob(repoPath + "/**/*",{nodir:true},function (err, filePaths) {
                 if(err) {
                     console.log("ERR: " + err);
                     res.json([]);
                 } else {
-                    gitService.gitLogCommits(filePaths, function (files) {
-                        fileService.storeFiles(files, url, function (files) {
+                    gitService.gitLogCommits(repoPath, filePaths, function (files) {
+                        fileService.storeFiles(files, repoURL, function (files) {
                             repoService.createTree(files, function (tree) {
                                 res.json(tree);
                             }); 
@@ -44,15 +48,14 @@ module.exports.view = function (gitUrl, res) {
                 }
             });
         } else {
-            fileService.fetchFiles(url, function (files) {
+            fileService.fetchFiles(repoURL, function (files) {
                 repoService.createTree(files, function (tree) {
                     res.json(tree);
                 }); 
             });
         }
     });
-
-};
+}
 
 module.exports.clear = function (req, res) {
     Repo.remove({}, function(err) {
