@@ -23,13 +23,13 @@
         }
 
         //This function takes care of finding the repository and bringing back its filetree and scores
-        function viewRepository() {
+        function viewRepository(repoURL) {
             // list of file paths
             vm.files = true;
             vm.database = false;
 
             // Fetch file structure from API endpoint
-            var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
+            var Repo = $resource("/api/repo/" + encodeURIComponent(repoURL), {}, {'query': {method: 'GET', isArray: false}});
             var repo = Repo.query({repoUrl: "url"}, function () {
 
                 // Example structure

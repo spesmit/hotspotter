@@ -6,7 +6,9 @@ var File      = require('../file/fileModel');
 var async     = require("async");
 var crypto    = require("crypto");
 var sha1      = function(input) {
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
+  return crypto.createHash('sha1')
+            .update(JSON.stringify(input))
+            .digest('hex');
 }
 
 
@@ -24,11 +26,12 @@ exports.gitCheckout = function (repoURL){
         .clone(repoURL, repoPath);
 };
 
-exports.gitLogCommits = function (filePaths, res) {
-    var simpleGit = require('simple-git')(localPath);
+exports.gitLogCommits = function (repoPath, filePaths, res) {
+    console.log(repoPath);
+    var simpleGit = require('simple-git')("./" + repoPath);
     var files = [];
     async.each(filePaths, function (filePath, callback) {
-        simpleGit.log({'file': filePath.replace('tempProjects/', '')}, function (err, log) {
+        simpleGit.log({'file': filePath.replace(repoPath + "/", '')}, function (err, log) {
             files.push(new File({
                 Name: filePath,
                 Commits: log.total
