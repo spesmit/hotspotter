@@ -28,7 +28,6 @@ exports.gitCheckout = function (repoURL){
 };
 
 exports.gitLogCommits = function (repoPath, filePaths, res) {
-    console.log(repoPath);
     var simpleGit = require('simple-git')("./" + repoPath);
     var files = [];
     async.each(filePaths, function (filePath, callback) {

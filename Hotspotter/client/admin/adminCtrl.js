@@ -26,7 +26,6 @@
         //Lists all files 
         function listFiles() {
             vm.files = File_list.query({listUrl: vm.listUrl});
-            console.log(vm.files);
         }
 
         function clearRepo() {

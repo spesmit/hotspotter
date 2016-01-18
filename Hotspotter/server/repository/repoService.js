@@ -6,7 +6,6 @@ var File = require('../file/fileModel');
 var async = require("async");
 
 exports.createTree = function (files, res) {
-    //console.log(files);
 	var Max = 0;
     var Min = Number.MAX_VALUE;
     
@@ -23,19 +22,19 @@ exports.createTree = function (files, res) {
         var treeData = {folders: [], files: []};
         var tree = treeData;
         async.each(files, function (filePaths, callback1) {
-            //console.log(files);
-            var pathSplit = filePaths.FullPath.replace(/\//g,'/,').split(/,/);
+            // remove tempProject and git hash directory
+            var pathTrim = filePaths.FullPath.replace(/tempProjects\/[^\/]*\//,'');
+            var pathSplit = pathTrim.replace(/\//g,'/,').split(/,/);
+
             async.each(pathSplit, function (path, callback2) {
                  // ignore '/' root directory
-                //console.log(filePaths);
                 if (path != '/') {
                     // insert file name
                     if (path.indexOf('/') < 0) {
                         tree.files.push({name: path, score: (1-((filePaths.Commits-Min)/(Max-Min)))});
-                    // insert directory name
                     } else {
+                    // insert directory name
                     // find next directory in path
-                    //console.log(tree);
                     async.each(tree.folders, function (folder, callback3) {
                         if (folder.name == path) {
                             tree = folder;
