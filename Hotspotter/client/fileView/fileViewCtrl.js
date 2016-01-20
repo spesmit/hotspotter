@@ -28,8 +28,8 @@
             vm.database = false;
 
             // Fetch file structure from API endpoint
-            var Repo = $resource("/api/repo/" + encodeURIComponent(repoURL), {}, {'query': {method: 'GET', isArray: false}});
-            var repo = Repo.query({repoUrl: "url"}, function () {
+            var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
+            var repo = Repo.query({repoUrl: encodeURIComponent(repoURL)}, function () {
 
                 // Example structure
                 /*$scope.structure = { folders: [
