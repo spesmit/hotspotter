@@ -9,12 +9,17 @@ exports.createTree = function (files, res) {
 	var Max = 0;
     var Min = Number.MAX_VALUE;
     
+    
     async.each(files, function (file, callback) {
-        if (file.Commits > Max) {
-            Max=file.Commits;
-        }
-        if (file.Commits < Min) {
-            Min=file.Commits;
+        if (files.length == 1) {
+            Min = 0; Max = file.Commits;
+        } else {
+            if (file.Commits > Max) {
+                Max=file.Commits;
+            }
+            if (file.Commits < Min) {
+                Min=file.Commits;
+            }
         }
         callback();
     },
@@ -64,7 +69,7 @@ exports.createTree = function (files, res) {
 
         },
         function (err) {
-            res(treeData);
+            res(treeData, err);
         });
     
     });

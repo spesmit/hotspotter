@@ -1,44 +1,40 @@
+/**
+ * Created by SmithS on 01/20/2016.
+ */
 
-
-
+var repoService = require('./repoService')
 var Repo = require('./repoModel');
-module.exports.create = function () {
-	// 
-	var test1 = new Repo({
-		url: 'url1',
-		name: 'name1'
-	})
+var assert = require('assert');
 
-		//
-	var test2 = new Repo({
-		url: 'url2',
-		name: 'name2'
-	})
-
-	//
-	test1.save(function (err, data) {
-		if (err) console.log(err);
-		else console.log('Saved : ', test1, '\n');
-	})
-
-	//
-	test2.save(function (err, data) {
-		if (err) console.log(err);
-		else console.log('Saved : ', test2, '\n');
-	})
-	
-}
-
-module.exports.find = function () {
-	Repo.find(function(err, tests) {
-		console.log(tests);
-	})
-}
-
-module.exports.clear = function () {
-	// Clean database 
-	Repo.remove({}, function(err) {
-		console.log('\nCleared database... \n');
+describe('repo', function () {
+	describe('#createTree()', function() {
+		it('should create empty file tree when given a empty array of file paths', function (done) {
+			var emptyTree = {folders: [], files: []};
+			repoService.createTree([], function (res, err) {	
+				assert.deepEqual(res, emptyTree);
+				done();
+			});
+		});
+		it('should create file tree with one path when given an array with one file paths', function (done) {
+			var oneTree = {folders: [{name:'dir1/', folders: [{ name:'dir2/', folders: [], files: [{name:'file1',score:0}]}], files: []}], files: []};
+			repoService.createTree([{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 5}], function (res, err) {	
+				assert.deepEqual(res, oneTree);
+				done();
+			});
+		});
+		it('should create file tree with many path when given an array with many file paths', function (done) {
+			var manyTree = {folders: [{name:'dir1/', 
+							folders: [{ name:'dir2/', 
+							 folders: [{ name:'dir3/', 
+							  folders: [], files: [{name:'file3',score:0}]}], files: [{name:'file1',score:0.25}]}], files: [{name:'file2',score:1}]}], files: []};
+			repoService.createTree([
+				{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 5},
+				{FullPath:'/tempProjects/hashsha1/dir1/file2', Commits: 2},
+				{FullPath:'/tempProjects/hashsha1/dir1/dir2/dir3/file3', Commits: 6}
+									], function (res, err) {	
+				assert.deepEqual(res, manyTree);
+				done();
+			});
+		});
 	});
-}
-
+});

@@ -33,6 +33,7 @@ module.exports.view = function (req, res) {
 
     Repo.findOne({ URL : repoURL }, 'Files', function(err, results) {
         // check if file metadata is in database
+        console.log(results);
         if (results.Files.length == 0) {
             // walk files in local repo
             Glob(repoPath + "/**/*",{nodir:true},function (err, filePaths) {
