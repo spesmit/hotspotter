@@ -18,7 +18,7 @@ describe('repo', function () {
 		it('should create file tree with one path when given an array with one file paths', function (done) {
 			var oneTree = {folders: [{name:'dir1/', folders: [{ name:'dir2/', folders: [], files: [{name:'file1',score:0}]}], files: []}], files: []};
 			repoService.createTree([{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 5}], function (res, err) {	
-				assert.deepEqual(res, oneTree);
+				assert.deepStrictEqual(res, oneTree);
 				done();
 			});
 		});
