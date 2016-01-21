@@ -29,7 +29,7 @@
 
             // Fetch file structure from API endpoint
             var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
-            var repo = Repo.query({repoUrl: repoURL)}, function () {
+            var repo = Repo.query({repoUrl: repoURL}, function () {
 
                 // Example structure
                 /*$scope.structure = { folders: [
