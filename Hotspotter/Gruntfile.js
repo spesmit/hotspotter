@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         watch: {
             dev: {
                 files: ['Gruntfile.js', INTERNAL_JS_FILES],
-                tasks: ['jshint', 'concat'],
+                tasks: ['jshint', 'concat', 'simplemocha'],
                 options: {
                     atBegin: true
                 }
