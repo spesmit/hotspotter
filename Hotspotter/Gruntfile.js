@@ -64,9 +64,19 @@ module.exports = function(grunt) {
                     atBegin: true
                 }
             }
+        },
+        simplemocha: {
+            options: {
+                globals: ['expect'],
+                timeout: 3000,
+                ignoreLeaks: false,
+                ui: 'bdd',
+                reporter: 'tap'
+            },
+            all: { src: ['server/**/*Spec.js'] }
         }
     });
-
+    grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('dev', ['watch']);
     grunt.registerTask('prod',['concat']);
     // ===========================================================================
@@ -77,4 +87,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-simple-mocha');
+
 };
