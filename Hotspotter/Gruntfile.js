@@ -78,7 +78,7 @@ module.exports = function(grunt) {
     });
     grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('dev', ['watch']);
-    grunt.registerTask('prod',['concat']);
+    grunt.registerTask('prod',['simplemocha', 'concat']);
     // ===========================================================================
     // LOAD GRUNT PLUGINS ========================================================
     // ===========================================================================
