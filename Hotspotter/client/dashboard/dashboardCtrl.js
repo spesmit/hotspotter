@@ -13,22 +13,22 @@
         //"Global Functions"
         vm.addRepository = addRepository;
 
-
-        init();
-
         //Anything that needs to be instantiated on page load goes in the init
         function init() {
             listRepos();
         }
+        init();
 
-        //Adds checkouts a repository
+        // Add a repository
         function addRepository() {
 
+            // Create new Repo object
             var repo = new Repo();
 
+            // Set Repo URL submitted URL
             repo.URL = vm.repoUrl;
 
-            //Save Repo to Database
+            // Save Repo to Database
             repo.$save(function (result) {
                 vm.repos.push(result);
             });
