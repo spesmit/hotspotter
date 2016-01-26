@@ -5,7 +5,6 @@
 
         //"Global Variables"
         var Repo = $resource("/api/repo");
-
         var vm = this;
         vm.files = false;
         vm.database = true;
@@ -23,14 +22,14 @@
         }
 
         //This function takes care of finding the repository and bringing back its filetree and scores
-        function viewRepository() {
+        function viewRepository(repoURL) {
             // list of file paths
             vm.files = true;
             vm.database = false;
 
             // Fetch file structure from API endpoint
             var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
-            var repo = Repo.query({repoUrl: "url"}, function () {
+            var repo = Repo.query({repoUrl: repoURL}, function () {
 
                 // Example structure
                 /*$scope.structure = { folders: [
