@@ -30,6 +30,9 @@ exports.gitCheckout = function (repoURL){
 exports.gitLogCommits = function (repoPath, filePaths, repo, res) {
     var simpleGit = require('simple-git')("./" + repoPath);
     var files = [];
+    var FirstModified = new Date()
+    var LastModified = new Date()
+
     async.each(filePaths, function (filePath, callback) {
         simpleGit.log({'file': filePath.replace(repoPath + "/", '')}, function (err, log) {
             //console.log(log);
