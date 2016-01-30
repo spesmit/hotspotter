@@ -4,7 +4,7 @@
 
 async = require("async");
 
- exports.scoringAlgorithm = function (repo, res) {
+exports.scoringAlgorithm = function (repo, res) {
  	var min = repo.FirstModified.getTime()
  	var max = repo.LastModified.getTime()
 
@@ -22,27 +22,34 @@ async = require("async");
     function (err) {
         res(repo);
     })
- }
+}
 
- exports.normalizeScore = function(repo, res) {
+exports.normalizeScore = function(repo, res) {
  	var max = 0;
     var min = Number.MAX_VALUE;
 
-    for (var i = 0; i < repo.Files.length; i++) {
-		var score = repo.Files[i].Score
-		if (score < min) {
-			min = score
-		}
-		if (score > max) {
-			max = score
-		}
-    }
+    // Case 1 files
+    if (repo.Files.length == 1) {
+    	repo.Files[0].Score = 1
+    	res(repo)
+    } else {
+    // Case 2+ files
+	    for (var i = 0; i < repo.Files.length; i++) {
+			var score = repo.Files[i].Score
+			if (score < min) {
+				min = score
+			}
+			if (score > max) {
+				max = score
+			}
+	    }
 
-	async.each(repo.Files, function (file, callback) {
-        file.Score = (1 - ((file.Score-min)/(max-min)))
-        callback()
-    },
-    function (err) {
-        res(repo);
-    })
- }
+		async.each(repo.Files, function (file, callback) {
+	        file.Score = (1 - ((file.Score-min)/(max-min)))
+	        callback()
+	    },
+	    function (err) {
+	        res(repo);
+	    })
+	}
+}

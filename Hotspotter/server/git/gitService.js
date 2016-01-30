@@ -27,7 +27,7 @@ exports.gitCheckout = function (repoURL){
         .clone(repoURL, repoPath);
 };
 
-exports.gitLogCommits = function (repoPath, filePaths, res) {
+exports.gitLogCommits = function (repoPath, filePaths, repo, res) {
     var simpleGit = require('simple-git')("./" + repoPath);
     var files = [];
     async.each(filePaths, function (filePath, callback) {
@@ -35,13 +35,14 @@ exports.gitLogCommits = function (repoPath, filePaths, res) {
             //console.log(log);
             files.push(new File({
                 FullPath: filePath,
-                Commits: log.total
+                Commits: []
             }));
             callback();
         });
     },
     function (err) {
-        res(files);
+        repo.Files = files;
+        res(repo);
     });
 
 };

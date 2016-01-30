@@ -50,10 +50,4 @@ exports.fetchFiles = function (url, res) {
     });
 }
 
-// exports.findRepoID = function (gitURL, res) {
-// 	Repo.findOne({ URL: gitURL }, function (err, results) {
-// 		//console.log(results);
-// 		res(results._id);
-// 	});
-// }
 

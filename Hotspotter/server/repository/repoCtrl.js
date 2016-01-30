@@ -2,6 +2,7 @@ var Repo = require('./repoModel');
 var gitService = require('../git/gitService');
 var fileService = require('../file/fileService');
 var repoService = require('./repoService');
+var scoringService = require('../scoring/scoringService')
 var Glob = require('glob').Glob;
 var File = require('../file/fileModel');
 var async = require("async");
@@ -31,35 +32,40 @@ module.exports.view = function (req, res) {
     var repoURLHash = sha1(repoURL);
     var repoPath    = "tempProjects/" + repoURLHash;
 
-    Repo.findOne({ URL : repoURL }, 'Files', function(err, results) {
+
+    Repo.findOne({ URL : repoURL }, function(err, results) {
         // check if file metadata is in database
         if (err) {
             console.log("ERR: " + err);
-            res.json([]);
+            res.json({});
         } else {
             if (results.Files.length == 0) {
                 // walk files in local repo
-                Glob(repoPath + "/**/*",{nodir:true},function (err, filePaths) {
-                    if(err) {
+                Glob(repoPath + "/**/*",{nodir:true}, function (err, filePaths) {
+                    if (err) {
                         console.log("ERR: " + err);
-                        res.json([]);
+                        res.json({});
                     } else {
                         // get file commits
-                        gitService.gitLogCommits(repoPath, filePaths, function (files) {
-                            // store file metadata in database
-                            fileService.storeFiles(files, repoURL, function (res, err) {
-                                if (err) console.log(err)
-                            })
-                            // create fileView tree for GUI 
-                            repoService.createTree(files, function (tree) {
-                                res.json(tree);
-                            });                
-                        });
+                        gitService.gitLogCommits(repoPath, filePaths, results, function (repo) {
+                            //scoringService.scoringAlgorithm(repo, function (repo) {
+                                //scoringService.normalizeScore(repo, function (repo) {
+                                    // store file metadata in database
+                                    fileService.storeFiles(repo.Files, repo.URL, function (res, err) {
+                                        if (err) console.log(err)
+                                    })
+                                    // create fileView tree for GUI 
+                                    repoService.createTree(repo.Files, function (tree) {
+                                        res.json(tree)
+                                    })
+                                //})
+                            //})               
+                        })
                     }
                 });
             } else {
                 // fetch file metadata from database
-                fileService.fetchFiles(repoURL, function (files) {
+                fileService.fetchFiles(results.URL, function (files) {
                     // create fileView tree GUI
                     repoService.createTree(files, function (tree) {
                         res.json(tree);

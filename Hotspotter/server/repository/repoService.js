@@ -48,7 +48,11 @@ exports.createTree = function (files, res) {
     res(treeData);
 }
 
- 
+exports.storeRepo = function (repo, res) {
+    repo.save(function (err, result) {
+        if (err) console.log(err);
+    })
+}
 
 
     
