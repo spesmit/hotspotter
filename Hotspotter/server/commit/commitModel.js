@@ -5,7 +5,8 @@
 var mongoose = require('mongoose');
 
 var Commit = mongoose.Schema({
-    Time: Date
+    Time: Date,
+    BugFix: Boolean
 });
 
 module.exports = mongoose.model('Commit', Commit);
