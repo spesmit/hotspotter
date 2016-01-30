@@ -16,8 +16,8 @@ describe('repo', function () {
 			});
 		});
 		it('should create file tree with one path when given an array with one file paths', function (done) {
-			var oneTree = {folders: [{name:'dir1/', folders: [{ name:'dir2/', folders: [], files: [{name:'file1',score:0}]}], files: []}], files: []};
-			repoService.createTree([{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 5}], function (res, err) {	
+			var oneTree = {folders: [{name:'dir1/', folders: [{ name:'dir2/', folders: [], files: [{name:'file1',score:0.5}]}], files: []}], files: []};
+			repoService.createTree([{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Score: 0.5}], function (res, err) {	
 				assert.deepEqual(res, oneTree);
 				done();
 			});
@@ -26,11 +26,11 @@ describe('repo', function () {
 			var manyTree = {folders: [{name:'dir1/', 
 							folders: [{ name:'dir2/', 
 							 folders: [{ name:'dir3/', 
-							  folders: [], files: [{name:'file3',score:0}]}], files: [{name:'file1',score:0.25}]}], files: [{name:'file2',score:1}]}], files: []};
+							  folders: [], files: [{name:'file3',score:0.25}]}], files: [{name:'file1',score:0.5}]}], files: [{name:'file2',score:0.75}]}], files: []};
 			repoService.createTree([
-				{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 5},
-				{FullPath:'/tempProjects/hashsha1/dir1/file2', Commits: 2},
-				{FullPath:'/tempProjects/hashsha1/dir1/dir2/dir3/file3', Commits: 6}
+				{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Score: 0.5},
+				{FullPath:'/tempProjects/hashsha1/dir1/file2', Score: 0.75},
+				{FullPath:'/tempProjects/hashsha1/dir1/dir2/dir3/file3', Score: 0.25}
 									], function (res, err) {	
 				assert.deepEqual(res, manyTree);
 				done();

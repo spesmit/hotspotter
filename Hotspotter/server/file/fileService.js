@@ -40,7 +40,7 @@ exports.storeFiles = function (files, url, res) {
     	callback();
     },
     function (err) {
-    	res(files);
+    	res(err);
     });
 }
 

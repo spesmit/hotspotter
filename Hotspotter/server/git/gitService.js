@@ -32,6 +32,7 @@ exports.gitLogCommits = function (repoPath, filePaths, res) {
     var files = [];
     async.each(filePaths, function (filePath, callback) {
         simpleGit.log({'file': filePath.replace(repoPath + "/", '')}, function (err, log) {
+            //console.log(log);
             files.push(new File({
                 FullPath: filePath,
                 Commits: log.total

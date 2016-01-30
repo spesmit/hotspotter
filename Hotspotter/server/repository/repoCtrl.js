@@ -47,12 +47,13 @@ module.exports.view = function (req, res) {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, function (files) {
                             // store file metadata in database
-                            fileService.storeFiles(files, repoURL, function (files) {
-                                // create fileView tree for GUI 
-                                repoService.createTree(files, function (tree) {
-                                    res.json(tree);
-                                }); 
-                            });               
+                            fileService.storeFiles(files, repoURL, function (res, err) {
+                                if (err) console.log(err)
+                            })
+                            // create fileView tree for GUI 
+                            repoService.createTree(files, function (tree) {
+                                res.json(tree);
+                            });                
                         });
                     }
                 });
