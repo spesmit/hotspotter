@@ -50,10 +50,16 @@ module.exports.view = function (req, res) {
                         gitService.gitLogCommits(repoPath, filePaths, results, function (repo) {
                             //scoringService.scoringAlgorithm(repo, function (repo) {
                                 //scoringService.normalizeScore(repo, function (repo) {
+                                    
                                     // store file metadata in database
-                                    fileService.storeFiles(repo.Files, repo.URL, function (res, err) {
+                                    // fileService.storeFiles(repo, function (res, err) {
+                                    //     if (err) console.log(err)
+                                    // })
+
+                                    repoService.updateRepo(repo, function (res, err) {
                                         if (err) console.log(err)
                                     })
+
                                     // create fileView tree for GUI 
                                     repoService.createTree(repo.Files, function (tree) {
                                         res.json(tree)

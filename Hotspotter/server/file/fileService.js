@@ -6,36 +6,25 @@ var Repo = require('../repository/repoModel');
 var File = require('./fileModel');
 var async = require("async");
 
-exports.storeFiles = function (files, url, res) { 
-	//console.log(files);
-	
-	async.each(files, function (file, callback) {
-		var file_temp = new File({
-			FullPath: file.FullPath,  
-			Commits: file.Commits 
-		});
-		file_temp.save(function(err) {
+exports.storeFiles = function (repo, res) { 
+
+	async.each(repo.Files, function (file, callback) {
+		file.save(function(err) {
 			if(err) {
 				console.log(err);
 			} else {
-				Repo.findOne({URL:url}, function(err, repo) {
+				Repo.findOne({URL:repo.URL}, function(err, result) {
 					if (err) {
 						console.log(err);
 					} else {
-						repo.Files.push(file_temp);
-						repo.save(function (err, result) {
+						result.Files.push(file);
+						result.save(function (err, result) {
 							if (err) console.log(err);
-						 	//else console.log('Saved : ', result, '\n');
 						});
 					}
 				});
 			}
 		});
-
-		// file_temp.save(function (err, result) {
-  //       	if (err) console.log(err);
-		// 	else console.log('Saved : ', result, '\n');
-  //   	});
 
     	callback();
     },

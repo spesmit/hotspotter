@@ -2,6 +2,7 @@
  * Created by SmithS on 01/12/2016.
  */
 
+var Repo = require('../repository/repoModel')
 var File = require('../file/fileModel');
 var async = require("async");
 
@@ -48,9 +49,10 @@ exports.createTree = function (files, res) {
     res(treeData);
 }
 
-exports.storeRepo = function (repo, res) {
-    repo.save(function (err, result) {
-        if (err) console.log(err);
+// work in progress
+exports.updateRepo = function (repo, res) {
+    Repo.findOneAndUpdate({URL:repo.URL}, repo, function (err, result) {
+        res(err)
     })
 }
 
