@@ -34,10 +34,15 @@ exports.normalizeScore = function(repo, callback) {
  	var max = 0
     var min = Number.MAX_VALUE
 
+    // Case 0 files or undefined
+    if (repo.Files == null || repo.Files.length == 0) {
+        return callback("No repo files or undefined")
+    }
+
     // Case 1 files
     if (repo.Files.length == 1) {
     	repo.Files[0].Score = 1
-    	res(repo)
+    	return callback(null, repo)
     } else {
     // Case 2+ files
 	    for (var i = 0; i < repo.Files.length; i++) {
