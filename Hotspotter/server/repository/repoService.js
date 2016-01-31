@@ -3,42 +3,43 @@
  */
 
 var Repo = require('../repository/repoModel')
-var File = require('../file/fileModel');
-var async = require("async");
+var File = require('../file/fileModel')
+var async = require("async")
 
-exports.createTree = function (files, res) {
+exports.createTree = function (files, callback) {
 
-    var treeData = {folders: [], files: []};
+    var err = null
+    var treeData = {folders: [], files: []}
     // tree pointer
-    var tree = treeData;
+    var tree = treeData
 
-    for (var i = 0; i < files.length;i++) {
+    for (var i = 0; i < files.length; i++) {
         // remove tempProject and git hash directory
-        var pathTrim = files[i].FullPath.replace(/tempProjects\/[^\/]*\//,'');
+        var pathTrim = files[i].FullPath.replace(/tempProjects\/[^\/]*\//,'')
         // split full file path
-        var path = pathTrim.replace(/\//g,'/,').split(/,/);
+        var path = pathTrim.replace(/\//g,'/,').split(/,/)
 
-        for (var j = 0; j < path.length;j++) {
+        for (var j = 0; j < path.length; j++) {
             // ignore '/' root directory
             if (path[j] != '/') {
                 // insert file name
                 if (path[j].indexOf('/') < 0) {
-                    tree.files.push({name: path[j], score: files[i].Score});
+                    tree.files.push({name: path[j], score: files[i].Score})
                 } else {
                 // find next directory in path
-                    var found = 0;
-                    for (var k = 0; k < tree.folders.length;k++) {
+                    var found = 0
+                    for (var k = 0; k < tree.folders.length; k++) {
                         if (tree.folders[k].name == path[j]) {
-                            tree = tree.folders[k];
-                            found = 1;
-                            break;
+                            tree = tree.folders[k]
+                            found = 1
+                            break
                         } 
                     }
                 
                     if (!found) {
                         // directory doesn't exists so create folder object
-                        tree.folders.push({name: path[j], folders: [], files: []});
-                        tree = tree.folders[tree.folders.length-1];
+                        tree.folders.push({name: path[j], folders: [], files: []})
+                        tree = tree.folders[tree.folders.length-1]
                     }
                 }
             }
@@ -46,13 +47,15 @@ exports.createTree = function (files, res) {
         //reset pointer
         tree = treeData
     }
-    res(treeData);
+    if (err) return callback(err)
+    else return callback(null, treeData)
 }
 
 // work in progress
-exports.updateRepo = function (repo, res) {
+exports.updateRepo = function (repo, callback) {
     Repo.findOneAndUpdate({URL:repo.URL}, repo, function (err, result) {
-        res(err)
+        if (err) return callback(err)
+        else return callback(null, result)
     })
 }
 

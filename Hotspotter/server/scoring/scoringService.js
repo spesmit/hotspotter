@@ -2,9 +2,9 @@
  * Created by SmithS on 01/29/2016.
  */
 
-async = require("async");
+async = require("async")
 
-exports.scoringAlgorithm = function (repo, res) {
+exports.scoringAlgorithm = function (repo, callback) {
 	// Time for first and last commit
  	var min = repo.FirstModified.getTime()
  	var max = repo.LastModified.getTime()
@@ -25,13 +25,14 @@ exports.scoringAlgorithm = function (repo, res) {
         callback()
     },
     function (err) {
-        res(repo);
+        if (err) callback(err)
+        else callback(null, repo)
     })
 }
 
-exports.normalizeScore = function(repo, res) {
- 	var max = 0;
-    var min = Number.MAX_VALUE;
+exports.normalizeScore = function(repo, callback) {
+ 	var max = 0
+    var min = Number.MAX_VALUE
 
     // Case 1 files
     if (repo.Files.length == 1) {
@@ -54,7 +55,8 @@ exports.normalizeScore = function(repo, res) {
 	        callback()
 	    },
 	    function (err) {
-	        res(repo);
+	        if (err) callback(err)
+            else callback(null, repo)
 	    })
 	}
 }

@@ -1,6 +1,6 @@
 
-var mongoose = require('mongoose');
-var fileSchema = require('../file/fileModel').schema;
+var mongoose = require('mongoose')
+var fileSchema = require('../file/fileModel').schema
 
 module.exports = mongoose.model('repo', {
 	FirstModified: Date,
@@ -11,4 +11,4 @@ module.exports = mongoose.model('repo', {
 	LastUpdated: Date,
 	ProjectOwner: String,
 	Files: [fileSchema]
-});
+})

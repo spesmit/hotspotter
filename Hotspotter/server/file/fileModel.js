@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var commitSchema = require('../commit/commitModel').schema;
+var mongoose = require('mongoose')
+var commitSchema = require('../commit/commitModel').schema
 
 var file = mongoose.Schema({
     Id: String,
@@ -7,6 +7,6 @@ var file = mongoose.Schema({
     Score: Number,
     LastUpdated: Date,
     Commits: [commitSchema]
-});
+})
 
-module.exports = mongoose.model('File', file);
+module.exports = mongoose.model('File', file)
