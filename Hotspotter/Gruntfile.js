@@ -23,8 +23,8 @@ module.exports = function(grunt) {
             CLIENT_DIR + "/dashboard/*.js",
             CLIENT_DIR + "/fileView/*.js",
             CLIENT_DIR + "/admin/*.js",
-            CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js"
-
+            CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js",
+            "!" + CLIENT_DIR + "/**/*Spec.js"
         ];
 
     // ===========================================================================
@@ -59,16 +59,26 @@ module.exports = function(grunt) {
         watch: {
             dev: {
                 files: ['Gruntfile.js', INTERNAL_JS_FILES],
-                tasks: ['jshint', 'concat'],
+                tasks: ['jshint', 'concat', 'simplemocha'],
                 options: {
                     atBegin: true
                 }
             }
+        },
+        simplemocha: {
+            options: {
+                globals: ['expect'],
+                timeout: 3000,
+                ignoreLeaks: false,
+                ui: 'bdd',
+                reporter: 'tap'
+            },
+            all: { src: ['server/**/*Spec.js'] }
         }
     });
-
+    grunt.registerTask('test', ['simplemocha']);
     grunt.registerTask('dev', ['watch']);
-    grunt.registerTask('prod',['concat']);
+    grunt.registerTask('prod',['simplemocha', 'concat']);
     // ===========================================================================
     // LOAD GRUNT PLUGINS ========================================================
     // ===========================================================================
@@ -77,4 +87,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-simple-mocha');
+
 };
