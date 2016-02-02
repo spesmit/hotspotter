@@ -33,9 +33,9 @@ exports.createTree = function (files, callback) {
                             tree = tree.folders[k]
                             found = 1
                             break
-                        } 
+                        }
                     }
-                
+
                     if (!found) {
                         // directory doesn't exists so create folder object
                         tree.folders.push({name: path[j], folders: [], files: []})
@@ -53,15 +53,11 @@ exports.createTree = function (files, callback) {
 
 // work in progress
 exports.updateRepo = function (repo, callback) {
-    Repo.findOneAndUpdate({URL:repo.URL}, repo, function (err, result) {
+    data = repo.toObject()
+    delete data._id
+
+    Repo.findOneAndUpdate({URL:repo.URL}, data, function (err, result) {
         if (err) return callback(err)
         else return callback(null, result)
     })
 }
-
-
-    
-
-    
-
-    

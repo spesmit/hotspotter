@@ -60,13 +60,13 @@ module.exports.view = function (req, res) {
                                         if (err) console.log(err)
                                     })
 
-                                    // create fileView tree for GUI 
+                                    // create fileView tree for GUI
                                     repoService.createTree(repo.Files, function (err, tree) {
                                         if (err) console.log(err)
                                         else res.json(tree)
                                     })
                                 //})
-                            //})               
+                            //})
                         })
                     }
                 })
@@ -80,7 +80,7 @@ module.exports.view = function (req, res) {
                             if (err) console.log(err)
                             else res.json(tree)
                         })
-                    } 
+                    }
                 })
             }
         }
