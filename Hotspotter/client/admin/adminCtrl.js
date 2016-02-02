@@ -22,7 +22,6 @@
         function listRepos() {
             $http.get("/api/repo").then(function (response) {
                 vm.repos = response.data;
-                console.log(vm.repos);
             });
         }
         //Lists all files

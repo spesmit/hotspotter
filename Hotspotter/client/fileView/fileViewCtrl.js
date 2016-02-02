@@ -42,10 +42,7 @@
                         vm.breadcrums = breadcrums;
 
                     }
-
                 };
-                console.log($scope.structure);
-                console.log($scope.options);
             });
 
         }
