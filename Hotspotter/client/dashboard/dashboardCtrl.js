@@ -1,11 +1,9 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.dashboardCtrl', []);
-    ngModule.controller('dashboardCtrl', function ($scope, $resource) {
+    ngModule.controller('dashboardCtrl', function ($scope, $http) {
 
         //"Global Variables"
-        var Repo = $resource("/api/repo");
-
         var vm = this;
         vm.success = false;
         vm.repos = [];
@@ -20,29 +18,20 @@
         init();
 
         // Add a repository
-        function addRepository() {
-
-            // Create new Repo object
-            var repo = new Repo();
-
-            // Set Repo URL submitted URL
-            repo.URL = vm.repoUrl;
-
-            // Save Repo to Database
-            repo.$save(function (result) {
-                vm.repos.push(result);
+        function addRepository(repoUrl) {
+            $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
+                vm.success = true;
+                vm.addedRepo = vm.repoUrl;
+                vm.repoUrl = '';
+                listRepos();
             });
-
-            // Update frontend display
-            vm.success = true;
-            vm.addedRepo = vm.repoUrl;
-            vm.repoUrl = '';
         }
-
         //Lists all repos that have been checked out
         function listRepos() {
-            vm.repos = Repo.query();
-        }
+            $http.get('/api/repo').then( function (response){
+                vm.repos = response.data;
 
+            });
+        }
     });
 }(window.angular));
