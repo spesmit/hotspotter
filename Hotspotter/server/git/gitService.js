@@ -35,6 +35,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
     var LastModified = new Date()
 
     async.each(filePaths, function (filePath, callback) {
+
         simpleGit.log({'file': filePath.replace(repoPath + "/", '')}, function (err, log) {
             //console.log(log.all)
 
@@ -56,19 +57,30 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                     Author: commit.author_name,
                     BugFix: bugfix
                 }))
+
+                callback()
+            },
+            function(err) {
+                files.push(new File({
+                    FullPath: filePath,
+                    Commits: commits
+                }))
             })
 
-            files.push(new File({
-                FullPath: filePath,
-                Commits: commits
-            }))
             callback()
         })
     },
     function (err) {
-        repo.Files = files
-        if (err) return callback(err)
-        else return callback(null, repo)
+        if(err) return callback(err)
+        
+        simpleGit.log(function (err, log) {
+            repo.Files = files
+            repo.FirstModified = log.all[log.all.length - 1].date
+            repo.LastModified = log.latest.date
+
+            if (err) return callback(err)
+            else return callback(null, repo)
+        })
     })
 
 }

@@ -17,7 +17,7 @@ module.exports.list = function (req, res) {
 
 module.exports.clear = function (req, res) {
     Repo.findOneAndUpdate(
-    	{URL:req.params.repoUrl}, 
+    	{URL:req.params.repoUrl},
     	{$pull: {Files: {}}},
     	function(err, repo) {
             if (err) {
@@ -27,4 +27,3 @@ module.exports.clear = function (req, res) {
             }
 		})
 }
-

@@ -48,9 +48,9 @@ module.exports.view = function (req, res) {
                     } else {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
-                            //scoringService.scoringAlgorithm(repo, function (err, repo) {
-                                //scoringService.normalizeScore(repo, function (err, repo) {
-                                    
+                            scoringService.scoringAlgorithm(repo, function (err, repo) {
+                                scoringService.normalizeScore(repo, function (err, repo) {
+
                                     // store file metadata in database
                                     // fileService.storeFiles(repo, function (err, res) {
                                     //     if (err) console.log(err)
@@ -65,8 +65,8 @@ module.exports.view = function (req, res) {
                                         if (err) console.log(err)
                                         else res.json(tree)
                                     })
-                                //})
-                            //})
+                                })
+                            })
                         })
                     }
                 })
