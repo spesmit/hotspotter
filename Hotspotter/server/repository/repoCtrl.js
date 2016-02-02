@@ -67,7 +67,7 @@ module.exports.view = function (req, res) {
             }
         }
     });
-}
+};
 
 module.exports.clear = function (req, res) {
     var repoURL = req.params.repoUrl;
@@ -77,6 +77,9 @@ module.exports.clear = function (req, res) {
             console.log("ERR: " + err);
         } else {
             console.log('\n' + repoURL + ' repo deleted... \n');
+            res.write(JSON.stringify({ status: 'DELETED' }));
+            res.end();
         }
     });
+
 };

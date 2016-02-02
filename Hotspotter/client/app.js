@@ -5,6 +5,7 @@
         'ngRoute',
         'ngResource',
         'AxelSoft',
+        'ngLodash',
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
         'hotspotter.adminCtrl'

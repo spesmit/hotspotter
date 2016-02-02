@@ -1,13 +1,9 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.adminCtrl', []);
-    ngModule.controller('adminCtrl', function ($scope, $resource) {
+    ngModule.controller('adminCtrl', function ($scope, $http, $resource, lodash) {
 
         //"Global Variables"
-        var File = $resource("/api/file/:repoUrl");
-        var Repo_del = $resource("/api/repo/:repoUrl");
-        var Repo = $resource("/api/repo");
-
         var vm = this;
         vm.files = [];
         vm.repos = [];
@@ -24,21 +20,30 @@
         }
 
         function listRepos() {
-            vm.repos = Repo.query();
+            $http.get("/api/repo").then(function (response) {
+                vm.repos = response.data;
+                console.log(vm.repos);
+            });
         }
-
-        //Lists all files 
+        //Lists all files
         function listFiles(url) {
-            vm.files = File.query({repoUrl: url});
+            $http.get("/api/file/" + encodeURIComponent(url)).then(function (response){
+                vm.files = response.data;
+            });
         }
 
         function clearRepo(url) {
-            Repo_del.remove({repoUrl: url});
+            $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
+                var index = lodash.findIndex(vm.repos, {'URL': url});
+                vm.repos.splice(index);
+            });
+
         }
 
         function clearFiles(url) {
-            File.remove({repoUrl: url});
+            $http.delete("/api/file/" + encodeURIComponent(url)).then(function (){
+                vm.files = [];
+            });
         }
-
     });
 }(window.angular));
