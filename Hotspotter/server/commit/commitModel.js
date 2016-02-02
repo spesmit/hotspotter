@@ -4,9 +4,9 @@
 
 var mongoose = require('mongoose')
 
-var Commit = mongoose.Schema({
+module.exports = mongoose.model('Commit', {
     Time: Date,
-    BugFix: Boolean
+    BugFix: Boolean,
+    Hash: String,
+    Author: String
 })
-
-module.exports = mongoose.model('Commit', Commit)

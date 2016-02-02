@@ -35,10 +35,22 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
 
     async.each(filePaths, function (filePath, callback) {
         simpleGit.log({'file': filePath.replace(repoPath + "/", '')}, function (err, log) {
-            //console.log(log)
+            console.log(log.all)
+
+            // Loop through commits in log and add to Commits array
+            commits = []
+            commitsLog = log.all
+            async.each(commitsLog, function (commit, callback) {
+                commits.push(new Commit({
+                    Time: commit.date,
+                    Hash: commit.hash,
+                    Author: commit.author_name
+                }))
+            })
+
             files.push(new File({
                 FullPath: filePath,
-                Commits: []
+                Commits: commits
             }))
             callback()
         })
