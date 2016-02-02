@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.adminCtrl', []);
-    ngModule.controller('adminCtrl', function ($scope, $http, $resource, lodash) {
+    ngModule.controller('adminCtrl', function ($scope, $http, lodash) {
 
         //"Global Variables"
         var vm = this;
