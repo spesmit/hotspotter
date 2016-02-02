@@ -16,6 +16,9 @@
             <label class="control-label" >Files:</label>
             <div ng-repeat="file in vm.files">
                 <li>{{file.FullPath}}</li>
+                <div ng-repeat="commit in vm.files.commits">
+                    <li>{{commit.Time}} - {{commit.Hash}}</li>
+                </div>
             </div>
         </div>
     </div>
