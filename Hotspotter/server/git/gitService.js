@@ -3,6 +3,7 @@
  */
 var localPath = ('./tempProjects')
 var File      = require('../file/fileModel')
+var Commit    = require('../commit/commitModel')
 var async     = require("async")
 var crypto    = require("crypto")
 
