@@ -48,7 +48,7 @@ module.exports.view = function (req, res) {
                     } else {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
-                            scoringService.scoringAlgorithm(repo, function (err, repo) {
+                            scoringService.scoringAlgorithm(repo, {Bug:true}, function (err, repo) {
                                 scoringService.normalizeScore(repo, function (err, repo) {
 
                                     // store file metadata in database

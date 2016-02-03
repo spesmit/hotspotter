@@ -4,22 +4,43 @@
 
 async = require("async")
 
-exports.scoringAlgorithm = function (repo, callback) {
-	// Time for first and last commit
- 	var min = repo.FirstModified.getTime()
- 	var max = repo.LastModified.getTime()
+exports.scoringAlgorithm = function (repo, options, callback) {
+
+    // check for options
+    if (typeof callback === 'undefined') {
+        callback = options
+    }
+
+    // set up options
+    if (options.To == null) options.To = repo.LastModified.getTime() 
+    else options.To = options.To
+
+    if (options.From == null) options.From = repo.FirstModified.getTime()
+    else options.From = options.From
+
+    if (options.Bug == null) options.Bug = false
+    else options.Bug = options.Bug    
 
  	async.each(repo.Files, function (file, callback) {
         var sumScore = 0
+
         for (var i = 0; i < file.Commits.length; i++) {
-        	// convert data into comparable time
-        	var commitTime = file.Commits[i].Time.getTime()
-        	// normalize time
-        	var t = (((commitTime-min)/(max-min)))
-        	// calculate score
-        	var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
-        	sumScore += commitScore
+            // convert data into comparable time
+            var commitTime = file.Commits[i].Time.getTime()
+            if (commitTime < options.To && commitTime > options.From) {
+
+                if (options.Bug && !file.Commits[i].BugFix) {continue}
+                
+                // normalize time
+                var t = (((commitTime-options.From)/(options.To-options.From)))
+                // calculate score
+                var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
+                
+                sumScore += commitScore
+
+            }
         }
+
         // update file model with score
         file.Score = sumScore
         callback()

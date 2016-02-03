@@ -19,7 +19,7 @@
             <div ng-repeat="file in vm.files">
                 <li>{{file.FullPath}}</li>
                 <div ng-repeat="commit in file.Commits">
-                    <li>{{commit.Time}} - {{commit.Hash}}</li>
+                    <li>{{commit.Time}} - {{commit.Hash}} - {{commit.BugFix}}</li>
                 </div>
             </div>
         </div>
