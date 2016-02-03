@@ -18,19 +18,19 @@
         function init() {
             listRepos();
         }
-
+        //Hits api endpoint to list all repos stored
         function listRepos() {
             $http.get("/api/repo").then(function (response) {
                 vm.repos = response.data;
             });
         }
-        //Lists all files
+        //Hits api endpoint to list all saved files for a given repo
         function listFiles(url) {
             $http.get("/api/file/" + encodeURIComponent(url)).then(function (response){
                 vm.files = response.data;
             });
         }
-
+        //Hits api endpoint to delete a repo
         function clearRepo(url) {
             $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
                 var index = lodash.findIndex(vm.repos, {'URL': url});
@@ -38,7 +38,7 @@
             });
 
         }
-
+        //Hits api endpoint to delete saved metadata for a given repo
         function clearFiles(url) {
             $http.delete("/api/file/" + encodeURIComponent(url)).then(function (){
                 vm.files = [];

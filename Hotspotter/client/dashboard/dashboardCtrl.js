@@ -10,6 +10,7 @@
 
         //"Global Functions"
         vm.addRepository = addRepository;
+        vm.listRepos = listRepos;
 
         //Anything that needs to be instantiated on page load goes in the init
         function init() {
@@ -19,7 +20,7 @@
 
         // Add a repository
         function addRepository(repoUrl) {
-            $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
+             return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
                 vm.success = true;
                 vm.addedRepo = vm.repoUrl;
                 vm.repoUrl = '';
