@@ -63,6 +63,7 @@
                 $httpBackend.expectGET("/api/file/" + encodeURIComponent(givenUrl)).respond(expectedResponse);
 
                 ctrl.listFiles(givenUrl);
+                
 
                 $httpBackend.flush();
 
