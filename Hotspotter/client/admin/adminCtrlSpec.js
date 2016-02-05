@@ -64,17 +64,14 @@
 
                 ctrl.listFiles(givenUrl);
 
-                
                 $httpBackend.flush();
 
                 expect(ctrl.files.length).toEqual(1);
                 expect((angular.equals(ctrl.files[0], expectedResponse)));
             });
         });
-
         describe('clearFiles', function() {
             var givenUrl = "https://github.com/myuser/myrepo.git";
-
 
             it('delete all files for a repo ', function() {
                 $httpBackend.expectGET('/api/repo').respond('success');
