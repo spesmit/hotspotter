@@ -54,6 +54,7 @@
                 expect((angular.equals(ctrl.repos[0], expectedResponse)));
             });
         });
+
         describe('listFiles', function() {
             var givenUrl = "https://github.com/myuser/myrepo.git";
             var expectedResponse = [{id: 12345, file: "myFile"}];
@@ -70,6 +71,7 @@
                 expect((angular.equals(ctrl.files[0], expectedResponse)));
             });
         });
+        
         describe('clearFiles', function() {
             var givenUrl = "https://github.com/myuser/myrepo.git";
 
