@@ -11,6 +11,8 @@
 
         //"Global Functions"
         vm.viewRepository = viewRepository;
+        vm.listRepos = listRepos;
+        vm.init =  init;
 
         //Initialisation;
         init();
