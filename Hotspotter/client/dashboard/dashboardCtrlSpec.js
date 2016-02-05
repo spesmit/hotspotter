@@ -54,6 +54,7 @@
                 expect((angular.equals(ctrl.repos[0], expectedResponse)));
             });
         });
+
         describe('addRepository', function() {
             var givenURL = 'https://github.com/myuser/myrepo.git';
             var initialResponse = [];
@@ -74,7 +75,6 @@
                     expect((angular.equals(ctrl.repos[0], expectedResponse)));
                 });
                 $httpBackend.flush();
-
             });
         });
     });

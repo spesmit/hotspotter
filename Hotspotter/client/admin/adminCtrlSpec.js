@@ -71,7 +71,7 @@
                 expect((angular.equals(ctrl.files[0], expectedResponse)));
             });
         });
-        
+
         describe('clearFiles', function() {
             var givenUrl = "https://github.com/myuser/myrepo.git";
 
@@ -83,7 +83,6 @@
                 $httpBackend.flush();
 
                 expect(ctrl.files.length).toEqual(0);
-
             });
         });
     });

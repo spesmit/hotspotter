@@ -55,6 +55,7 @@
                 expect((angular.equals(ctrl.repos[0], expectedResponse)));
             });
         });
+
         describe('viewRepository', function () {
             var givenURL = 'https://github.com/myuser/myrepo.git';
             var repoList = [{id: 12345, url: "https://github.com/myuser/myrepo.git"}];
@@ -68,8 +69,7 @@
                     }, {name: 'Folder 2', files: [], folders: []}
                 ]
             }];
-
-
+            
             it('should add the repo to the database and call list repos ', function () {
                 $httpBackend.expectGET('/api/repo').respond(repoList);
                 $httpBackend.flush();
@@ -81,9 +81,6 @@
                 $httpBackend.flush();
 
                 expect((angular.equals(scope.structure[0], expectedResponse)));
-
-
-
             });
         });
     });
