@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.dashboardCtrl', []);
-    ngModule.controller('dashboardCtrl', function ($scope, $http) {
+    ngModule.controller('dashboardCtrl', function ($http) {
 
         //"Global Variables"
         var vm = this;
@@ -11,16 +11,17 @@
         //"Global Functions"
         vm.addRepository = addRepository;
         vm.listRepos = listRepos;
+        vm.init = init;
 
         //Anything that needs to be instantiated on page load goes in the init
         function init() {
-            listRepos();
+            vm.listRepos();
         }
         init();
 
         // Add a repository
         function addRepository(repoUrl) {
-             return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
+            return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
                 vm.success = true;
                 vm.addedRepo = vm.repoUrl;
                 vm.repoUrl = '';
@@ -29,7 +30,7 @@
         }
         //Lists all repos that have been checked out
         function listRepos() {
-            $http.get('/api/repo').then( function (response){
+            return $http.get('/api/repo').then( function (response){
                 vm.repos = response.data;
 
             });

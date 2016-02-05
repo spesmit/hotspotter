@@ -16,22 +16,19 @@
         $routeProvider.when(
             '/', {
                 templateUrl: 'dashboard/dashboard.html',
-                pageName: 'Dashboard',
-                controller: 'dashboardCtrl'
+                pageName: 'Dashboard'
             });
 
         $routeProvider.when(
             '/fileView', {
                 templateUrl: 'fileView/fileView.html',
-                pageName: 'FileView',
-                controller: 'fileViewCtrl'
+                pageName: 'FileView'
             });
 
          $routeProvider.when(
             '/admin', {
                 templateUrl: 'admin/admin.html',
-                pageName: 'admin',
-                controller: 'adminCtrl'
+                pageName: 'admin'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});

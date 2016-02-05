@@ -1,67 +1,82 @@
-describe('dashboardCtrl', function () {
-    var scope, httpBackend, createController;
-    // Set up the module
-    beforeEach(module('hotspotter'));
+(function() {
+    'use strict';
 
-    beforeEach(inject(function ($rootScope, $httpBackend, $controller) {
-        httpBackend = $httpBackend;
-        scope = $rootScope.$new();
-        createController = function () {
-            return $controller('dashboardCtrl', {
-                '$scope': scope
+    describe('dashboardCtrl', function() {
+        var $rootScope, scope, ctrl, $httpBackend;
+        beforeEach(module('hotspotter'));
+
+        beforeEach(inject(function(_$rootScope_, _$httpBackend_,$controller) {
+            $rootScope      = _$rootScope_;
+            scope           = $rootScope.$new();
+            $httpBackend    =_$httpBackend_;
+
+            ctrl = $controller('dashboardCtrl',{
+                $scope: scope
             });
-        };
-    }));
+        }));
 
-    afterEach(function () {
-        httpBackend.verifyNoOutstandingExpectation();
-        httpBackend.verifyNoOutstandingRequest();
-    });
-    describe('listRepos', function () {
-        it('should call listRepos and return all repos from the database', function () {
-            var controller = createController();
+        beforeEach(function() {
+            // Setup spies
+            spyOn(ctrl,'listRepos');
+        });
+
+        describe('controller', function() {
+            it('should be defined', function() {
+                expect(ctrl).toBeDefined();
+            });
+            it('should initialize variables', function() {
+                expect(ctrl.success).toBe(false);
+                expect(ctrl.repos.length).toBe(0);
+            });
+        });
+
+        describe('init', function() {
+
+            it('initialize and call listRepos ', function() {
+                $httpBackend.expectGET('/api/repo').respond({success: '202'});
+                ctrl.init();
+
+                $httpBackend.flush();
+            });
+        });
+
+        describe('listRepos', function() {
             var expectedResponse = [{id: 12345, url: "https://github.com/myuser/myrepo.git"}];
 
-            httpBackend.expect('GET', '/api/repo')
-                .respond(expectedResponse);
-            // have to use $apply to trigger the $digest which will
-            // take care of the HTTP request
-            scope.$apply(function () {
-                controller.listRepos;
+            it('should return a list of repos ', function() {
+                $httpBackend.expectGET('/api/repo').respond(expectedResponse);
+
+                ctrl.listRepos();
+
+                $httpBackend.flush();
+
+                expect(ctrl.repos.length).toEqual(1);
+                expect((angular.equals(ctrl.repos[0], expectedResponse)));
             });
-            httpBackend.flush();
-            expect(controller.repos).toEqual(expectedResponse);
+        });
+        describe('addRepository', function() {
+            var givenURL = 'https://github.com/myuser/myrepo.git';
+            var initialResponse = [];
+            var expectedResponse = [{id: 12345, url: "https://github.com/myuser/myrepo.git"}];
+
+            it('should add the repo to the database and call list repos ', function() {
+                $httpBackend.expectGET('/api/repo').respond(initialResponse);
+                $httpBackend.flush();
+
+                $httpBackend.expectPOST('/api/repo/' + encodeURIComponent(givenURL)).respond({success: '202'});
+                $httpBackend.expectGET('/api/repo').respond(expectedResponse);
+
+                ctrl.addRepository(givenURL).then(function() {
+                    ctrl.listRepos();
+                    expect(ctrl.success).toBe(true);
+                    expect(ctrl.repoUrl).toBe('');
+                    expect(ctrl.listRepos).toHaveBeenCalled();
+                    expect((angular.equals(ctrl.repos[0], expectedResponse)));
+                });
+                $httpBackend.flush();
+
+            });
         });
     });
 
-
-    describe('addRepository', function () {
-
-        it('should addRepository to the database', function () {
-            var controller = createController();
-            var givenURL = "https://github.com/myuser/myURLtoMyRepo.git";
-
-            httpBackend.expect('POST', '/api/repo/' + encodeURIComponent(givenURL)).respond('success');
-            httpBackend.when('GET', '/api/repo').respond('success');
-
-            controller.addRepository(givenURL);
-
-            httpBackend.flush();
-            expect(controller.success).toBe(true);
-        });
-        it('should call listRepos', function() {
-            var givenURL = "https://github.com/myuser/myURLtoMyRepo.git";
-            var controller = createController();
-
-            httpBackend.when('POST', '/api/repo/' + encodeURIComponent(givenURL)).respond('success');
-            httpBackend.expect('GET', '/api/repo').respond('success');
-
-            httpBackend.flush();
-            controller.addRepository(givenURL).then(function(result) {
-                expect(controller.listRepos).toHaveBeenCalled();
-            });
-
-        });
-    });
-
-});
+}());
