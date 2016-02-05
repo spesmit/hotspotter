@@ -5,7 +5,7 @@
                 <label class="control-label">Database:</label>
 
                 <div ng-repeat="repo in vm.repos">
-                    <div class="clearfix">{{item.URL}}
+                    <div class="clearfix">{{repo.URL}}
                         <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View</button>
                     </div>
                     <br>
