@@ -7,7 +7,7 @@
         var vm = this;
         vm.files = false;
         vm.database = true;
-        vm.items = [];
+        vm.repos = [];
 
         //"Global Functions"
         vm.viewRepository = viewRepository;
@@ -50,7 +50,7 @@
         }
         function listRepos() {
             $http.get('/api/repo').then( function (response){
-                vm.items = response.data;
+                vm.repos = response.data;
 
             });
         }

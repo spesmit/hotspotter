@@ -25,7 +25,7 @@
                 expect(ctrl).toBeDefined();
             });
             it('should initialize variables', function () {
-                expect(ctrl.items.length).toBe(0);
+                expect(ctrl.repos.length).toBe(0);
             });
         });
 
@@ -51,8 +51,8 @@
 
                 $httpBackend.flush();
 
-                expect(ctrl.items.length).toEqual(1);
-                expect((angular.equals(ctrl.items[0], expectedResponse)));
+                expect(ctrl.repos.length).toEqual(1);
+                expect((angular.equals(ctrl.repos[0], expectedResponse)));
             });
         });
         describe('viewRepository', function () {
