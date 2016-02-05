@@ -64,7 +64,6 @@
 
                 ctrl.listFiles(givenUrl);
                 
-
                 $httpBackend.flush();
 
                 expect(ctrl.files.length).toEqual(1);
