@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<testsuite name="PhantomJS 2.1.1 (Windows 8 0.0.0)" package="" timestamp="2016-02-08T04:44:10" id="0" hostname="SPENCER-PC" tests="16" errors="0" failures="0" time="0.137">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
+  </properties>
+  <testcase name="should be defined" time="0.038" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="should initialize variables" time="0.007" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="initialize and call listRepos " time="0.012" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="should return a list of repos " time="0.007" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="should return a list of repos " time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="delete all files for a repo " time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).adminCtrl"/>
+  <testcase name="should be defined" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).dashboardCtrl"/>
+  <testcase name="should initialize variables" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).dashboardCtrl"/>
+  <testcase name="initialize and call listRepos " time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).dashboardCtrl"/>
+  <testcase name="should return a list of repos " time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).dashboardCtrl"/>
+  <testcase name="should add the repo to the database and call list repos " time="0.013" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).dashboardCtrl"/>
+  <testcase name="should be defined" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).fileViewCtrl"/>
+  <testcase name="should initialize variables" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).fileViewCtrl"/>
+  <testcase name="initialize and call listRepos " time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).fileViewCtrl"/>
+  <testcase name="should return a list of repos " time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).fileViewCtrl"/>
+  <testcase name="should add the repo to the database and call list repos " time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).fileViewCtrl"/>
+  <system-out>
+    <![CDATA[PhantomJS 2.1.1 (Windows 8 0.0.0) LOG: 'WARNING: Tried to load angular more than once.'
+
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

@@ -12,28 +12,28 @@ describe('scoring', function () {
 				Files: 	[
 						{FullPath:'/tempProjects/hashsha1/dir1/dir2/file1', Commits: 
 							[
-							{Time: "2012-12-03 19:52:20 -0700"},
-							{Time: "2012-12-04 19:52:20 -0700"},
-							{Time: "2012-12-05 19:52:20 -0700"}
+							{Time: "2012-12-03 19:52:20 -0700", BugFix : false},
+							{Time: "2012-12-04 19:52:20 -0700", BugFix : false},
+							{Time: "2012-12-05 19:52:20 -0700", BugFix : false}
 							]
 						},
 						{FullPath:'/tempProjects/hashsha1/dir1/file2', Commits: 
 							[
-							{Time: "2011-11-03 19:52:20 -0700"}
+							{Time: "2011-11-03 19:52:20 -0700", BugFix : false}
 							]
 						},
 						{FullPath:'/tempProjects/hashsha1/dir1/dir2/dir3/file3', Commits: 
 							[
-							{Time: "2012-12-05 19:52:20 -0700"}
+							{Time: "2012-12-05 19:52:20 -0700", BugFix : false}
 							]
 						}	
 						]
 			}
 			)
-			scoringService.scoringAlgorithm(repo, function(res, err) {
-				assert.equal(repo.Files[0].Score, 1.4773920721642089)
-				assert.equal(repo.Files[1].Score, 0.00000614417460221472)
-				assert.equal(repo.Files[2].Score, 0.5)
+			scoringService.scoringAlgorithm(repo, function(err, res) {
+				assert.equal(res.Files[0].Score, 1.4773920721642089)
+				assert.equal(res.Files[1].Score, 0.00000614417460221472)
+				assert.equal(res.Files[2].Score, 0.5)
 				done()
 			})
 		})
@@ -49,10 +49,10 @@ describe('scoring', function () {
 						]
 			}
 			)
-			scoringService.normalizeScore(repo, function(res, err) {
-				assert.equal(repo.Files[0].Score, 1)
-				assert.equal(repo.Files[1].Score, 0.5)
-				assert.equal(repo.Files[2].Score, 0)
+			scoringService.normalizeScore(repo, function(err, res) {
+				assert.equal(res.Files[0].Score, 1)
+				assert.equal(res.Files[1].Score, 0.5)
+				assert.equal(res.Files[2].Score, 0)
 				done()
 			})
 		})

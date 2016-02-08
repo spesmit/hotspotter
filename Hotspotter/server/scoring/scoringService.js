@@ -9,6 +9,7 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     // check for options
     if (typeof callback === 'undefined') {
         callback = options
+        options = {}
     }
 
     // set up options
@@ -27,16 +28,18 @@ exports.scoringAlgorithm = function (repo, options, callback) {
         for (var i = 0; i < file.Commits.length; i++) {
             // convert data into comparable time
             var commitTime = file.Commits[i].Time.getTime()
-            if (commitTime < options.To && commitTime > options.From) {
+            if (commitTime <= options.To && commitTime >= options.From) {
 
-                if (options.Bug && !file.Commits[i].BugFix) {continue}
+                if (!options.Bug || file.Commits[i].BugFix) {
                 
-                // normalize time
-                var t = (((commitTime-options.From)/(options.To-options.From)))
-                // calculate score
-                var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
-                
-                sumScore += commitScore
+                    // normalize time
+                    var t = (((commitTime-options.From)/(options.To-options.From)))
+                    // calculate score
+                    var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
+                    
+                    sumScore += commitScore
+
+                }
 
             }
         }
