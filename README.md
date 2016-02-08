@@ -142,3 +142,11 @@ I recommend everyone start here
 (http://raibledesigns.com/rd/entry/using_grunt_with_angularjs_for)
 
 (https://scotch.io/tutorials/a-simple-guide-to-getting-started-with-grunt)
+
+
+##Testing urls##
+
+(http://davidjs.com/2013/09/tricky-unit-testing-of-httpbackend/)
+(http://bendetat.com/karma-and-mocha-for-angular-testing.html)
+(http://neverfriday.com/2014/07/28/angularjs-testing-services-that-use-resource/)
+(http://technokayiti.blogspot.com/2013/06/lesson-6-angularjs-tutorial-testing.html)
