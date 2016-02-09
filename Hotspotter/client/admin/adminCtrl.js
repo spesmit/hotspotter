@@ -26,11 +26,13 @@
                 vm.repos = response.data;
             });
         }
+
         //Hits api endpoint to list all saved files for a given repo
         function listFiles(url) {
            return $http.get("/api/file/" + encodeURIComponent(url)).then(function (response){
                 vm.files = response.data;
             });
+
         }
         //Hits api endpoint to delete a repo
         function clearRepo(url) {

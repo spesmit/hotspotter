@@ -1,5 +1,5 @@
-var repoCtrl = require('./repository/repoCtrl');
-var fileCtrl = require('./file/fileCtrl');
+var repoCtrl = require('./repository/repoCtrl')
+var fileCtrl = require('./file/fileCtrl')
 
 module.exports = function(app) {
 
@@ -15,11 +15,10 @@ module.exports = function(app) {
     app.get('/api/file/:repoUrl', fileCtrl.list);
     app.delete('/api/file/:repoUrl', fileCtrl.clear);
 
-   //
 //============================= Frontend Routes =========================================================
     // route to handle all angular requests
     app.get('*', function(req, res) {
-        res.sendFile('index.html', { root: './client' });
-    });
+        res.sendFile('index.html', { root: './client' })
+    })
 
-};
+}
