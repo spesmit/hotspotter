@@ -74,9 +74,10 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         if(err) return callback(err)
         
         simpleGit.log(function (err, log) {
+            console.log(log)
             repo.Files = files
             repo.FirstModified = log.all[log.all.length - 1].date
-            repo.LastModified = log.latest.date
+            repo.LastModified = log.all[0].date
 
             if (err) return callback(err)
             else return callback(null, repo)
