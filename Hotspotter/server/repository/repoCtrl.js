@@ -9,7 +9,6 @@ var async = require("async")
 var crypto    = require("crypto")
 
 var sha1      = function(input) {
-
   return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
 };
 
@@ -18,7 +17,9 @@ module.exports.create = function (req, res) {
     var repo = new Repo();
     repo.URL = repoUrl;
     gitService.gitCheckout(repoUrl);
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex')
+    repo.save(function (err, result) {
+        res.json(result)
+    })
 }
 
 module.exports.list = function (req, res) {
@@ -100,7 +101,7 @@ module.exports.clear = function (req, res) {
             res.write(JSON.stringify({ status: 'DELETED' }));
             res.end();
         }
-    })
+    });
 
 }
 
