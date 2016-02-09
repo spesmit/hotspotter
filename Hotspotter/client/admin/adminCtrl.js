@@ -27,9 +27,10 @@
             vm.repos = Repo.query();
         }
 
-        //Lists all files 
+        //Lists all files
         function listFiles(url) {
             vm.files = File.query({repoUrl: url});
+            console.log(vm.files);
         }
 
         function clearRepo(url) {

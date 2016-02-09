@@ -2,58 +2,43 @@
  * Created by SmithS on 01/13/2016.
  */
 
-var Repo = require('../repository/repoModel');
-var File = require('./fileModel');
-var async = require("async");
+var Repo = require('../repository/repoModel')
+var File = require('./fileModel')
+var async = require("async")
 
-exports.storeFiles = function (files, url, res) { 
-	//console.log(files);
-	
-	async.each(files, function (file, callback) {
-		var file_temp = new File({
-			FullPath: file.FullPath,  
-			Commits: file.Commits 
-		});
-		file_temp.save(function(err) {
+exports.storeFiles = function (repo, callback) { 
+
+	async.each(repo.Files, function (file, callback) {
+		file.save(function(err) {
 			if(err) {
-				console.log(err);
+				callback(err)
 			} else {
-				Repo.findOne({URL:url}, function(err, repo) {
+				Repo.findOne({URL:repo.URL}, function(err, result) {
 					if (err) {
-						console.log(err);
+						callback(err)
 					} else {
-						repo.Files.push(file_temp);
-						repo.save(function (err, result) {
-							if (err) console.log(err);
-						 	//else console.log('Saved : ', result, '\n');
-						});
+						result.Files.push(file)
+						result.save(function (err, result) {
+							if (err) callback(err)
+						})
 					}
-				});
+				})
 			}
-		});
+		})
 
-		// file_temp.save(function (err, result) {
-  //       	if (err) console.log(err);
-		// 	else console.log('Saved : ', result, '\n');
-  //   	});
-
-    	callback();
+    	callback()
     },
     function (err) {
-    	res(files);
-    });
+    	if (err) return callback(err)
+        else return callback(null, repo)
+    })
 }
 
-exports.fetchFiles = function (url, res) {
+exports.fetchFiles = function (url, callback) {
 	Repo.findOne({URL:url}, function (err, results) {
-       	res(results.Files);
-    });
+       	if (err) return callback(err)
+        else return callback(null, results.Files)
+    })
 }
 
-// exports.findRepoID = function (gitURL, res) {
-// 	Repo.findOne({ URL: gitURL }, function (err, results) {
-// 		//console.log(results);
-// 		res(results._id);
-// 	});
-// }
 

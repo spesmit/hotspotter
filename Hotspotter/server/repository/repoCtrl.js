@@ -1,82 +1,100 @@
-var Repo = require('./repoModel');
-var gitService = require('../git/gitService');
-var fileService = require('../file/fileService');
-var repoService = require('./repoService');
-var Glob = require('glob').Glob;
-var File = require('../file/fileModel');
-var async = require("async");
-var crypto    = require("crypto");
+var Repo = require('./repoModel')
+var gitService = require('../git/gitService')
+var fileService = require('../file/fileService')
+var repoService = require('./repoService')
+var scoringService = require('../scoring/scoringService')
+var Glob = require('glob').Glob
+var File = require('../file/fileModel')
+var async = require("async")
+var crypto    = require("crypto")
 
 var sha1      = function(input) {
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
+  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex')
 }
 
 module.exports.create = function (req, res) {
-    var repo = new Repo(req.body);
-    gitService.gitCheckout(repo.URL);
+    var repo = new Repo(req.body)
+    gitService.gitCheckout(repo.URL)
     repo.save(function (err, result) {
-        res.json(result);
-    });
-};
+        res.json(result)
+    })
+}
 
 module.exports.list = function (req, res) {
     Repo.find({}, function (err, results) {
-        res.json(results);
-    });
-};
+        res.json(results)
+    })
+}
 
 module.exports.view = function (req, res) {
     // build file structure json object from request and return
-    var repoURL     = req.params.repo;
-    var repoURLHash = sha1(repoURL);
-    var repoPath    = "tempProjects/" + repoURLHash;
+    var repoURL     = req.params.repo
+    var repoURLHash = sha1(repoURL)
+    var repoPath    = "tempProjects/" + repoURLHash
 
-    Repo.findOne({ URL : repoURL }, 'Files', function(err, results) {
+
+    Repo.findOne({ URL : repoURL }, function(err, results) {
         // check if file metadata is in database
         if (err) {
-            console.log("ERR: " + err);
-            res.json([]);
+            console.log("ERR: " + err)
+            res.json({})
         } else {
             if (results.Files.length == 0) {
                 // walk files in local repo
-                Glob(repoPath + "/**/*",{nodir:true},function (err, filePaths) {
-                    if(err) {
-                        console.log("ERR: " + err);
-                        res.json([]);
+                Glob(repoPath + "/**/*",{nodir:true}, function (err, filePaths) {
+                    if (err) {
+                        console.log("ERR: " + err)
+                        res.json({})
                     } else {
                         // get file commits
-                        gitService.gitLogCommits(repoPath, filePaths, function (files) {
-                            // store file metadata in database
-                            fileService.storeFiles(files, repoURL, function (files) {
-                                // create fileView tree for GUI 
-                                repoService.createTree(files, function (tree) {
-                                    res.json(tree);
-                                }); 
-                            });               
-                        });
+                        gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
+                            scoringService.scoringAlgorithm(repo, function (err, repo) {
+                                scoringService.normalizeScore(repo, function (err, repo) {
+
+                                    // store file metadata in database
+                                    // fileService.storeFiles(repo, function (err, res) {
+                                    //     if (err) console.log(err)
+                                    // })
+
+                                    repoService.updateRepo(repo, function (err, res) {
+                                        if (err) console.log(err)
+                                    })
+
+                                    // create fileView tree for GUI
+                                    repoService.createTree(repo.Files, function (err, tree) {
+                                        if (err) console.log(err)
+                                        else res.json(tree)
+                                    })
+                                })
+                            })
+                        })
                     }
-                });
+                })
             } else {
                 // fetch file metadata from database
-                fileService.fetchFiles(repoURL, function (files) {
-                    // create fileView tree GUI
-                    repoService.createTree(files, function (tree) {
-                        res.json(tree);
-                    }); 
-                });
+                fileService.fetchFiles(results.URL, function (err, files) {
+                    if (err) console.log(err)
+                    else {
+                        // create fileView tree GUI
+                        repoService.createTree(files, function (err, tree) {
+                            if (err) console.log(err)
+                            else res.json(tree)
+                        })
+                    }
+                })
             }
         }
-    });
+    })
 }
 
 module.exports.clear = function (req, res) {
-    var repoURL = req.params.repoUrl;
-    //console.log(repoURL);
+    var repoURL = req.params.repoUrl
+    //console.log(repoURL)
     Repo.remove({URL: repoURL}, function(err, results) {
         if (err) {
-            console.log("ERR: " + err);
+            console.log("ERR: " + err)
         } else {
-            console.log('\n' + repoURL + ' repo deleted... \n');
+            console.log('\n' + repoURL + ' repo deleted... \n')
         }
-    });
-};
+    })
+}
