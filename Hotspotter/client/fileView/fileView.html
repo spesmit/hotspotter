@@ -4,9 +4,9 @@
             <div ng-if="vm.database == true">
                 <label class="control-label">Database:</label>
 
-                <div ng-repeat="item in vm.items">
-                    <div class="clearfix">{{item.URL}}
-                        <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(item.URL)'>View</button>
+                <div ng-repeat="repo in vm.repos">
+                    <div class="clearfix">{{repo.URL}}
+                        <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View</button>
                     </div>
                     <br>
                 </div>

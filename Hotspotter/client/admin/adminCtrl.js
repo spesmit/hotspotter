@@ -1,13 +1,9 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.adminCtrl', []);
-    ngModule.controller('adminCtrl', function ($scope, $resource) {
+    ngModule.controller('adminCtrl', function ($scope, $http, lodash) {
 
         //"Global Variables"
-        var File = $resource("/api/file/:repoUrl");
-        var Repo_del = $resource("/api/repo/:repoUrl");
-        var Repo = $resource("/api/repo");
-
         var vm = this;
         vm.files = [];
         vm.repos = [];
@@ -15,6 +11,8 @@
         vm.clearFiles = clearFiles;
         vm.listFiles = listFiles;
         vm.clearRepo = clearRepo;
+        vm.listRepos = listRepos;
+        vm.init = init;
 
         init();
 
@@ -22,24 +20,33 @@
         function init() {
             listRepos();
         }
-
+        //Hits api endpoint to list all repos stored
         function listRepos() {
-            vm.repos = Repo.query();
+            return $http.get("/api/repo").then(function (response) {
+                vm.repos = response.data;
+            });
         }
 
-        //Lists all files
+        //Hits api endpoint to list all saved files for a given repo
         function listFiles(url) {
-            vm.files = File.query({repoUrl: url});
-            console.log(vm.files);
-        }
+           return $http.get("/api/file/" + encodeURIComponent(url)).then(function (response){
+                vm.files = response.data;
+            });
 
+        }
+        //Hits api endpoint to delete a repo
         function clearRepo(url) {
-            Repo_del.remove({repoUrl: url});
-        }
+            return $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
+                var index = lodash.findIndex(vm.repos, {'URL': url});
+                vm.repos.splice(index);
+            });
 
+        }
+        //Hits api endpoint to delete saved metadata for a given repo
         function clearFiles(url) {
-            File.remove({repoUrl: url});
+            return $http.delete("/api/file/" + encodeURIComponent(url)).then(function (){
+                vm.files = [];
+            });
         }
-
     });
 }(window.angular));

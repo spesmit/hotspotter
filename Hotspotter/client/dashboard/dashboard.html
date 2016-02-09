@@ -15,14 +15,13 @@
                             class="form-control" 
                             placeholder="https://github.com/example/repository.git"/>
             	</div>
-        		<button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository()" class="btn btn-primary">Add Repository</button>
+        		<button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository(vm.repoUrl)" class="btn btn-primary">Add Repository</button>
             </form>
 
             <label class="control-label" for="repoUrl">Database:</label>
             <div ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>
             </div>
-            
         </div>
     </div>
     <!-- /.row -->
