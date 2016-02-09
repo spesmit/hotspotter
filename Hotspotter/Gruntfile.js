@@ -14,7 +14,8 @@ module.exports = function(grunt) {
             BOWER_DIR + "/angular-resource/angular-resource.js",
             BOWER_DIR + "/angular-route/angular-route.js",
 	        BOWER_DIR + "/angular-tree-view/js/treeView.js",
-            BOWER_DIR + "/bootstrap/dist/js/bootstrap.js"
+            BOWER_DIR + "/bootstrap/dist/js/bootstrap.js",
+            BOWER_DIR + "/ng-lodash/build/ng-lodash.js"
 
 
         ],

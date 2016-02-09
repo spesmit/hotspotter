@@ -1,17 +1,18 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.fileViewCtrl', ['AxelSoft']);
-    ngModule.controller('fileViewCtrl', function ($scope, $resource) {
+    ngModule.controller('fileViewCtrl', function ($scope, $http) {
 
         //"Global Variables"
-        var Repo = $resource("/api/repo");
         var vm = this;
         vm.files = false;
         vm.database = true;
-        vm.items = [];
+        vm.repos = [];
 
         //"Global Functions"
         vm.viewRepository = viewRepository;
+        vm.listRepos = listRepos;
+        vm.init =  init;
 
         //Initialisation;
         init();
@@ -27,9 +28,7 @@
             vm.files = true;
             vm.database = false;
 
-            // Fetch file structure from API endpoint
-            var Repo = $resource("/api/repo/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
-            var repo = Repo.query({repoUrl: repoURL}, function () {
+            $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
                 // Example structure
                 /*$scope.structure = { folders: [
@@ -39,22 +38,21 @@
                  ]},{ name: 'Folder 2', files: [], folders: [] }
                  ]};*/
 
-                // Structure and Options must be bound to scope in order for treeview to find them.
-                $scope.structure = repo;
+                $scope.structure = response.data;
                 $scope.options = {
                     onNodeSelect: function (node, breadcrums) {
                         vm.breadcrums = breadcrums;
 
                     }
-
                 };
-                console.log($scope.structure);
-                console.log($scope.options);
             });
-        }
 
+        }
         function listRepos() {
-            vm.items = Repo.query();
+            $http.get('/api/repo').then( function (response){
+                vm.repos = response.data;
+
+            });
         }
     });
 }(window.angular));

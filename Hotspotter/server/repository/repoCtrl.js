@@ -9,12 +9,14 @@ var async = require("async")
 var crypto    = require("crypto")
 
 var sha1      = function(input) {
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex')
-}
+  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
+};
 
 module.exports.create = function (req, res) {
-    var repo = new Repo(req.body)
-    gitService.gitCheckout(repo.URL)
+    var repoUrl = req.params.repoUrl;
+    var repo = new Repo();
+    repo.URL = repoUrl;
+    gitService.gitCheckout(repoUrl);
     repo.save(function (err, result) {
         res.json(result)
     })
@@ -84,6 +86,7 @@ module.exports.view = function (req, res) {
                 })
             }
         }
+
     })
 }
 
@@ -94,7 +97,11 @@ module.exports.clear = function (req, res) {
         if (err) {
             console.log("ERR: " + err)
         } else {
-            console.log('\n' + repoURL + ' repo deleted... \n')
+            console.log('\n' + repoURL + ' repo deleted... \n');
+            res.write(JSON.stringify({ status: 'DELETED' }));
+            res.end();
         }
-    })
+    });
+
 }
+

@@ -23,7 +23,9 @@ module.exports.clear = function (req, res) {
             if (err) {
                 console.log("ERR: " + err)
             } else {
-		        console.log('\n' + repo.URL + ' files removed... \n')
+		        console.log('\n' + repo.URL + ' files removed... \n');
+                res.write(JSON.stringify({ status: 'DELETED' }));
+                res.end();
             }
 		})
 }
