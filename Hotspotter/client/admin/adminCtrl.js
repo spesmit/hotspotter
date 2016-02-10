@@ -38,7 +38,7 @@
         function clearRepo(url) {
             return $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
                 var index = lodash.findIndex(vm.repos, {'URL': url});
-                vm.repos.splice(index);
+                vm.repos.splice(index, 1);
             });
 
         }
