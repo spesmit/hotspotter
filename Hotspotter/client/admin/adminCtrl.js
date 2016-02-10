@@ -37,8 +37,10 @@
         //Hits api endpoint to delete a repo
         function clearRepo(url) {
             return $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
+                console.log("Repos: " + vm.repos[0].URL);
                 var index = lodash.findIndex(vm.repos, {'URL': url});
-                vm.repos.splice(index);
+                console.log(index);
+                vm.repos.splice(index, 1);
             });
 
         }
