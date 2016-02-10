@@ -1,9 +1,9 @@
 <div class="container" ng-controller="fileViewCtrl as vm">
+    <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.database == true">
                 <label class="control-label">Database:</label>
-
                 <div ng-repeat="repo in vm.repos">
                     <div class="clearfix">{{repo.URL}}
                         <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View</button>
@@ -21,7 +21,10 @@
                 </div>
                 <br>
                 <label class="control-label">File System:</label>
-
+                <div id="loading" ng-show="vm.loading">
+                    <img src = "/images/fireBallGif.gif">
+                    Preheating...
+                </div>
                 <div tree-view="structure" tree-view-options="options"></div>
             </div>
         </div>

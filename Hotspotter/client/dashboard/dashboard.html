@@ -1,5 +1,6 @@
 <!-- Page Content -->
 <div class="container" ng-controller="dashboardCtrl as vm">
+    <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.success == true">
@@ -17,7 +18,10 @@
             	</div>
         		<button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository(vm.repoUrl)" class="btn btn-primary">Add Repository</button>
             </form>
-
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBallGif.gif">
+                Loading...
+            </div>
             <label class="control-label" for="repoUrl">Database:</label>
             <div ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>

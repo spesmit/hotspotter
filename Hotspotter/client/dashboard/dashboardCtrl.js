@@ -6,6 +6,7 @@
         //"Global Variables"
         var vm = this;
         vm.success = false;
+        vm.loading = false;
         vm.repos = [];
 
         //"Global Functions"
@@ -21,10 +22,12 @@
 
         // Add a repository
         function addRepository(repoUrl) {
+            vm.loading = true;
             return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
                 vm.success = true;
                 vm.addedRepo = vm.repoUrl;
                 vm.repoUrl = '';
+                vm.loading = false;
                 listRepos();
             });
         }
