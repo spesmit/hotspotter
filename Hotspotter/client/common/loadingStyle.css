@@ -11,10 +11,21 @@
 }
 #loading {
     position: absolute;
-    top:200px;
+    top:100px;
     width:100%;
     text-align: center;
     font-size: 4em;
     color:white;
     text-shadow: 2px 2px 2px #021124;
+}
+
+#loadingDashbaord{
+    position: absolute;
+    top:100px;
+    width:100%;
+    text-align: center;
+    font-size: 3em;
+    color:white;
+    text-shadow: 2px 2px 2px #021124;
+
 }

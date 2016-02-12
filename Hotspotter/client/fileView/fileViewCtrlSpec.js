@@ -83,6 +83,16 @@
                 expect((angular.equals(scope.structure[0], expectedResponse)));
             });
         });
+        describe('clearView', function () {
+
+            it('should set database to true and clear file structure ', function () {
+
+                ctrl.clearView();
+
+                expect(ctrl.database = true);
+                expect(scope.structure.legnth = 0);
+            });
+        });
     });
 
 }());

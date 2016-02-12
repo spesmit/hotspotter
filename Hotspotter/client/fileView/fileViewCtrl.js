@@ -13,6 +13,7 @@
         //"Global Functions"
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
+        vm.clearView = clearView;
         vm.init =  init;
 
         //Initialisation;
@@ -56,6 +57,12 @@
                 vm.repos = response.data;
 
             });
+        }
+
+        function clearView(){
+            vm.database = true;
+            $scope.structure = [];
+
         }
     });
 }(window.angular));
