@@ -27,7 +27,7 @@
                 vm.success = true;
                 vm.addedRepo = vm.repoUrl;
                 vm.repoUrl = '';
-               // vm.loading = false;
+                vm.loading = false;
                 listRepos();
             });
         }
