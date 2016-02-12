@@ -25,7 +25,10 @@ exports.gitCheckout = function (repoURL, callback) {
             stdout.pipe(process.stdout)
             stderr.pipe(process.stderr)
         })
-        .clone(repoURL, repoPath)
+        .clone(repoURL, repoPath, function(err) {
+            if (err) callback(err)
+            else callback(null)
+        })
 }
 
 exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
