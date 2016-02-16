@@ -42,6 +42,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
             // Loop through commits in log and add to Commits array
             commits = []
             commitsLog = log.all
+            count = 0
             async.each(commitsLog, function (commit, callback) {
                 // Determine if commit was a bug fixing commits
                 // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
@@ -52,7 +53,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                         bugfix = true
                 }
 
-                if (commit.date == null) console.log(date)
+                if (commit.date == null) console.log(commit.date)
 
                 commits.push(new Commit({
                     Time: commit.date,

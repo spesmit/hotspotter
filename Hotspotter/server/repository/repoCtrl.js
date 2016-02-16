@@ -51,11 +51,13 @@ module.exports.view = function (req, res) {
                     } else {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
+                            console.log("Files scanned...")
                             scoringService.scoringAlgorithm(repo, function (err, repo) {
                                 scoringService.normalizeScore(repo, function (err, repo) {
-                                    
+
                                     repoService.updateRepo(repo, function (err, res) {
                                         if (err) console.log(err)
+                                        else console.log("Files stored...")
                                     })
 
                                     // create fileView tree for GUI

@@ -64,7 +64,7 @@ exports.updateRepo = function (repo, callback) {
 
 exports.listRepo = function (callback) {
 
-    Repo.find({}, 'URL', function (err, results) {
+    Repo.find({}, 'URL Status FirstModified LastModified', function (err, results) {
         if (err) return callback(err)
         else return callback(null, results)
     })

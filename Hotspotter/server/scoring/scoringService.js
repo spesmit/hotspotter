@@ -24,10 +24,12 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     if (options.Last == null) options.Last = repo.LastModified.getTime()
 
     if (options.Bug == null) options.Bug = false
-   
+
+    if (options.Section == null) options.Section = false
 
  	async.each(repo.Files, function (file, callback) {
         var sumScore = 0
+
 
         for (var i = 0; i < file.Commits.length; i++) {
             // convert data into comparable time
@@ -52,7 +54,7 @@ exports.scoringAlgorithm = function (repo, options, callback) {
 
         // update file model with score
         file.Score = sumScore
-        file.Scores.push({Score: sumScore, Time: options.To})
+        if (options.Section) file.Scores.push({Score: sumScore, Time: options.To})
         callback()
     },
     function (err) {
@@ -113,9 +115,8 @@ exports.scoreSections = function(repo, divisions, options, callback) {
     var to = from + frame
     last = to
 
-
     for (var i = 0; i < divisions; i++) {
-        sections.push({First: first, Last: last, To : to, From: from})
+        sections.push({First: first, Last: last, To : to, From: from, Section: true})
         to += frame
         last += frame
     }

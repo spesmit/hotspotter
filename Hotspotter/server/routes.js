@@ -16,8 +16,8 @@ module.exports = function(app) {
     app.delete('/api/file/:repoUrl', fileCtrl.clear);
 
     //Scoring Api Endpoints
-    app.get('/api/scoring/:repoUrl', scoringCtrl.scoreSections)
-    //app.get('/api/scoring/:repoUrl', scoringCtrl.score)
+    app.get('/api/scoring/:repoUrl', scoringCtrl.score)
+    app.get('/api/scoring/:repoUrl/:sections', scoringCtrl.scoreSection)
 
 //============================= Frontend Routes =========================================================
     // route to handle all angular requests

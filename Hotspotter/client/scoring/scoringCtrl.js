@@ -6,8 +6,6 @@
         //"Global Variables"
         var vm = this;
         var Repo = $resource("/api/repo");
-        var Score = $resource("/api/scoring/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
-        var Score_Sections = $resource("/api/scoring/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
         
         vm.list = true;
         vm.results = false;
@@ -15,7 +13,6 @@
 
         vm.repo = {};
         vm.repos = [];
-        vm.repo_section = {};
 
         //"Global Functions"
        vm.scoreRepo = scoreRepo;
@@ -32,18 +29,22 @@
         }
 
         function scoreDiv(repoURL) {
+            var Score = $resource("/api/scoring/:repoUrl/:sections", {}, {'query': {method: 'GET', isArray: false}});
+
             vm.list = false;
             vm.div = true;
-
-            vm.repo_section = Score_Sections.query({repoUrl : repoURL, divisions : 25}, function () {
-                console.log(vm.repo_section);
+           
+            vm.repo = Score.query({repoUrl : repoURL, sections : 25}, function () {
+                console.log(vm.repo);
             });
         }
 
         function scoreRepo(repoURL) {
+            var Score = $resource("/api/scoring/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
+
             vm.list = false;
             vm.results = true;
-
+            
             vm.repo = Score.query({repoUrl : repoURL}, function () {
                 console.log(vm.repo);
             });

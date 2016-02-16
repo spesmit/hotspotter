@@ -9,37 +9,35 @@ var Repo = require('../repository/repoModel')
 var repoService = require('../repository/repoService')
 var scoringService = require('./scoringService')
 
-module.exports.scoreSections = function (req, res) {
-
-    var repoURL = req.params.repoUrl
-    var divisions = req.query.divisions
-
-    repoService.retrieveRepo(repoURL, function (err, repo) {
-    	if (err) console.log("ERR: " + err)
-        else {
-            scoringService.scoreSections(repo, divisions, function (err, sections) {
-                if (err) console.log("ERR: " + err)
-                else res.json(sections)
-            })
-        }
-    })
-
-    //res.json({})
-}
-
 module.exports.score = function (req, res) {
 
     var repoURL = req.params.repoUrl
 
-    repoService.retrieve(repoURL, function (err, repo) {
+    repoService.retrieveRepo(repoURL, function (err, repo) {
         if (err) console.log("ERR: " + err)
         else {
-            scoringService.soringAlgorithm(repo, function (err, repo) {
+            scoringService.scoringAlgorithm(repo, function (err, repo) {
                 if (err) console.log("ERR: " + err)
                 else res.json(repo)
-            })
+            })  
         }
     })
 
     
+}
+
+module.exports.scoreSection = function (req, res) {
+
+    var repoURL = req.params.repoUrl
+    var sections = req.params.sections
+
+    repoService.retrieveRepo(repoURL, function (err, repo) {
+        if (err) console.log("ERR: " + err)
+        else {
+            scoringService.scoreSections(repo, sections, function (err, repo) {
+                if (err) console.log("ERR: " + err)
+                else res.json(repo)
+            })
+        }
+    })  
 }
