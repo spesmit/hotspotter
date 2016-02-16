@@ -62,7 +62,16 @@ exports.updateRepo = function (repo, callback) {
     })
 }
 
-exports.retrieve = function (repoURL, options, callback) {
+exports.listRepo = function (callback) {
+
+    Repo.find({}, 'URL', function (err, results) {
+        if (err) return callback(err)
+        else return callback(null, results)
+    })
+
+}
+
+exports.retrieveRepo = function (repoURL, options, callback) {
 
     // check for options
     if (typeof callback === 'undefined') {
@@ -71,7 +80,7 @@ exports.retrieve = function (repoURL, options, callback) {
     }
 
     Repo.findOne({ URL : repoURL }, function(err, results) { 
-        if (err) callback(err)
-        else callback(null, results)
+        if (err) return callback(err)
+        else return callback(null, results)
     })
 }

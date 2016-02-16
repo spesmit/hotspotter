@@ -51,6 +51,9 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                     commit.message.indexOf('resolve')!= -1) {
                         bugfix = true
                 }
+
+                if (commit.date == null) console.log(date)
+
                 commits.push(new Commit({
                     Time: commit.date,
                     Hash: commit.hash,
@@ -74,7 +77,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         if(err) return callback(err)
         
         simpleGit.log(function (err, log) {
-            console.log(log)
+            //console.log(log)
             repo.Files = files
             repo.FirstModified = log.all[log.all.length - 1].date
             repo.LastModified = log.all[0].date

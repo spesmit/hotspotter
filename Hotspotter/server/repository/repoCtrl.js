@@ -9,22 +9,23 @@ var async = require("async")
 var crypto    = require("crypto")
 
 var sha1      = function(input) {
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
-};
+  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex')
+}
 
 module.exports.create = function (req, res) {
-    var repoUrl = req.params.repoUrl;
-    var repo = new Repo();
-    repo.URL = repoUrl;
-    gitService.gitCheckout(repoUrl);
+    var repoUrl = req.params.repoUrl
+    var repo = new Repo()
+    repo.URL = repoUrl
+    gitService.gitCheckout(repoUrl)
     repo.save(function (err, result) {
         res.json(result)
     })
 }
 
 module.exports.list = function (req, res) {
-    Repo.find({}, function (err, results) {
-        res.json(results)
+    repoService.listRepo(function (err, list) {
+        if (err) console.log("ERR: " + err)
+        else res.json(list)
     })
 }
 
@@ -52,12 +53,7 @@ module.exports.view = function (req, res) {
                         gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
                             scoringService.scoringAlgorithm(repo, function (err, repo) {
                                 scoringService.normalizeScore(repo, function (err, repo) {
-
-                                    // store file metadata in database
-                                    // fileService.storeFiles(repo, function (err, res) {
-                                    //     if (err) console.log(err)
-                                    // })
-
+                                    
                                     repoService.updateRepo(repo, function (err, res) {
                                         if (err) console.log(err)
                                     })

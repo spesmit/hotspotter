@@ -14,7 +14,7 @@ module.exports.scoreSections = function (req, res) {
     var repoURL = req.params.repoUrl
     var divisions = req.query.divisions
 
-    repoService.retrieve(repoURL, function (err, repo) {
+    repoService.retrieveRepo(repoURL, function (err, repo) {
     	if (err) console.log("ERR: " + err)
         else {
             scoringService.scoreSections(repo, divisions, function (err, sections) {

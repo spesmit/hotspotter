@@ -56,8 +56,8 @@ exports.scoringAlgorithm = function (repo, options, callback) {
         callback()
     },
     function (err) {
-        if (err) callback(err)
-        else callback(null, repo)
+        if (err) return callback(err)
+        else return callback(null, repo)
     })
 }
 
@@ -127,8 +127,8 @@ exports.scoreSections = function(repo, divisions, options, callback) {
         })
     },
     function (err) {
-        if (err) callback(err)
-        callback(null, repo)
+        if (err) return callback(err)
+        return callback(null, repo)
     })
 
 }
