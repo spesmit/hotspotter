@@ -16,13 +16,14 @@
     "grunt-simple-mocha": "^0.4.1",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
-    "karma-chai": "^0.1.0",
+    "karma": "^0.13.19",
     "karma-jasmine": "^0.3.6",
     "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.3",
     "method-override": "~2.0.2",
     "mocha": "^2.3.4",
     "mongoose": "^4.1.2",
+    "phantomjs-prebuilt": "^2.1.4",
     "simple-git": "^1.11.0"
   },
   "devDependencies": {
