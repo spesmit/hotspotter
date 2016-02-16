@@ -4,6 +4,8 @@
 
 async = require("async")
 
+var scoringService = require('./scoringService')
+
 exports.scoringAlgorithm = function (repo, options, callback) {
 
     // check for options
@@ -14,13 +16,15 @@ exports.scoringAlgorithm = function (repo, options, callback) {
 
     // set up options
     if (options.To == null) options.To = repo.LastModified.getTime() 
-    else options.To = options.To
 
     if (options.From == null) options.From = repo.FirstModified.getTime()
-    else options.From = options.From
+
+    if (options.First == null) options.First = repo.FirstModified.getTime() 
+
+    if (options.Last == null) options.Last = repo.LastModified.getTime()
 
     if (options.Bug == null) options.Bug = false
-    else options.Bug = options.Bug    
+   
 
  	async.each(repo.Files, function (file, callback) {
         var sumScore = 0
@@ -33,19 +37,22 @@ exports.scoringAlgorithm = function (repo, options, callback) {
                 if (!options.Bug || file.Commits[i].BugFix) {
                 
                     // normalize time
-                    var t = (((commitTime-options.From)/(options.To-options.From)))
+                    var t = (((commitTime-options.First)/(options.Last-options.First)))
                     // calculate score
                     var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
                     
+                    file.Commits[i].Score = commitScore
+                    file.Commits[i].TimeMs = commitTime
+
                     sumScore += commitScore
 
                 }
-
             }
         }
 
         // update file model with score
         file.Score = sumScore
+        file.Scores.push({Score: sumScore, Time: options.To})
         callback()
     },
     function (err) {
@@ -88,4 +95,40 @@ exports.normalizeScore = function(repo, callback) {
             else callback(null, repo)
 	    })
 	}
+}
+
+exports.scoreSections = function(repo, divisions, options, callback) {
+
+    // check for options
+    if (typeof callback === 'undefined') {
+        callback = options
+        options = {}
+    }
+
+    var sections = []
+    var first = repo.FirstModified.getTime()
+    var last = repo.LastModified.getTime()
+    var from = first
+    var frame = (last-first)/divisions
+    var to = from + frame
+    last = to
+
+
+    for (var i = 0; i < divisions; i++) {
+        sections.push({First: first, Last: last, To : to, From: from})
+        to += frame
+        last += frame
+    }
+
+    async.each(sections, function (section, callback) {
+        scoringService.scoringAlgorithm(repo, section, function (err, repo) {
+            if (err) callback(err)
+            callback()
+        })
+    },
+    function (err) {
+        if (err) callback(err)
+        callback(null, repo)
+    })
+
 }

@@ -8,7 +8,8 @@
         'ngLodash',
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
-        'hotspotter.adminCtrl'
+        'hotspotter.adminCtrl',
+        'hotspotter.scoringCtrl'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -29,6 +30,13 @@
             '/admin', {
                 templateUrl: 'admin/admin.html',
                 pageName: 'admin'
+            });
+
+        $routeProvider.when(
+            '/scoring', {
+                templateUrl: 'scoring/scoring.html',
+                pageName: 'scoring',
+                controller: 'scoringCtrl'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});
