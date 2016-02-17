@@ -13,13 +13,23 @@ var sha1      = function(input) {
 }
 
 module.exports.create = function (req, res) {
-    var repoUrl = req.params.repoUrl
-    var repo = new Repo()
-    repo.URL = repoUrl
-    gitService.gitCheckout(repoUrl)
-    repo.save(function (err, result) {
-        res.json(result)
-    })
+
+    var repoUrl = req.params.repoUrl;
+    var repo = new Repo();
+    repo.URL = repoUrl;
+    // Maybe change git checkout to handle repo object and return it
+    // Look are gitlogcommits
+    gitService.gitCheckout(repoUrl, function (err) {
+        if (err) { 
+            console.log("ERR: " + err)
+            res.json([]);
+        } else {
+            // Needs to be pushed to service
+            repo.save(function (err, result) {
+                res.json(result)
+            })
+        }
+    })    
 }
 
 module.exports.list = function (req, res) {
@@ -36,13 +46,13 @@ module.exports.view = function (req, res) {
     var repoPath    = "tempProjects/" + repoURLHash
 
 
-    Repo.findOne({ URL : repoURL }, function(err, results) {
+    Repo.findOne({ URL : repoURL }, function(err, repo) {
         // check if file metadata is in database
         if (err) {
             console.log("ERR: " + err)
             res.json({})
         } else {
-            if (results.Files.length == 0) {
+            if (repo.Files.length == 0) {
                 // walk files in local repo
                 Glob(repoPath + "/**/*",{nodir:true}, function (err, filePaths) {
                     if (err) {
@@ -50,7 +60,7 @@ module.exports.view = function (req, res) {
                         res.json({})
                     } else {
                         // get file commits
-                        gitService.gitLogCommits(repoPath, filePaths, results, function (err, repo) {
+                        gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
                             console.log("Files scanned...")
                             scoringService.scoringAlgorithm(repo, function (err, repo) {
                                 scoringService.normalizeScore(repo, function (err, repo) {
@@ -72,7 +82,7 @@ module.exports.view = function (req, res) {
                 })
             } else {
                 // fetch file metadata from database
-                fileService.fetchFiles(results.URL, function (err, files) {
+                fileService.fetchFiles(repo.URL, function (err, files) {
                     if (err) console.log(err)
                     else {
                         // create fileView tree GUI

@@ -8,10 +8,12 @@
         vm.files = false;
         vm.database = true;
         vm.repos = [];
+        vm.loading = false;
 
         //"Global Functions"
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
+        vm.clearView = clearView;
         vm.init =  init;
 
         //Initialisation;
@@ -27,6 +29,7 @@
             // list of file paths
             vm.files = true;
             vm.database = false;
+            vm.loading = true;
 
             $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
@@ -45,6 +48,7 @@
 
                     }
                 };
+                vm.loading = false;
             });
 
         }
@@ -53,6 +57,12 @@
                 vm.repos = response.data;
 
             });
+        }
+
+        function clearView(){
+            vm.database = true;
+            $scope.structure = [];
+
         }
     });
 }(window.angular));
