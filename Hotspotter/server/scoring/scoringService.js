@@ -63,8 +63,17 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     })
 }
 
-exports.normalizeScore = function(repo, callback) {
- 	var max = 0
+exports.normalizeScore = function(repo, options, callback) {
+ 	
+    // check for options
+    if (typeof callback === 'undefined') {
+        callback = options
+        options = {}
+    }
+
+    if (options.Offset == null) options.Offset = 1 
+
+    var max = 0
     var min = Number.MAX_VALUE
 
     // Case 0 files or undefined
@@ -89,17 +98,27 @@ exports.normalizeScore = function(repo, callback) {
 	    }
 	    // normalize values for front end api
 		async.each(repo.Files, function (file, callback) {
-	        file.Score = (1 - ((file.Score-min)/(max-min)))
+            if (options.Offset) file.Score = (1 - ((file.Score-min)/(max-min)))
+            else file.Score = ((file.Score-min)/(max-min))
 	        callback()
 	    },
 	    function (err) {
-	        if (err) callback(err)
-            else callback(null, repo)
+	        if (err) return callback(err)
+            else return callback(null, repo)
 	    })
 	}
 }
 
-exports.normalizeSection = function(repo, callback) {
+exports.normalizeSection = function(repo, options, callback) {
+
+    // check for options
+    if (typeof callback === 'undefined') {
+        callback = options
+        options = {}
+    }
+
+    if (options.Offset == null) options.Offset = 1 
+
     var max = []
     var min = []
 
@@ -136,7 +155,8 @@ exports.normalizeSection = function(repo, callback) {
         // normalize values for front end api
         async.each(repo.Files, function (file, callback) {
             for (var i = 0; i < file.Scores.length; i++) {
-                file.Scores[i].Score = (1 - ((file.Scores[i].Score-min[i])/(max[i]-min[i])))
+                if (options.Offset) file.Scores[i].Score = (1 - ((file.Scores[i].Score-min[i])/(max[i]-min[i])))
+                else file.Scores[i].Score = ((file.Scores[i].Score-min[i])/(max[i]-min[i]))
             }
             callback()
         },
@@ -180,4 +200,23 @@ exports.scoreSections = function(repo, divisions, options, callback) {
         return callback(null, repo)
     })
 
+}
+
+exports.createGraphData = function (repo, callback) {
+    var data = []
+
+    for (var i = 0; i < repo.Files.length; i++) {
+        var points = []
+        for (var j = 0; j < repo.Files[i].Scores.length; j++) {
+            points.push({x: repo.Files[i].Scores[j].Time, y: repo.Files[i].Scores[j].Score})   
+        }
+        var file = repo.Files[i].FullPath.replace(/.*\//,'');
+        data.push({
+            values: points,
+            key: file,
+            color: '#2ca02c'
+        });
+    }
+
+    callback(null, data)
 }

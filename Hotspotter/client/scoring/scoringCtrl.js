@@ -13,7 +13,7 @@
 
         vm.repo = {};
         vm.repos = [];
-        vm.file_data = [];
+        vm.data = [];
 
         //"Global Functions"
        vm.scoreRepo = scoreRepo;
@@ -30,13 +30,14 @@
         }
 
         function scoreDiv(repoURL) {
-            var Score = $resource("/api/scoring/:repoUrl/:sections", {}, {'query': {method: 'GET', isArray: false}});
+            var Score = $resource("/api/scoring/:repoUrl/:sections");
 
             vm.list = false;
             vm.div = true;
            
-            vm.repo = Score.query({repoUrl : repoURL, sections : 25}, function () {
-                fileGraph(vm.repo);
+            vm.file = Score.query({repoUrl : repoURL, sections : 100}, function () {
+                console.log(vm.file);
+                fileGraph(vm.file);
             });
         }
 
@@ -55,7 +56,7 @@
             vm.options = {
             chart: {
                 type: 'lineChart',
-                height: 450,
+                height: 400,
                 margin : {
                     top: 20,
                     right: 20,
@@ -77,7 +78,7 @@
                 yAxis: {
                     axisLabel: 'Score',
                     tickFormat: function(d){
-                        return d3.format('.02f')(d);
+                        return d3.format('.05f')(d);
                     },
                     axisLabelDistance: -10
                 },
@@ -107,26 +108,9 @@
                 }
             };
 
-        getFileData(data);
-        console.log(vm.file_data);
-
-        }
-
-        function getFileData(data) {
-            for (var i = 0; i < data.Files.length; i++) {
-                var points = [];
-                for (var j = 0; j < data.Files[i].Scores.length; j++) {
-                    points.push({x: data.Files[i].Scores[j].Time, y: data.Files[i].Scores[j].Score});
-                }
-                vm.file_data.push([{
-                    values: points,
-                    key: 'File Life',
-                    color: '#2ca02c'
-                }]);
+            for (var i = 0; i < data.length; i++) {
+                vm.data.push([data[i]]);
             }
-           
         }
-        
-
     });
 }(window.angular));
