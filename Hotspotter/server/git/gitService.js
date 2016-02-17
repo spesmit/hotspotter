@@ -54,6 +54,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                 }
 
                 if (commit.date == null) console.log(commit.date)
+                if (commit.date === 'undefined') console.log(commit.date)
 
                 commits.push(new Commit({
                     Time: commit.date,

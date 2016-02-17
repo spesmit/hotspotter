@@ -99,6 +99,54 @@ exports.normalizeScore = function(repo, callback) {
 	}
 }
 
+exports.normalizeSection = function(repo, callback) {
+    var max = []
+    var min = []
+
+    // Case 0 files or undefined
+    if (repo.Files == null || repo.Files.length == 0) {
+        return callback("No repo files or undefined")
+    }
+
+     for (var i = 0; i < repo.Files[0].Scores.length; i++) {
+        max[i] = 0
+        min[i] = Number.MAX_VALUE
+    }
+
+    // Case 1 files
+    if (repo.Files.length == 1) {
+        for (var i = 0; i < repo.Files[0].Scores.length; i++) {
+            repo.Files[0].Scores[i].Score = 1
+        }
+
+        return callback(null, repo)
+    } else {
+    // Case 2+ files
+        for (var j = 0; j < repo.Files.length; j++) {
+            for (var i = 0; i < repo.Files[j].Scores.length; i++) {
+                var score = repo.Files[j].Scores[i].Score
+                if (score < min[i]) {
+                    min[i] = score
+                }
+                if (score > max[i]) {
+                    max[i] = score
+                }
+            }
+        }
+        // normalize values for front end api
+        async.each(repo.Files, function (file, callback) {
+            for (var i = 0; i < file.Scores.length; i++) {
+                file.Scores[i].Score = (1 - ((file.Scores[i].Score-min[i])/(max[i]-min[i])))
+            }
+            callback()
+        },
+        function (err) {
+            if (err) callback(err)
+            else callback(null, repo)
+        })
+    }
+}
+
 exports.scoreSections = function(repo, divisions, options, callback) {
 
     // check for options

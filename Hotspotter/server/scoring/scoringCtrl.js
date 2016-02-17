@@ -22,8 +22,6 @@ module.exports.score = function (req, res) {
             })  
         }
     })
-
-    
 }
 
 module.exports.scoreSection = function (req, res) {
