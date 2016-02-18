@@ -29,9 +29,6 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use('/', express.static(__dirname + '/client'));
 app.use('/images', express.static(__dirname + '/client/images'));
 app.use('/views', express.static(__dirname + '/client/dashboard/dashboard.html'));
-app.use("/css", express.static(__dirname + '/client/thirdParty/angular-tree-view/css/style.css'));
-app.use("/css/fileView", express.static(__dirname + '/client/fileView/fileView.css'));
-app.use("/css/loadingStyle", express.static(__dirname + '/client/common/loadingStyle.css'));
 //Point the server at project dependencies brought in from doing a "npm install" and "bower install"
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
