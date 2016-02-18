@@ -30,6 +30,7 @@
             vm.files = true;
             vm.database = false;
             vm.loading = true;
+            vm.selectedFile = false;
 
             $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
@@ -43,9 +44,9 @@
 
                 $scope.structure = response.data;
                 $scope.options = {
-                    onNodeSelect: function (node, breadcrums) {
-                        vm.breadcrums = breadcrums;
-
+                    onNodeSelect: function(file, breadcrums) {
+                        $scope.breadcrums = breadcrums;
+                        vm.selectedFile = file;
                     }
                 };
                 vm.loading = false;

@@ -24,3 +24,12 @@
     background: linear-gradient(to right, hsl(0,80%,50%), hsl(25,80%,50%), hsl(50,80%,50%), hsl(75,80%,50%), hsl(100,80%,50%), hsl(125,80%,50%), hsl(150,80%,50% )); /* Standard syntax (must be last) */
 }
 
+.file-details {
+    position: fixed;
+    top: 60px;
+    left:0;
+}
+
+.file-details ul {
+    list-style-type: none;
+}

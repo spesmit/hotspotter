@@ -24,7 +24,12 @@ exports.createTree = function (files, callback) {
             if (path[j] != '/') {
                 // insert file name
                 if (path[j].indexOf('/') < 0) {
-                    tree.files.push({name: path[j], score: files[i].Score})
+                    tree.files.push({
+                        name: path[j],
+                        score: files[i].Score,
+                        last_touched_by: files[i].Commits[0].Author,
+                        last_updated: files[i].LastUpdated
+                    })
                 } else {
                 // find next directory in path
                     var found = 0
@@ -79,7 +84,7 @@ exports.retrieveRepo = function (repoURL, options, callback) {
         options = {}
     }
 
-    Repo.findOne({ URL : repoURL }, function(err, results) { 
+    Repo.findOne({ URL : repoURL }, function(err, results) {
         if (err) return callback(err)
         else return callback(null, results)
     })

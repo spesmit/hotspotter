@@ -8,7 +8,7 @@
 		scoreProperty: 'score',
 		collapsible: true
 	});
-	
+
 	module.directive('treeView', ['$q', 'treeViewDefaults', function ($q, treeViewDefaults) {
 		return {
 			restrict: 'A',
@@ -46,11 +46,11 @@
 					}
 					selectedFile = file;
 
-					if (typeof options.onNodeSelect === "function") {
-						options.onNodeSelect(file, breadcrumbs);
+					if (typeof $scope.treeViewOptions.onNodeSelect === "function") {
+						$scope.treeViewOptions.onNodeSelect(file, breadcrumbs);
 					}
 				};
-				
+
 				self.isSelected = function (node) {
 					return node === selectedNode || node === selectedFile;
 				};
@@ -66,7 +66,7 @@
 						options.onRemoveNode(node, index, parent);
 					}
 				};
-				
+
 				self.renameNode = function (event, node, name) {
 					if (typeof options.onRenameNode === "function") {
 						return options.onRenameNode(event, node, name);
@@ -103,13 +103,13 @@
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
 				};
-				
+
 				scope.getFileIconClass = typeof options.mapIcon === 'function' ?
 					 options.mapIcon
 					: function (file) {
 						return 'icon-file';
 					};
-				
+
 				scope.hasChildren = function () {
 					var node = scope.node;
 					return Boolean(node && (node[foldersProperty] && node[foldersProperty].length) || (node[filesProperty] && node[filesProperty].length));
@@ -145,7 +145,7 @@
 					}
 					controller.selectFile(file, breadcrumbs.reverse());
 				};
-				
+
 				scope.isSelected = function (node) {
 					return controller.isSelected(node);
 				};
@@ -166,7 +166,7 @@
 
 					controller.addNode(addEvent, scope.newNodeName, scope.node);
 				};
-				
+
 				scope.isEditing = function () {
 					return isEditing;
 				};
@@ -174,7 +174,7 @@
 				scope.canRemove = function () {
 					return !(scope.hasChildren());
 				};
-				
+
 				scope.remove = function (event, index) {
 					event.stopPropagation();
 					controller.removeNode(scope.node, index, scope.$parent.node);
