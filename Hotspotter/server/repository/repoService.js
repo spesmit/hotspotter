@@ -28,7 +28,7 @@ exports.createTree = function (files, callback) {
                         name: path[j],
                         score: files[i].Score,
                         last_touched_by: files[i].Commits[0].Author,
-                        last_updated: files[i].LastUpdated
+                        last_updated: files[i].Commits[0].Time
                     })
                 } else {
                 // find next directory in path

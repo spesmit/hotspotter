@@ -29,10 +29,10 @@
                 <div tree-view="structure" tree-view-options="options" ></div>
                 <div ng-if="vm.selectedFile" class="file-details">
                     <h1>{{vm.selectedFile.name}}</h1>
-                    {{ vm.selectedFile.last_updated }}
                     <ul>
                         <li>{{ ((1 - vm.selectedFile.score) * 100).toFixed(1) }}% Likelihood of Containing Bugs</li>
                         <li>Last Touched By: {{ vm.selectedFile.last_touched_by }}</li>
+                        <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
                     </ul>
                 </div>
             </div>
