@@ -35,15 +35,10 @@ module.exports.scoreSection = function (req, res) {
             scoringService.scoreSections(repo, sections, function (err, repo) {
                 if (err) console.log("ERR: " + err)
                 else {
-                    scoringService.normalizeSection(repo, {Offset: 0}, function (err, repo) {
+                    scoringService.normalizeSection(repo, function (err, repo) {
                          if (err) console.log("ERR: " + err)
                         else {
-                            scoringService.createGraphData(repo, function (err, data) {
-                                if (err) console.log("ERR: " + err)
-                                else {
-                                    res.json(data)
-                                }
-                            })    
+                            res.json(repo)   
                         }
                     })    
                 }

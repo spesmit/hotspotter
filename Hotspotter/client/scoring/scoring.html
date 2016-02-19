@@ -14,7 +14,7 @@
             </div>
 
             <div ng-if="vm.div == true">
-                <div ng-repeat="data in vm.data">
+                <div ng-repeat="data in vm.data" class="with-3d-shadow with-transitions">
                     <nvd3 options="vm.options" data="data"></nvd3>
                 </div>
             </div>

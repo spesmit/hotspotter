@@ -30,14 +30,14 @@
         }
 
         function scoreDiv(repoURL) {
-            var Score = $resource("/api/scoring/:repoUrl/:sections");
+            var Score = $resource("/api/scoring/:repoUrl/:sections", {}, {'query': {method: 'GET', isArray: false}});
 
             vm.list = false;
             vm.div = true;
            
             vm.file = Score.query({repoUrl : repoURL, sections : 100}, function () {
-                console.log(vm.file);
                 fileGraph(vm.file);
+                console.log(vm.data);
             });
         }
 
@@ -53,18 +53,16 @@
         }
 
         function fileGraph(data) {
-            vm.options = {
-            chart: {
-                type: 'lineChart',
+        vm.options = {
+        chart: {
+                type: 'multiChart',
                 height: 400,
                 margin : {
                     top: 20,
-                    right: 20,
+                    right: 55,
                     bottom: 40,
                     left: 55
                 },
-                x: function(d){ return d.x; },
-                y: function(d){ return d.y; },
                 useInteractiveGuideline: true,
                 dispatch: {
                     stateChange: function(e){ console.log("stateChange"); },
@@ -72,16 +70,32 @@
                     tooltipShow: function(e){ console.log("tooltipShow"); },
                     tooltipHide: function(e){ console.log("tooltipHide"); }
                 },
+                lines1 : {
+                    x : function (d) { return d.x; },
+                    y : function (d) { return d.y; },
+                    forceY: [0]
+                },
+                bars1: {
+                    x : function (d) { return d.x; },
+                    y : function (d) { return d.y; },
+                    forceY: [0]
+                },
+                
                 xAxis: {
                     axisLabel: 'Time (ns)'
                 },
-                yAxis: {
+                yAxis1: {
                     axisLabel: 'Score',
                     tickFormat: function(d){
                         return d3.format('.05f')(d);
                     },
-                    axisLabelDistance: -10
+                    axisLabelDistance: -20
                 },
+                yAxis2: {
+                    axisLabel: 'Bug Commits',
+                    axisLabelDistance: 20
+                },
+                duration : 0,
                 callback: function(chart){
                     console.log("!!! lineChart callback !!!");
                 }
@@ -108,8 +122,50 @@
                 }
             };
 
-            for (var i = 0; i < data.length; i++) {
-                vm.data.push([data[i]]);
+
+            for (var i = 0; i < data.Files.length; i++) {
+                var points = [];
+                var commits = [];
+                var bcommits = [];
+                var file = data.Files[i].FullPath.replace(/.*\//g,'');
+                for (var j = 0; j < data.Files[i].Scores.length; j++) {
+                    points.push({x: data.Files[i].Scores[j].Time, y: 1-data.Files[i].Scores[j].Score});
+                }
+                for (j = 0; j < data.Files[i].Commits.length; j++) {
+                    if (data.Files[i].Commits[j].BugFix)
+                        bcommits.push({x: data.Files[i].Commits[j].TimeMs, y: 1});
+                    else
+                        commits.push({x: data.Files[i].Commits[j].TimeMs, y: 1});
+                }
+                var graph = [];
+                if (points.length > 0) {
+                    graph.push({
+                        yAxis : 1,
+                        type : 'line',
+                        values : points,
+                        key : file,
+                        color : "green"
+                    });
+                }
+                if (commits.length > 0) {
+                    graph.push({
+                        yAxis : 1,
+                        type : 'line',
+                        values : commits,
+                        key : 'Commits',
+                        color : "blue"
+                    });
+                }
+                if (bcommits.length > 0) {
+                    graph.push({
+                        yAxis : 1,
+                        type : 'line',
+                        values : bcommits,
+                        key : 'Bug Commits',
+                        color : "red"
+                    });
+                }
+                vm.data.push(graph);
             }
         }
     });

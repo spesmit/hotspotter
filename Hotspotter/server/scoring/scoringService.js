@@ -15,46 +15,57 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     }
 
     // set up options
-    if (options.To == null) options.To = repo.LastModified.getTime() 
-
-    if (options.From == null) options.From = repo.FirstModified.getTime()
-
-    if (options.First == null) options.First = repo.FirstModified.getTime() 
-
-    if (options.Last == null) options.Last = repo.LastModified.getTime()
+    if (options.Section == null) {
+        options.Section = [{
+            To : repo.LastModified.getTime(),     // End time for section
+            From : repo.FirstModified.getTime(),  // Start time for section
+            First : repo.FirstModified.getTime(), // Time of first commit
+            Last : repo.LastModified.getTime()    // Time of lastest commit
+        }]
+    }
 
     if (options.Bug == null) options.Bug = false
 
-    if (options.Section == null) options.Section = false
 
  	async.each(repo.Files, function (file, callback) {
-        var sumScore = 0
+        var sumScore = []
+        // reset score data
+        file.Scores = []
 
+        for (var i = 0; i <options.Section.length; i++) {
+            sumScore.push(0)   
+        }
 
         for (var i = 0; i < file.Commits.length; i++) {
             // convert data into comparable time
             var commitTime = file.Commits[i].Time.getTime()
-            if (commitTime <= options.To && commitTime >= options.From) {
+            for (var j = 0; j < options.Section.length; j++) {
 
-                if (!options.Bug || file.Commits[i].BugFix) {
-                
-                    // normalize time
-                    var t = (((commitTime-options.First)/(options.Last-options.First)))
-                    // calculate score
-                    var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
+                if (commitTime <= options.Section[j].To && commitTime >= options.Section[j].From) {
+
+                    if (!options.Bug || file.Commits[i].BugFix) {
                     
-                    file.Commits[i].Score = commitScore
-                    file.Commits[i].TimeMs = commitTime
+                        // normalize time
+                        var t = (((commitTime-options.Section[j].First)/(options.Section[j].Last-options.Section[j].First)))
+                        // calculate score
+                        var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
+                        
+                        file.Commits[i].Score = commitScore
+                        file.Commits[i].TimeMs = commitTime
 
-                    sumScore += commitScore
+                        sumScore[j] += commitScore
 
+                    }
                 }
             }
         }
 
         // update file model with score
-        file.Score = sumScore
-        if (options.Section) file.Scores.push({Score: sumScore, Time: options.To})
+        file.Score = sumScore[0]
+        for (var i = 0; i < sumScore.length; i++) {
+            file.Scores.push({Score: sumScore[i], Time: options.Section[i].To})
+        }
+       
         callback()
     },
     function (err) {
@@ -189,17 +200,12 @@ exports.scoreSections = function(repo, divisions, options, callback) {
         last += frame
     }
 
-    async.each(sections, function (section, callback) {
-        scoringService.scoringAlgorithm(repo, section, function (err, repo) {
-            if (err) callback(err)
-            callback()
-        })
-    },
-    function (err) {
+    var opt = {Section : sections} 
+
+    scoringService.scoringAlgorithm(repo, opt, function (err, repo) {
         if (err) return callback(err)
         return callback(null, repo)
     })
-
 }
 
 exports.createGraphData = function (repo, callback) {
@@ -207,16 +213,27 @@ exports.createGraphData = function (repo, callback) {
 
     for (var i = 0; i < repo.Files.length; i++) {
         var points = []
+        var commits = []
         for (var j = 0; j < repo.Files[i].Scores.length; j++) {
             points.push({x: repo.Files[i].Scores[j].Time, y: repo.Files[i].Scores[j].Score})   
         }
-        var file = repo.Files[i].FullPath.replace(/.*\//,'');
+
+        for (var j = 0; j < repo.Files[i].Commits.length; j++) {
+            
+            commits.push({x: repo.Files[i].Commits[j].TimeMs, y: (repo.Files[i].Commits[j].BugFix ? 1 : 0)})   
+        }
+
+        var file = repo.Files[i].FullPath.replace(/.*\//,'')
         data.push({
             values: points,
             key: file,
             color: '#2ca02c'
-        });
-    }
+        })
 
+        data.push({
+            values : commits,
+            key : 'commits'
+        })
+    }
     callback(null, data)
 }
