@@ -24,8 +24,7 @@
                 <br>
                 <div style="display: block">
                     <button ng-disabled="vm.dec_disable" class="btn btn-primary" ng-click='vm.decrement()'><</button>
-                    Snapshot: {{vm.index}}
-                    {{vm.file.scores[vm.index-1].Score}}
+                    Snapshot: {{vm.index+1}}
                     <button ng-disabled="vm.inc_disable" class="btn btn-primary" ng-click='vm.increment()'>></button>
                 </div>
                 <br>
@@ -34,7 +33,9 @@
                     <img src = "/images/fireBallGif.gif">
                     Preheating...
                 </div>
-                <div tree-view="structure" tree-view-options="options"></div>
+                <div ng-repeat="index in vm.active">
+                    <div ng-if="index.show" tree-view="structure" tree-view-options="options" tree-index="index.index"></div>
+                </div>
             </div>
         </div>
     </div>
