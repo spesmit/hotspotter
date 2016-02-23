@@ -24,7 +24,7 @@ exports.createTree = function (files, callback) {
             if (path[j] != '/') {
                 // insert file name
                 if (path[j].indexOf('/') < 0) {
-                    tree.files.push({name: path[j], score: files[i].Score})
+                    tree.files.push({name: path[j], scores: files[i].Scores})
                 } else {
                 // find next directory in path
                     var found = 0

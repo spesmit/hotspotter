@@ -22,6 +22,13 @@
                     <div class="color-legend"></div>
                 </div>
                 <br>
+                <div style="display: block">
+                    <button ng-disabled="vm.dec_disable" class="btn btn-primary" ng-click='vm.decrement()'><</button>
+                    Snapshot: {{vm.index}}
+                    {{vm.file.scores[vm.index-1].Score}}
+                    <button ng-disabled="vm.inc_disable" class="btn btn-primary" ng-click='vm.increment()'>></button>
+                </div>
+                <br>
                 <label class="control-label">File System:</label>
                 <div id="loading" ng-show="vm.loading">
                     <img src = "/images/fireBallGif.gif">
@@ -32,3 +39,4 @@
         </div>
     </div>
 </div>
+

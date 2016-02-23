@@ -5,7 +5,7 @@
 		foldersProperty: 'folders',
 		filesProperty: 'files',
 		displayProperty: 'name',
-		scoreProperty: 'score',
+		scoreProperty: 'scores',
 		collapsible: true
 	});
 	
@@ -242,10 +242,9 @@
 								'</div>' +
 							'</div>' +
 						'</div>' +
-						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + ')*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
+						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + '[vm.index-1].Score)*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
 							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty + ' }}</span>' +
 						'</a>';
-
 					//Rendering template.
 					element.html('').append($compile(template)(scope));
 				}

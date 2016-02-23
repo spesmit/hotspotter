@@ -9,11 +9,18 @@
         vm.database = true;
         vm.repos = [];
         vm.loading = false;
+        vm.index = 0;
+        vm.last = 10;
+        vm.inc_disable = true;
+        vm.dec_disable = false;
+        vm.file = {};
 
         //"Global Functions"
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
         vm.clearView = clearView;
+        vm.increment = increment;
+        vm.decrement = decrement;
         vm.init =  init;
 
         //Initialisation;
@@ -41,11 +48,12 @@
                  ]},{ name: 'Folder 2', files: [], folders: [] }
                  ]};*/
 
+                 vm.index = response.data.files[0].scores.length;
+                 vm.file = response.data.files[0];
                 $scope.structure = response.data;
                 $scope.options = {
                     onNodeSelect: function (node, breadcrums) {
                         vm.breadcrums = breadcrums;
-
                     }
                 };
                 vm.loading = false;
@@ -63,6 +71,30 @@
             vm.database = true;
             $scope.structure = [];
 
+        }
+
+        function increment() {
+            vm.index++;
+            if (vm.index >= vm.last) {
+                vm.inc_disable = true;
+                vm.index = vm.last;
+            } else {
+                vm.inc_disable = false;
+                vm.dec_disable = false;
+            }
+            console.log(vm.index);
+        }
+
+        function decrement() {
+            vm.index--;
+            if (vm.index <= 1) {
+                vm.index = 1;
+                vm.dec_disable = true;
+            } else {
+                vm.inc_disable = false;
+                vm.dec_disable = false;
+            }
+            console.log(vm.index);
         }
     });
 }(window.angular));

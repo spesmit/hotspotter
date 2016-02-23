@@ -44,6 +44,7 @@ module.exports.view = function (req, res) {
     var repoURL     = req.params.repo
     var repoURLHash = sha1(repoURL)
     var repoPath    = "tempProjects/" + repoURLHash
+    var sections    = 10
 
 
     Repo.findOne({ URL : repoURL }, function(err, repo) {
@@ -62,8 +63,8 @@ module.exports.view = function (req, res) {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
                             console.log("Files scanned...")
-                            scoringService.scoringAlgorithm(repo, function (err, repo) {
-                                scoringService.normalizeScore(repo, function (err, repo) {
+                            scoringService.scoreSections(repo, sections, function (err, repo) {
+                                scoringService.normalizeSection(repo, function (err, repo) {
 
                                     repoService.updateRepo(repo, function (err, res) {
                                         if (err) console.log(err)
