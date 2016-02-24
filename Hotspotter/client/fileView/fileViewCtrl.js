@@ -20,8 +20,6 @@
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
         vm.clearView = clearView;
-        vm.increment = increment;
-        vm.decrement = decrement;
         vm.init =  init;
 
         //Initialisation;
@@ -51,13 +49,7 @@
 
 
 
-                vm.index = response.data.files[0].scores.length - 1;
-                for (var i = 0; i <= vm.index; i++) {
-                    vm.active.push({index: i, show: false});
-                }
-                vm.active[vm.index].show = true;
-
-                vm.file = response.data.files[0];
+                vm.last = response.data.files[0].scores.length - 1;
 
                 $scope.structure = response.data;
 
@@ -84,31 +76,31 @@
 
         }
 
-        function increment() {
-            vm.active[vm.index].show = false;
-            vm.index++;
-            vm.active[vm.index].show = true;
-            if (vm.index >= vm.last-1) {
-                vm.inc_disable = true;
-                vm.index = vm.last-1;
-            } else {
-                vm.inc_disable = false;
-                vm.dec_disable = false;
-            }
-        }
+        // function increment() {
+        //     vm.active[vm.index].show = false;
+        //     vm.index++;
+        //     vm.active[vm.index].show = true;
+        //     if (vm.index >= vm.last-1) {
+        //         vm.inc_disable = true;
+        //         vm.index = vm.last-1;
+        //     } else {
+        //         vm.inc_disable = false;
+        //         vm.dec_disable = false;
+        //     }
+        // }
 
-        function decrement() {
-            vm.active[vm.index].show = false;
-            vm.index--;
-            vm.active[vm.index].show = true;
-            if (vm.index <= 0) {
-                vm.index = 0;
-                vm.dec_disable = true;
-            } else {
-                vm.inc_disable = false;
-                vm.dec_disable = false;
-            }
-        }
+        // function decrement() {
+        //     vm.active[vm.index].show = false;
+        //     vm.index--;
+        //     vm.active[vm.index].show = true;
+        //     if (vm.index <= 0) {
+        //         vm.index = 0;
+        //         vm.dec_disable = true;
+        //     } else {
+        //         vm.inc_disable = false;
+        //         vm.dec_disable = false;
+        //     }
+        // }
 
     });
 }(window.angular));
