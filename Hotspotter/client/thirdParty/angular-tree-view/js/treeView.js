@@ -23,9 +23,9 @@
 			template:
 				'<div class="tree">' +
 					'<div>' +
-						'<button class="btn btn-primary" ng-click="decrement()">&lt;</button>' +
+						'<button class="btn btn-primary" ng-disabled="first" ng-click="decrement()">&lt;</button>' +
 						'<span> Snapshot: {{ treeIndex + 1 }} </span>' +
-			        	'<button class="btn btn-primary" ng-click="increment()">&gt;</button>' +
+			        	'<button class="btn btn-primary" ng-disabled="last" ng-click="increment()">&gt;</button>' +
 					'</div>' +
 					'<div tree-view-node="treeView">' +
 					'</div>' +
@@ -38,8 +38,9 @@
 
 				var options = angular.extend({}, treeViewDefaults, $scope.treeViewOptions);
 
-				self.last = $scope.treeIndex;
-				console.log(self.last);
+				$scope.total = $scope.treeIndex;
+				$scope.last = true;
+				$scope.first = false;
 
 				self.selectNode = function (node, breadcrumbs) {
 					if (selectedFile) {
@@ -243,14 +244,20 @@
 
 				scope.increment = function () {
 					scope.treeIndex++;
-					console.log(scope.treeIndex);
-					render();
+					if (scope.treeIndex > scope.total-1)
+						scope.last = true;
+					else
+						scope.first = false;
+					
 				};
 
 				scope.decrement = function () {
 					scope.treeIndex--;
-					console.log(scope.treeIndex);
-					render();
+					if (scope.treeIndex < 1)
+						scope.first = true;
+					else 
+						scope.last = false;
+
 				};
 
 				function toggleExpanded() {
@@ -270,7 +277,7 @@
 								'</div>' +
 							'</div>' +
 						'</div>' +
-						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + '['+ scope.treeIndex +'].Score)*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
+						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + '[treeIndex].Score)*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
 							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty + ' }}</span>' +
 						'</a>';
 					//Rendering template.
