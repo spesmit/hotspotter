@@ -102,7 +102,7 @@
             },
             title: {
                 enable: true,
-                text: 'Title for Line Chart'
+                text: 'File lifetime'
             },
             subtitle: {
                 enable: true,
