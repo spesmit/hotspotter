@@ -8,7 +8,8 @@
         'ngLodash',
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
-        'hotspotter.adminCtrl'
+        'hotspotter.adminCtrl',
+        'hotspotter.repositoryCtrl'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -20,15 +21,21 @@
             });
 
         $routeProvider.when(
-            '/fileView', {
+            '/files', {
                 templateUrl: 'fileView/fileView.html',
-                pageName: 'FileView'
+                pageName: 'Files'
             });
 
-         $routeProvider.when(
+        $routeProvider.when(
+            '/repository', {
+                templateUrl: 'repository/repository.html',
+                pageName: 'repository'
+            });
+
+        $routeProvider.when(
             '/admin', {
                 templateUrl: 'admin/admin.html',
-                pageName: 'admin'
+                pageName: 'Admin'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});

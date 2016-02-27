@@ -10,5 +10,11 @@ module.exports = mongoose.model('repo', {
 	FileCount: Number,
 	LastUpdated: Date,
 	ProjectOwner: String,
-	Files: [fileSchema]
+	Files: [fileSchema],
+	Status: {
+		scan: Boolean,
+		score: Boolean,
+		update: Boolean,
+		remove: Boolean
+	}
 })
