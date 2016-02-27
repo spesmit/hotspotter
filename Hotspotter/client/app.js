@@ -10,7 +10,7 @@
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
         'hotspotter.adminCtrl',
-        'hotspotter.scoringCtrl'
+        'hotspotter.dataCtrl'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -34,10 +34,10 @@
             });
 
         $routeProvider.when(
-            '/scoring', {
-                templateUrl: 'scoring/scoring.html',
-                pageName: 'scoring',
-                controller: 'scoringCtrl'
+            '/data', {
+                templateUrl: 'data/data.html',
+                pageName: 'data',
+                controller: 'dataCtrl'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});
