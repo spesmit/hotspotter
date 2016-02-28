@@ -44,7 +44,7 @@ module.exports.view = function (req, res) {
     var repoURL     = req.params.repo
     var repoURLHash = sha1(repoURL)
     var repoPath    = "tempProjects/" + repoURLHash
-    var sections    = 1
+    var sections    = 10
 
 
     Repo.findOne({ URL : repoURL }, function(err, repo) {
