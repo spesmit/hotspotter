@@ -27,6 +27,7 @@ exports.createTree = function (files, callback) {
                     tree.files.push({
                         name: path[j],
                         score: files[i].Scores,
+                        commits: files[i].Commits,
                         last_touched_by: files[i].Commits[0].Author,
                         last_updated: files[i].Commits[0].Time
                     })

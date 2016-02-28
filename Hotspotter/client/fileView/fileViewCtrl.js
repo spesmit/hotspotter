@@ -1,20 +1,17 @@
 (function (angular) {
     'use strict';
-    var ngModule = angular.module('hotspotter.fileViewCtrl', ['AxelSoft']);
+    var ngModule = angular.module('hotspotter.fileViewCtrl', ['AxelSoft','nvd3']);
     ngModule.controller('fileViewCtrl', function ($scope, $http) {
 
         //"Global Variables"
         var vm = this;
         vm.files = false;
         vm.database = true;
+        vm.graph = false;
         vm.repos = [];
         vm.loading = false;
-        vm.last = 10;
         vm.index = 0;
-        vm.inc_disable = true;
-        vm.dec_disable = false;
         vm.file = {};
-        vm.active = [];
         vm.graph_options = {};
         vm.graph_data = {};
 
@@ -22,6 +19,7 @@
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
         vm.clearView = clearView;
+        vm.fileGraph = fileGraph;
         vm.init =  init;
 
         //Initialisation;
@@ -50,9 +48,10 @@
                  ]},{ name: 'Folder 2', files: [], folders: [] }
                  ]};*/
 
-
-                vm.last = response.data.files[0].score.length - 1;
+                vm.index = response.data.files[0].score.length - 1;
                 $scope.structure = response.data;
+
+                console.log(vm.index);
 
                 $scope.options = {
 
@@ -75,11 +74,16 @@
 
         function clearView(){
             vm.database = true;
+            vm.graph = false;
+            vm.graph_options = {};
+            vm.graph_data = {};
             $scope.structure = [];
 
         }
 
         function fileGraph(data) {
+            vm.graph = true;
+
             vm.graph_options = {
             chart: {
                 type: 'multiChart',
@@ -129,7 +133,7 @@
             },
             title: {
                 enable: true,
-                text: 'File lifetime'
+                text: data.name + ' lifetime'
             },
             subtitle: {
                 enable: true,
@@ -149,51 +153,51 @@
                 }
             };
 
+            console.log(data);
 
-            for (var i = 0; i < data.Files.length; i++) {
-                var points = [];
-                var commits = [];
-                var bcommits = [];
-                var file = data.Files[i].FullPath.replace(/.*\//g,'');
-                for (var j = 0; j < data.Files[i].Scores.length; j++) {
-                    points.push({x: data.Files[i].Scores[j].Time, y: 1-data.Files[i].Scores[j].Score});
-                }
-                for (j = 0; j < data.Files[i].Commits.length; j++) {
-                    if (data.Files[i].Commits[j].BugFix)
-                        bcommits.push({x: data.Files[i].Commits[j].TimeMs, y: 1});
-                    else
-                        commits.push({x: data.Files[i].Commits[j].TimeMs, y: 1});
-                }
-                var graph = [];
-                if (points.length > 0) {
-                    graph.push({
-                        yAxis : 1,
-                        type : 'line',
-                        values : points,
-                        key : file,
-                        color : "green"
-                    });
-                }
-                if (commits.length > 0) {
-                    graph.push({
-                        yAxis : 1,
-                        type : 'line',
-                        values : commits,
-                        key : 'Commits',
-                        color : "blue"
-                    });
-                }
-                if (bcommits.length > 0) {
-                    graph.push({
-                        yAxis : 1,
-                        type : 'line',
-                        values : bcommits,
-                        key : 'Bug Commits',
-                        color : "red"
-                    });
-                }
-                vm.graph_data = graph;
+            var points = [];
+            var commits = [];
+            var bcommits = [];
+
+            for (var i = 0; i < data.score.length; i++) {
+                points.push({x: data.score[i].Time, y: 1-data.score[i].Score});
             }
+            for (var j = 0; j < data.commits.length; j++) {
+                if (data.commits[j].BugFix)
+                    bcommits.push({x: data.commits[j].TimeMs, y: 1});
+                else
+                    commits.push({x: data.commits[j].TimeMs, y: 1});
+            }
+            var graph = [];
+            if (points.length > 0) {
+                graph.push({
+                    yAxis : 1,
+                    type : 'line',
+                    values : points,
+                    key : data.name,
+                    color : "green"
+                });
+            }
+            if (commits.length > 0) {
+                graph.push({
+                    yAxis : 1,
+                    type : 'line',
+                    values : commits,
+                    key : 'Commits',
+                    color : "blue"
+                });
+            }
+            if (bcommits.length > 0) {
+                graph.push({
+                    yAxis : 1,
+                    type : 'line',
+                    values : bcommits,
+                    key : 'Bug Commits',
+                    color : "red"
+                });
+            }
+            vm.graph_data = graph;
+
         }
 
     });

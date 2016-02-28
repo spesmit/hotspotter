@@ -39,7 +39,7 @@
 				var options = angular.extend({}, treeViewDefaults, $scope.treeViewOptions);
 
 				$scope.total = $scope.treeIndex;
-				
+
 				if ($scope.treeIndex === 0) {
 					$scope.last = true;
 					$scope.first = true;

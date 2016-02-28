@@ -27,20 +27,21 @@
                     <img src = "/images/fireBallGif.gif">
                     Preheating...
                 </div>
-                <div tree-view="structure" tree-view-options="options" tree-index="vm.last"></div>
+                <div tree-view="structure" tree-view-options="options" tree-index="vm.index"></div>
                 <div ng-if="vm.selectedFile" class="file-details">
                     <h1>{{vm.selectedFile.name}}</h1>
                     <ul>
-                        <li>{{ ((1 - vm.selectedFile.score) * 100).toFixed(1) }}% Likelihood of Containing Bugs</li>
+                        <li>{{ ((1 - vm.selectedFile.score[vm.index].Score) * 100).toFixed(1) }}% Likelihood of Containing Bugs</li>
                         <li>Last Touched By: {{ vm.selectedFile.last_touched_by }}</li>
                         <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
                     </ul>
+                    <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)'>Graph</button>
                 </div>
-                <div ng-if="vm.div == true">
-                <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
-            </div>
             </div>
         </div>
+    </div>
+    <div ng-if="vm.graph == true" class="pull-center">
+        <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
     </div>
 </div>
 

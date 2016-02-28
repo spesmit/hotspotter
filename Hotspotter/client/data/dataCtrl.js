@@ -1,6 +1,6 @@
 (function (angular) {
     'use strict';
-    var ngModule = angular.module('hotspotter.dataCtrl', ['nvd3']);
+    var ngModule = angular.module('hotspotter.dataCtrl', []);
     ngModule.controller('dataCtrl', function ($scope, $resource) {
 
         //"Global Variables"
