@@ -5,7 +5,7 @@
 		foldersProperty: 'folders',
 		filesProperty: 'files',
 		displayProperty: 'name',
-		scoreProperty: 'scores',
+		scoreProperty: 'score',
 		collapsible: true,
 	}
 	);
@@ -39,8 +39,14 @@
 				var options = angular.extend({}, treeViewDefaults, $scope.treeViewOptions);
 
 				$scope.total = $scope.treeIndex;
-				$scope.last = true;
-				$scope.first = false;
+				
+				if ($scope.treeIndex === 0) {
+					$scope.last = true;
+					$scope.first = true;
+				} else {
+					$scope.last = true;
+					$scope.first = false;
+				}
 
 				self.selectNode = function (node, breadcrumbs) {
 					if (selectedFile) {
@@ -59,11 +65,11 @@
 					}
 					selectedFile = file;
 
-					if (typeof options.onNodeSelect === "function") {
-						options.onNodeSelect(file, breadcrumbs);
+					if (typeof $scope.treeViewOptions.onNodeSelect === "function") {
+						$scope.treeViewOptions.onNodeSelect(file, breadcrumbs);
 					}
 				};
-				
+
 				self.isSelected = function (node) {
 					return node === selectedNode || node === selectedFile;
 				};
@@ -79,7 +85,7 @@
 						options.onRemoveNode(node, index, parent);
 					}
 				};
-				
+
 				self.renameNode = function (event, node, name) {
 					if (typeof options.onRenameNode === "function") {
 						return options.onRenameNode(event, node, name);
@@ -119,13 +125,12 @@
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
 				};
-				
+
 				scope.getFileIconClass = typeof options.mapIcon === 'function' ?
 					 options.mapIcon
 					: function (file) {
 						return 'icon-file';
 					};
-	
 
 				scope.hasChildren = function () {
 					var node = scope.node;
@@ -162,7 +167,7 @@
 					}
 					controller.selectFile(file, breadcrumbs.reverse());
 				};
-				
+
 				scope.isSelected = function (node) {
 					return controller.isSelected(node);
 				};
@@ -183,7 +188,7 @@
 
 					controller.addNode(addEvent, scope.newNodeName, scope.node);
 				};
-				
+
 				scope.isEditing = function () {
 					return isEditing;
 				};
@@ -191,7 +196,7 @@
 				scope.canRemove = function () {
 					return !(scope.hasChildren());
 				};
-				
+
 				scope.remove = function (event, index) {
 					event.stopPropagation();
 					controller.removeNode(scope.node, index, scope.$parent.node);
@@ -253,7 +258,7 @@
 
 				scope.decrement = function () {
 					scope.treeIndex--;
-					if (scope.treeIndex < 1)
+					if (scope.treeIndex <= 1)
 						scope.first = true;
 					else 
 						scope.last = false;
@@ -282,7 +287,6 @@
 						'</a>';
 					//Rendering template.
 					element.html('').append($compile(template)(scope));
-
 				}
 
 				render();

@@ -38,6 +38,7 @@
             
             vm.database = false;
             vm.loading = true;
+            vm.selectedFile = false;
 
             $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
@@ -49,15 +50,15 @@
                  ]},{ name: 'Folder 2', files: [], folders: [] }
                  ]};*/
 
-                console.log(response.data);
 
-                vm.last = response.data.files[0].scores.length - 1;
-
+                vm.last = response.data.files[0].score.length - 1;
                 $scope.structure = response.data;
 
                 $scope.options = {
-                    onNodeSelect: function (node, breadcrums) {
-                        vm.breadcrums = breadcrums;
+
+                    onNodeSelect: function(file, breadcrums) {
+                        $scope.breadcrums = breadcrums;
+                        vm.selectedFile = file;
                     }
                 };
                 vm.files = true;
