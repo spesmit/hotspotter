@@ -84,15 +84,20 @@
         function fileGraph(data) {
             vm.graph = true;
 
+            var repo_start;
+            if (data.score.length > 1) repo_start = data.score[0].Time - (data.score[1].Time - data.score[0].Time); //first commit
+            else repo_start = data.commits[data.commits.length-1].TimeMs; //first commit on file
+            console.log(repo_start);
+
             vm.graph_options = {
             chart: {
                 type: 'multiChart',
                 height: 400,
                 margin : {
                     top: 20,
-                    right: 55,
-                    bottom: 40,
-                    left: 55
+                    right: 65,
+                    bottom: 50,
+                    left: 65
                 },
                 useInteractiveGuideline: true,
                 dispatch: {
@@ -104,29 +109,33 @@
                 lines1 : {
                     x : function (d) { return d.x; },
                     y : function (d) { return d.y; },
-                    forceY: [0]
-                },
-                bars1: {
-                    x : function (d) { return d.x; },
-                    y : function (d) { return d.y; },
-                    forceY: [0]
+                    forceY: [0,1],
+                    forceX: [repo_start]
                 },
                 
                 xAxis: {
-                    axisLabel: 'Time (ns)'
+                    axisLabel: 'Time (ns)',
+                    tickFormat: function(d){
+                        return d3.time.format('%x')(new Date(d));
+                    },
+                    rotateLabels: 30
                 },
                 yAxis1: {
                     axisLabel: 'Score',
                     tickFormat: function(d){
-                        return d3.format('.05f')(d);
-                    },
-                    axisLabelDistance: -20
-                },
-                yAxis2: {
-                    axisLabel: 'Bug Commits',
-                    axisLabelDistance: 20
+                        return d3.format('.2f')(d);
+                    }
                 },
                 duration : 0,
+                zoom: {
+                    enabled: true,
+                    scaleExtent: [1, 10],
+                    useFixedDomain: false,
+                    useNiceScale: false,
+                    horizontalOff: false,
+                    verticalOff: true,
+                    unzoomEventType: 'dblclick.zoom'
+                },
                 callback: function(chart){
                     console.log("!!! lineChart callback !!!");
                 }
@@ -137,7 +146,7 @@
             },
             subtitle: {
                 enable: true,
-                text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
+                text: 'subtitle',
                 css: {
                     'text-align': 'center',
                     'margin': '10px 13px 0px 7px'
@@ -145,12 +154,13 @@
             },
             caption: {
                 enable: true,
-                html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
+                html: '<b>Figure 1.</b> caption', 
                 css: {
                     'text-align': 'justify',
                     'margin': '10px 13px 0px 7px'
-                    }
                 }
+            }
+            
             };
 
             console.log(data);
