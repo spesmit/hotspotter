@@ -33,3 +33,7 @@
 .file-details ul {
     list-style-type: none;
 }
+
+#graphModal .modal-dialog {
+    width: 75%;
+}

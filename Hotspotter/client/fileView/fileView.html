@@ -33,13 +33,29 @@
                         <li>Last Touched By: {{ vm.selectedFile.last_touched_by }}</li>
                         <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
                     </ul>
-                    <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)'>Graph</button>
+                    <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)' data-toggle="modal" data-target="#graphModal">Graph</button>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-if="vm.graph == true" class="float pull-center">
-        <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
-    </div>
-</div>
+    <!-- Modal -->
+    <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Hotspot Score versus Time</h4>
+          </div>
+          <div class="modal-body">
+            <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>`
+</div>
