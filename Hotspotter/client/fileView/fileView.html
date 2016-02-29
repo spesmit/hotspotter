@@ -1,7 +1,7 @@
 <div class="container" ng-controller="fileViewCtrl as vm">
     <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
-        <div ng-if='vm.database == false'><button class="btn btn-primary pull-right" ng-click='vm.clearView()'>Back</button></div>
+        <div ng-if='!vm.database && !vm.loading'><button class="btn btn-primary pull-right" ng-click='vm.clearView()'>Back</button></div>
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.database == true">
                 <label class="control-label">Database:</label>
@@ -12,9 +12,11 @@
                     <br>
                 </div>
             </div>
-            
-
-            <div ng-if="vm.files && vm.database == false">
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBallGif.gif">
+                Preheating...
+            </div>
+            <div ng-if="vm.files && !vm.database">
                 <div style="display: block">
                     <div class="legend-label"><label>Legend</label></div>
                     <div><span class="hot-label" >Hot</span></div>
@@ -23,12 +25,8 @@
                 </div>
                 <br>
                 <label class="control-label">File System:</label>
-                <div id="loading" ng-show="vm.loading">
-                    <img src = "/images/fireBallGif.gif">
-                    Preheating...
-                </div>
                 <div tree-view="structure" tree-view-options="options" tree-index="vm.index"></div>
-                <div ng-if="vm.selectedFile" class="file-details">
+                <div ng-if="vm.selectedFile && !vm.loading" class="file-details">
                     <h1>{{vm.selectedFile.name}}</h1>
                     <ul>
                         <li>{{ ((1 - vm.selectedFile.score[vm.index].Score) * 100).toFixed(1) }}% Likelihood of Containing Bugs</li>
