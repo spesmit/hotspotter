@@ -9,7 +9,7 @@
 		collapsible: true,
 	}
 	);
-	
+
 	module.directive('treeView', ['$q', 'treeViewDefaults', function ($q, treeViewDefaults) {
 
 		return {
@@ -30,7 +30,7 @@
 					'<div tree-view-node="treeView">' +
 					'</div>' +
 				'</div>',
-			
+
 			controller: ['$scope', function ($scope) {
 				var self = this,
 					selectedNode,
@@ -65,8 +65,8 @@
 					}
 					selectedFile = file;
 
-					if (typeof $scope.treeViewOptions.onNodeSelect === "function") {
-						$scope.treeViewOptions.onNodeSelect(file, breadcrumbs);
+					if (typeof $scope.treeViewOptions.onFileSelect === "function") {
+						$scope.treeViewOptions.onFileSelect(file, breadcrumbs);
 					}
 				};
 
@@ -120,7 +120,7 @@
 				//scope.newNodeName = '';
 				//scope.addErrorMessage = '';
 				//scope.editName = '';
-				//scope.editErrorMessage = '';;                
+				//scope.editErrorMessage = '';;
 
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
@@ -253,14 +253,14 @@
 						scope.last = true;
 					else
 						scope.first = false;
-					
+
 				};
 
 				scope.decrement = function () {
 					scope.treeIndex--;
 					if (scope.treeIndex < 1)
 						scope.first = true;
-					else 
+					else
 						scope.last = false;
 
 				};

@@ -33,7 +33,7 @@
         //This function takes care of finding the repository and bringing back its filetree and scores
         function viewRepository(repoURL) {
             // list of file paths
-            
+
             vm.database = false;
             vm.loading = true;
             vm.selectedFile = false;
@@ -55,7 +55,7 @@
 
                 $scope.options = {
 
-                    onNodeSelect: function(file, breadcrums) {
+                    onFileSelect: function(file, breadcrums) {
                         $scope.breadcrums = breadcrums;
                         vm.selectedFile = file;
                     }
@@ -112,7 +112,7 @@
                     forceY: [0,1],
                     forceX: [repo_start]
                 },
-                
+
                 xAxis: {
                     axisLabel: 'Time (ns)',
                     tickFormat: function(d){
@@ -154,13 +154,13 @@
             },
             caption: {
                 enable: true,
-                html: '<b>Figure 1.</b> caption', 
+                html: '<b>Figure 1.</b> caption',
                 css: {
                     'text-align': 'justify',
                     'margin': '10px 13px 0px 7px'
                 }
             }
-            
+
             };
 
             console.log(data);
