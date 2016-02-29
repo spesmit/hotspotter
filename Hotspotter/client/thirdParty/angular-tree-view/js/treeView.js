@@ -258,7 +258,7 @@
 
 				scope.decrement = function () {
 					scope.treeIndex--;
-					if (scope.treeIndex <= 1)
+					if (scope.treeIndex < 1)
 						scope.first = true;
 					else 
 						scope.last = false;
