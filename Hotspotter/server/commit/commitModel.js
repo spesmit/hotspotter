@@ -8,5 +8,7 @@ module.exports = mongoose.model('Commit', {
     Time: Date,
     BugFix: Boolean,
     Hash: String,
-    Author: String
+    Author: String,
+    Score: Number,
+    TimeMs: Number
 })
