@@ -96,7 +96,7 @@
                 margin : {
                     top: 20,
                     right: 65,
-                    bottom: 50,
+                    bottom: 75,
                     left: 65
                 },
                 useInteractiveGuideline: true,
@@ -114,7 +114,7 @@
                 },
 
                 xAxis: {
-                    axisLabel: 'Time (ns)',
+                    axisLabel: 'Time',
                     tickFormat: function(d){
                         return d3.time.format('%x')(new Date(d));
                     },
