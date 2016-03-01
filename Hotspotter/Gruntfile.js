@@ -66,14 +66,14 @@ module.exports = function(grunt) {
                 src: EXTERNAL_JS_FILES,
                 dest: 'client/third-party.js'
             },
-	    internal_css: {
-		src: INTERNAL_CSS_FILES,
-		dest: 'client/styles.css'
-	    },
-	    external_css: {
-		src: EXTERNAL_CSS_FILES,
-		dest: 'client/third-party.css'
-	    }
+    	    internal_css: {
+        		src: INTERNAL_CSS_FILES,
+        		dest: 'client/styles.css'
+    	    },
+    	    external_css: {
+        		src: EXTERNAL_CSS_FILES,
+        		dest: 'client/third-party.css'
+    	    }
         },
         watch: {
             dev: {

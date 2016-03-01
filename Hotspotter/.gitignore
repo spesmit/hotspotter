@@ -10,7 +10,8 @@ node_modules
 #Concat Files#
 internal.js
 third-party.js
-
+styles.css
+third-party.css
 
 #git parsing dir
 
