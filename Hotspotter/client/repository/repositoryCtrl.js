@@ -41,10 +41,8 @@
 
             if (typeof status === 'undefined') {
                 status = {
-                    scan : true,
-                    update : false,
-                    score : true,
-                    remove : false
+                    scan : false,
+                    score : false
                 };
             }
 

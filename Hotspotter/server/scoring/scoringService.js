@@ -207,33 +207,3 @@ exports.scoreSections = function(repo, divisions, options, callback) {
         return callback(null, repo)
     })
 }
-
-exports.createGraphData = function (repo, callback) {
-    var data = []
-
-    for (var i = 0; i < repo.Files.length; i++) {
-        var points = []
-        var commits = []
-        for (var j = 0; j < repo.Files[i].Scores.length; j++) {
-            points.push({x: repo.Files[i].Scores[j].Time, y: repo.Files[i].Scores[j].Score})   
-        }
-
-        for (var j = 0; j < repo.Files[i].Commits.length; j++) {
-            
-            commits.push({x: repo.Files[i].Commits[j].TimeMs, y: (repo.Files[i].Commits[j].BugFix ? 1 : 0)})   
-        }
-
-        var file = repo.Files[i].FullPath.replace(/.*\//,'')
-        data.push({
-            values: points,
-            key: file,
-            color: '#2ca02c'
-        })
-
-        data.push({
-            values : commits,
-            key : 'commits'
-        })
-    }
-    callback(null, data)
-}
