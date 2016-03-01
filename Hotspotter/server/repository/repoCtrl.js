@@ -9,10 +9,11 @@ var async = require("async")
 var crypto    = require("crypto")
 
 var sha1      = function(input) {
-  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
-};
+  return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex')
+}
 
 module.exports.create = function (req, res) {
+
     var repoUrl = req.params.repoUrl;
     var repo = new Repo();
     repo.URL = repoUrl;
@@ -28,13 +29,13 @@ module.exports.create = function (req, res) {
                 res.json(result)
             })
         }
-    })
-    
+    })    
 }
 
 module.exports.list = function (req, res) {
-    Repo.find({}, function (err, results) {
-        res.json(results)
+    repoService.listRepo(function (err, list) {
+        if (err) console.log("ERR: " + err)
+        else res.json(list)
     })
 }
 
@@ -43,6 +44,7 @@ module.exports.view = function (req, res) {
     var repoURL     = req.params.repo
     var repoURLHash = sha1(repoURL)
     var repoPath    = "tempProjects/" + repoURLHash
+    var sections    = 10
 
 
     Repo.findOne({ URL : repoURL }, function(err, repo) {
@@ -60,16 +62,13 @@ module.exports.view = function (req, res) {
                     } else {
                         // get file commits
                         gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
-                            scoringService.scoringAlgorithm(repo, function (err, repo) {
-                                scoringService.normalizeScore(repo, function (err, repo) {
-
-                                    // store file metadata in database
-                                    // fileService.storeFiles(repo, function (err, res) {
-                                    //     if (err) console.log(err)
-                                    // })
+                            console.log("Files scanned...")
+                            scoringService.scoreSections(repo, sections, function (err, repo) {
+                                scoringService.normalizeSection(repo, function (err, repo) {
 
                                     repoService.updateRepo(repo, function (err, res) {
                                         if (err) console.log(err)
+                                        else console.log("Files stored...")
                                     })
 
                                     // create fileView tree for GUI

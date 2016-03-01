@@ -15,7 +15,10 @@ module.exports = function(grunt) {
             BOWER_DIR + "/angular-route/angular-route.js",
 	        BOWER_DIR + "/angular-tree-view/js/treeView.js",
             BOWER_DIR + "/bootstrap/dist/js/bootstrap.js",
-            BOWER_DIR + "/ng-lodash/build/ng-lodash.js"
+            BOWER_DIR + "/angular-nvd3/dist/angular-nvd3.js",
+            BOWER_DIR + "/ng-lodash/build/ng-lodash.js",
+            BOWER_DIR + "/d3/d3.js",
+            BOWER_DIR + "/nvd3/build/nv.d3.js"
 
 
         ],
@@ -25,9 +28,16 @@ module.exports = function(grunt) {
             CLIENT_DIR + "/fileView/*.js",
             CLIENT_DIR + "/admin/*.js",
             CLIENT_DIR + "/repository/*.js",
+            CLIENT_DIR + "/data/*.js",
             CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js",
             "!" + CLIENT_DIR + "/**/*Spec.js"
-        ];
+        ],
+	INTERNAL_CSS_FILES = [
+	    CLIENT_DIR + "/**/*.css"
+	],
+	EXTERNAL_CSS_FILES = [
+	    BOWER_DIR + "/bootstrap/dist/css/bootstrap.min.css"
+	];
 
     // ===========================================================================
     // CONFIGURE GRUNT ===========================================================
@@ -56,7 +66,15 @@ module.exports = function(grunt) {
             external: {
                 src: EXTERNAL_JS_FILES,
                 dest: 'client/third-party.js'
-            }
+            },
+    	    internal_css: {
+        		src: INTERNAL_CSS_FILES,
+        		dest: 'client/styles.css'
+    	    },
+    	    external_css: {
+        		src: EXTERNAL_CSS_FILES,
+        		dest: 'client/third-party.css'
+    	    }
         },
         watch: {
             dev: {

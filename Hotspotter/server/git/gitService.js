@@ -45,6 +45,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
             // Loop through commits in log and add to Commits array
             commits = []
             commitsLog = log.all
+            count = 0
             async.each(commitsLog, function (commit, callback) {
                 // Determine if commit was a bug fixing commits
                 // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
@@ -54,6 +55,10 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                     commit.message.indexOf('resolve')!= -1) {
                         bugfix = true
                 }
+
+                if (commit.date == null) console.log(commit.date)
+                if (commit.date === 'undefined') console.log(commit.date)
+
                 commits.push(new Commit({
                     Time: commit.date,
                     Hash: commit.hash,
@@ -77,7 +82,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         if(err) return callback(err)
         
         simpleGit.log(function (err, log) {
-            console.log(log)
+            //console.log(log)
             repo.Files = files
             repo.FirstModified = log.all[log.all.length - 1].date
             repo.LastModified = log.all[0].date

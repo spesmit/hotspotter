@@ -6,28 +6,47 @@
 		filesProperty: 'files',
 		displayProperty: 'name',
 		scoreProperty: 'score',
-		collapsible: true
-	});
-	
+		collapsible: true,
+	}
+	);
+
 	module.directive('treeView', ['$q', 'treeViewDefaults', function ($q, treeViewDefaults) {
+
 		return {
 			restrict: 'A',
 			scope: {
 				treeView: '=treeView',
-				treeViewOptions: '=treeViewOptions'
+				treeViewOptions: '=treeViewOptions',
+				treeIndex: '=treeIndex'
 			},
 			replace: true,
 			template:
 				'<div class="tree">' +
+					'<div>' +
+						'<button class="btn btn-primary" ng-disabled="first" ng-click="decrement()">&lt;</button>' +
+						'<span> Snapshot: {{ treeIndex + 1 }} </span>' +
+			        	'<button class="btn btn-primary" ng-disabled="last" ng-click="increment()">&gt;</button>' +
+					'</div>' +
 					'<div tree-view-node="treeView">' +
 					'</div>' +
 				'</div>',
+
 			controller: ['$scope', function ($scope) {
 				var self = this,
 					selectedNode,
 					selectedFile;
 
 				var options = angular.extend({}, treeViewDefaults, $scope.treeViewOptions);
+
+				$scope.total = $scope.treeIndex;
+
+				if ($scope.treeIndex === 0) {
+					$scope.last = true;
+					$scope.first = true;
+				} else {
+					$scope.last = true;
+					$scope.first = false;
+				}
 
 				self.selectNode = function (node, breadcrumbs) {
 					if (selectedFile) {
@@ -46,11 +65,11 @@
 					}
 					selectedFile = file;
 
-					if (typeof options.onNodeSelect === "function") {
-						options.onNodeSelect(file, breadcrumbs);
+					if (typeof $scope.treeViewOptions.onFileSelect === "function") {
+						$scope.treeViewOptions.onFileSelect(file, breadcrumbs);
 					}
 				};
-				
+
 				self.isSelected = function (node) {
 					return node === selectedNode || node === selectedFile;
 				};
@@ -66,7 +85,7 @@
 						options.onRemoveNode(node, index, parent);
 					}
 				};
-				
+
 				self.renameNode = function (event, node, name) {
 					if (typeof options.onRenameNode === "function") {
 						return options.onRenameNode(event, node, name);
@@ -74,11 +93,13 @@
 					return true;
 				};
 				*/
+
 				self.getOptions = function () {
 					return options;
 
 				};
 			}]
+
 		};
 	}]);
 
@@ -100,16 +121,17 @@
 				//scope.addErrorMessage = '';
 				//scope.editName = '';
 				//scope.editErrorMessage = '';;
+
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
 				};
-				
+
 				scope.getFileIconClass = typeof options.mapIcon === 'function' ?
 					 options.mapIcon
 					: function (file) {
 						return 'icon-file';
 					};
-				
+
 				scope.hasChildren = function () {
 					var node = scope.node;
 					return Boolean(node && (node[foldersProperty] && node[foldersProperty].length) || (node[filesProperty] && node[filesProperty].length));
@@ -145,7 +167,7 @@
 					}
 					controller.selectFile(file, breadcrumbs.reverse());
 				};
-				
+
 				scope.isSelected = function (node) {
 					return controller.isSelected(node);
 				};
@@ -166,7 +188,7 @@
 
 					controller.addNode(addEvent, scope.newNodeName, scope.node);
 				};
-				
+
 				scope.isEditing = function () {
 					return isEditing;
 				};
@@ -174,7 +196,7 @@
 				scope.canRemove = function () {
 					return !(scope.hasChildren());
 				};
-				
+
 				scope.remove = function (event, index) {
 					event.stopPropagation();
 					controller.removeNode(scope.node, index, scope.$parent.node);
@@ -225,6 +247,24 @@
 				};
 				*/
 
+				scope.increment = function () {
+					scope.treeIndex++;
+					if (scope.treeIndex > scope.total-1)
+						scope.last = true;
+					else
+						scope.first = false;
+
+				};
+
+				scope.decrement = function () {
+					scope.treeIndex--;
+					if (scope.treeIndex < 1)
+						scope.first = true;
+					else
+						scope.last = false;
+
+				};
+
 				function toggleExpanded() {
 					//if (!scope.hasChildren()) return;
 					scope.expanded = !scope.expanded;
@@ -242,10 +282,9 @@
 								'</div>' +
 							'</div>' +
 						'</div>' +
-						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + ')*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
+						'<a href="#" style="background: hsl({{ (file.' + scoreProperty + '[treeIndex].Score)*150 }},80%,50%)" class="tree-item" ng-repeat="file in ' + attrs.treeViewNode + '.' + filesProperty + '" ng-click="selectFile(file, $event)" ng-class="{ selected: isSelected(file) }">' +
 							'<span class="tree-item-name"><i ng-class="getFileIconClass(file)"></i> {{ file.' + displayProperty + ' }}</span>' +
 						'</a>';
-
 					//Rendering template.
 					element.html('').append($compile(template)(scope));
 				}

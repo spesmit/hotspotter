@@ -5,11 +5,13 @@
         'ngRoute',
         'ngResource',
         'AxelSoft',
+        'nvd3',
         'ngLodash',
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
         'hotspotter.adminCtrl',
-        'hotspotter.repositoryCtrl'
+        'hotspotter.repositoryCtrl',
+        'hotspotter.dataCtrl'
     ]);
 //==================================Route Provider==============================================================
 // Definitions of what happens when urls are hit. This defines the controller and the html page it needs to render
@@ -36,6 +38,13 @@
             '/admin', {
                 templateUrl: 'admin/admin.html',
                 pageName: 'Admin'
+            });
+
+        $routeProvider.when(
+            '/data', {
+                templateUrl: 'data/data.html',
+                pageName: 'data',
+                controller: 'dataCtrl'
             });
 
         $routeProvider.otherwise({redirectTo: '/'});

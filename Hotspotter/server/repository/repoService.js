@@ -24,7 +24,13 @@ exports.createTree = function (files, callback) {
             if (path[j] != '/') {
                 // insert file name
                 if (path[j].indexOf('/') < 0) {
-                    tree.files.push({name: path[j], score: files[i].Score})
+                    tree.files.push({
+                        name: path[j],
+                        score: files[i].Scores,
+                        commits: files[i].Commits,
+                        last_touched_by: files[i].Commits[0].Author,
+                        last_updated: files[i].Commits[0].Time
+                    })
                 } else {
                 // find next directory in path
                     var found = 0
@@ -59,5 +65,28 @@ exports.updateRepo = function (repo, callback) {
     Repo.findOneAndUpdate({URL:repo.URL}, data, function (err, result) {
         if (err) return callback(err)
         else return callback(null, result)
+    })
+}
+
+exports.listRepo = function (callback) {
+
+    Repo.find({}, 'URL Status FirstModified LastModified', function (err, results) {
+        if (err) return callback(err)
+        else return callback(null, results)
+    })
+
+}
+
+exports.retrieveRepo = function (repoURL, options, callback) {
+
+    // check for options
+    if (typeof callback === 'undefined') {
+        callback = options
+        options = {}
+    }
+
+    Repo.findOne({ URL : repoURL }, function(err, results) {
+        if (err) return callback(err)
+        else return callback(null, results)
     })
 }
