@@ -133,7 +133,7 @@ exports.normalizeSection = function(repo, options, callback) {
     var max = []
     var min = []
 
-    // Case 0 files or undefined
+    // Case: 0 files or undefined
     if (repo.Files == null || repo.Files.length == 0) {
         return callback("No repo files or undefined")
     }
@@ -143,7 +143,7 @@ exports.normalizeSection = function(repo, options, callback) {
         min[i] = Number.MAX_VALUE
     }
 
-    // Case 1 files
+    // Case: 1 files
     if (repo.Files.length == 1) {
         for (var i = 0; i < repo.Files[0].Scores.length; i++) {
             repo.Files[0].Scores[i].Score = 1
@@ -151,7 +151,7 @@ exports.normalizeSection = function(repo, options, callback) {
 
         return callback(null, repo)
     } else {
-    // Case 2+ files
+    // Case: 2+ files
         for (var j = 0; j < repo.Files.length; j++) {
             for (var i = 0; i < repo.Files[j].Scores.length; i++) {
                 var score = repo.Files[j].Scores[i].Score

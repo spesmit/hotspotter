@@ -202,7 +202,7 @@
                     yAxis : 1,
                     type : 'line',
                     values : bcommits,
-                    key : 'Bug Commits',
+                    key : 'Fix Commits',
                     color : "red"
                 });
             }

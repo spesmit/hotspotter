@@ -16,22 +16,28 @@
             <div ng-if="vm.reposelected == true">
                 <label class="control-label">Repository:</label>
                 <div class="clearfix">{{vm.selected.URL}}
-                    <form name="snapshot">
+                    <form name="snapshots">
                         <div class="form-group">
                             <label class="control-label" for="snapshot">Snapshots:</label>
                             <input  type="text"
                                     ng-model="vm.snapshot" required
-                                    pattern="\d+\"
+                                    pattern="\d+"
                                     id="snapshot" 
                                     class="form-control" 
                                     placeholder="100"/>
                         </div>
-                        <button ng-disabled="addRepo.$invalid || !vm.selected.Status.scan" ng-click ='scoreRepo' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
+                        <label>Default:
+                            <input type="checkbox" ng-model="vm.default">
+                        </label><br/>
+                        <label>Commit Size:
+                            <input type="checkbox" ng-model="vm.commit_size">
+                        </label><br/>
+                        <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
                     </form>
                     <br><br><br>
-                    <button class="btn btn-primary" ng-click='scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
-                    <button class="btn btn-primary" ng-click='updateRepo(vm.selected.URL)'>Update</button>
-                    <button class="btn btn-primary" ng-click='removeRepo(vm.selected.URL)'>Remove</button>
+                    <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
+                    <button class="btn btn-primary" ng-click='vm.updateRepo(vm.selected.URL)'>Update</button>
+                    <button class="btn btn-primary" ng-click='vm.removeRepo(vm.selected.URL)'>Remove</button>
                 </div>
             </div>
         </div>

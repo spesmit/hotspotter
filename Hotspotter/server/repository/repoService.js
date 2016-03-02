@@ -77,6 +77,27 @@ exports.listRepo = function (callback) {
 
 }
 
+exports.createRepo = function (repo, callback) {
+
+    repo.save(function (err, result) {
+        if (err) return callback(err)
+        else return callback(null, results)
+    })
+}
+
+exports.removeRepo = function (repoURL, callback) {
+
+    Repo.remove({URL: repoURL}, function(err, results) {
+        if (err) {
+            return callback(err)
+        } else {
+            console.log('\n' + repoURL + ' repo deleted... \n')
+            return callback(null)
+        }
+    })
+}
+
+
 exports.retrieveRepo = function (repoURL, options, callback) {
 
     // check for options
@@ -87,6 +108,7 @@ exports.retrieveRepo = function (repoURL, options, callback) {
 
     Repo.findOne({ URL : repoURL }, function(err, results) {
         if (err) return callback(err)
-        else return callback(null, results)
+        if (results) return callback(null, results) 
+        else return callback("Not Found: " + repoURL)
     })
 }

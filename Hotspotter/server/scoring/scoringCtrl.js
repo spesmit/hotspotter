@@ -36,8 +36,18 @@ module.exports.scoreSection = function (req, res) {
                 if (err) console.log("ERR: " + err)
                 else {
                     scoringService.normalizeSection(repo, function (err, repo) {
-                         if (err) console.log("ERR: " + err)
+                        if (err) console.log("ERR: " + err)
                         else {
+
+                            repoService.updateRepo(repo, function (err, res) {
+                                if (err) {
+                                    console.log("ERR: " + err)
+                                    res.json({})
+                                } else {
+                                    console.log("Scores stored...")
+                                }
+                            })
+
                             res.json(repo)   
                         }
                     })    

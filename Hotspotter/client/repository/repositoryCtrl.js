@@ -9,7 +9,6 @@
         vm.database = true;
         vm.reposelected = false;
         vm.selected = {};
-        vm.snapshot = 1;
 
         //"Global Functions"
         vm.init =  init;
@@ -41,7 +40,7 @@
 
             if (typeof status === 'undefined') {
                 status = {
-                    scan : false,
+                    scan : true,
                     score : false
                 };
             }
@@ -71,16 +70,22 @@
             vm.selected = {};
         }
 
-        function scanRepo() {
-            
+        function scanRepo(repoUrl) {
+           
+            $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
+                console.log(response.data);
+            });
         }
 
         function updateRepo() {
             
         }
 
-        function scoreRepo() {
-            
+        function scoreRepo(repoUrl, snapshots) {
+
+            $http.get('/api/repo/score/'+ encodeURIComponent(repoUrl) + '/' +  encodeURIComponent(snapshots)).then( function (response){
+                console.log(response.data);
+            });
         }
 
         function removeRepo() {
