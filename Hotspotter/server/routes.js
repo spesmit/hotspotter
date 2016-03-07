@@ -12,6 +12,7 @@ module.exports = function(app) {
     app.delete('/api/repo/:repoUrl', repoCtrl.clear)
     app.get('/api/repo/scan/:repoUrl', repoCtrl.scan)
     app.get('/api/repo/score/:repoUrl/:sections', repoCtrl.score)
+    app.get('/api/repo/update/:repoUrl', repoCtrl.update)
 
     //File Api Endpoints
     app.get('/api/file/:repoUrl', fileCtrl.list)

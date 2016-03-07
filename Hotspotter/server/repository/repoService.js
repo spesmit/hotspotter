@@ -68,6 +68,13 @@ exports.updateRepo = function (repo, callback) {
     })
 }
 
+exports.updateStatus = function (repoURL, status, callback) {
+    Repo.findOneAndUpdate({URL:repoURL}, {$set:{status:status}}, {new: true}, function (err, result) {
+        if (err) return callback(err)
+        else return callback(null, result)
+    })
+}
+
 exports.listRepo = function (callback) {
 
     Repo.find({}, 'URL Status FirstModified LastModified', function (err, results) {
@@ -81,7 +88,7 @@ exports.createRepo = function (repo, callback) {
 
     repo.save(function (err, result) {
         if (err) return callback(err)
-        else return callback(null, results)
+        else return callback(null, result)
     })
 }
 

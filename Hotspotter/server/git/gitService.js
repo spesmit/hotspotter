@@ -31,6 +31,24 @@ exports.gitCheckout = function (repoURL, callback) {
         })
 }
 
+exports.gitPull = function (repoURL, callback) {
+   
+    var repoURLHash = sha1(repoURL)
+    var repoPath = localPath + "/" + repoURLHash
+    var simpleGitPull = require('simple-git')(repoPath)
+    console.log("REPO URL: " + repoURL)
+    console.log("REPO HASH: " + repoURLHash)
+    simpleGitPull
+        .outputHandler(function (command, stdout, stderr) {
+            stdout.pipe(process.stdout)
+            stderr.pipe(process.stderr)
+        })
+        .pull(repoURL, function(err) {
+            if (err) callback(err)
+            else callback(null)
+        })
+}
+
 exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
     var simpleGit = require('simple-git')("./" + repoPath)
     var files = []

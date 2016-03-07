@@ -3,6 +3,7 @@ var gitService = require('../git/gitService')
 var fileService = require('../file/fileService')
 var repoService = require('./repoService')
 var scoringService = require('../scoring/scoringService')
+var fsService = require('../fs/fsService')
 var File = require('../file/fileModel')
 var async = require("async")
 var crypto    = require("crypto")
@@ -123,15 +124,23 @@ module.exports.view = function (req, res) {
 
 module.exports.clear = function (req, res) {
     var repoURL = req.params.repoUrl
-    //console.log(repoURL)
-     repoService.listRepo(function (err, repoURL) {
+    var repoURLHash = sha1(repoURL)
+    var repoPath    = "tempProjects/" + repoURLHash
+
+    fsService.removeRepoFiles(repoPath, function (err) {
         if (err) {
             console.log("ERR: " + err)
             res.json([])
         } else {
-            console.log('\n' + repoURL + ' repo deleted... \n');
-            res.write(JSON.stringify({ status: 'DELETED' }));
-            res.end();
+            repoService.removeRepo(repoURL, function (err, repoURL) {
+                if (err) {
+                    console.log("ERR: " + err)
+                    res.json([])
+                } else {
+                    res.write(JSON.stringify({ status: 'DELETED' }));
+                    res.end();
+                }
+            })
         }
     })
 }
@@ -167,6 +176,26 @@ module.exports.scan = function (req, res) {
     })
 }
 
+
+module.exports.update = function (req, res) {
+    var repoURL     = req.params.repoUrl
+    repoService.retrieveRepo(repoURL, function (err, repo) {
+        if (err) {
+            console.log("ERR: " + err)
+            res.json({})
+        } else {
+            gitService.gitPull(repoURL, function (err, repo) {
+                if (err) {
+                    console.log("ERR: " + err)
+                    res.json({})
+                } else {
+                    res.json({})
+                }
+            })
+        }
+    })
+}
+
 module.exports.score = function (req, res) {
     var repoURL     = req.params.repoUrl
     var snapshots   = req.params.sections
@@ -192,7 +221,7 @@ module.exports.score = function (req, res) {
                                     console.log("ERR: " + err)
                                     res.json({})
                                 } else {
-                                    console.log("Files stored...")
+                                    console.log("Scores stored...")
                                 }
                             })
                             res.json(repo)

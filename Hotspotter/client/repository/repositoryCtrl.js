@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.repositoryCtrl', []);
-    ngModule.controller('repositoryCtrl', function ($scope, $http) {
+    ngModule.controller('repositoryCtrl', function ($scope, $http, lodash) {
 
         //"Global Variables"
         var vm = this;
@@ -77,8 +77,10 @@
             });
         }
 
-        function updateRepo() {
-            
+        function updateRepo(repoUrl) {
+            $http.get('/api/repo/update/'+ encodeURIComponent(repoUrl)).then( function (response){
+                console.log(response.data);
+            });
         }
 
         function scoreRepo(repoUrl, snapshots) {
@@ -88,8 +90,12 @@
             });
         }
 
-        function removeRepo() {
-
+        function removeRepo(repoUrl) {
+            $http.delete('/api/repo/'+ encodeURIComponent(repoUrl)).then( function (response){
+                var index = lodash.findIndex(vm.repos, {'URL': repoUrl});
+                vm.repos.splice(index, 1);
+                clearRepo();
+            });
         }
 
     });
