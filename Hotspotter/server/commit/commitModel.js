@@ -10,5 +10,12 @@ module.exports = mongoose.model('Commit', {
     Hash: String,
     Author: String,
     Score: Number,
-    TimeMs: Number
+    TimeMs: Number,
+    Content: [],
+    Deletions: Number,
+    Additions: Number,
+    New: Boolean,
+    From: String,
+    To: String,
+    index: []
 })

@@ -72,10 +72,11 @@ exports.scanFiles = function (repoPath, repo, callback) {
             gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
                 if (err) return callback(err)
                 else {
-                	console.log("Files scanned...")
-                	return callback(null, repo)
+                    console.log("Files scanned...")
+                    return callback(null, repo)
                 }
         	})
+
         }
     })
 }
