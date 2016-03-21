@@ -121,7 +121,7 @@
                     rotateLabels: 30
                 },
                 yAxis1: {
-                    axisLabel: 'Score',
+                    axisLabel: 'Score (Cold to Hot)',
                     tickFormat: function(d){
                         return d3.format('.2f')(d);
                     }
@@ -143,24 +143,7 @@
             title: {
                 enable: true,
                 text: data.name + ' lifetime'
-            },
-            subtitle: {
-                enable: true,
-                text: 'subtitle',
-                css: {
-                    'text-align': 'center',
-                    'margin': '10px 13px 0px 7px'
-                }
-            },
-            caption: {
-                enable: true,
-                html: '<b>Figure 1.</b> caption',
-                css: {
-                    'text-align': 'justify',
-                    'margin': '10px 13px 0px 7px'
-                }
             }
-
             };
 
             console.log(data);
@@ -185,7 +168,7 @@
                     type : 'line',
                     values : points,
                     key : data.name,
-                    color : "green"
+                    color : "gray"
                 });
             }
             if (commits.length > 0) {
