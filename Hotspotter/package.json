@@ -24,6 +24,7 @@
     "method-override": "~2.0.2",
     "mocha": "^2.3.4",
     "mongoose": "^4.1.2",
+    "parse-diff": "^0.3.2",
     "phantomjs-prebuilt": "^2.1.4",
     "simple-git": "^1.11.0"
   },

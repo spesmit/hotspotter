@@ -71,6 +71,8 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
 
             exec('git log -p --pretty=format:%H --follow ' + path,  { cwd: './'+repoPath }, function(err, std, stderr) {
 
+                if (err) callback(err)
+
                 async.each(commitsLog, function (commit, callback) {
                     // Determine if commit was a bug fixing commits
                     // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
@@ -125,10 +127,10 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                         Hash: commit.hash,
                         Author: commit.author_name,
                         BugFix: bugfix,
-                        Content: content,
+                        //Content: content,
                         Additions: additions,
                         Deletions: deletions,
-                        Index: index,
+                        //Index: index,
                         To: to,
                         From: from,
                         New: fileNew
@@ -154,7 +156,6 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         if(err) return callback(err)
         
         simpleGit.log(function (err, log) {
-            //console.log(log)
             repo.Files = files
 
             repo.FirstModified = log.all[log.all.length - 1].date

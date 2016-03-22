@@ -8,6 +8,9 @@ var scoringService = require('./scoringService')
 
 exports.scoringAlgorithm = function (repo, options, callback) {
 
+    var addWeight = 1.0
+    var delWeight = 1.0
+
     // check for options
     if (typeof callback === 'undefined') {
         callback = options
@@ -25,7 +28,8 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     }
 
     if (options.Bug == null) options.Bug = false
-
+    if (options.Additions == null) options.Additions = false
+    if (options.Deletions == null) options.Deletions = false
 
  	async.each(repo.Files, function (file, callback) {
         var sumScore = []
@@ -49,6 +53,13 @@ exports.scoringAlgorithm = function (repo, options, callback) {
                         var t = (((commitTime-options.Section[j].First)/(options.Section[j].Last-options.Section[j].First)))
                         // calculate score
                         var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
+
+                        // Weight score base off size
+                        if (options.Additions) 
+                            if (file.Commits[i].Additions > 0) commitScore * file.Commits[i].Additions * addWeight
+                        if (options.Deletions) 
+                            if (file.Commits[i].Deletions > 0) commitScore * file.Commits[i].Deletions * delWeight
+
                         
                         file.Commits[i].Score = commitScore
                         file.Commits[i].TimeMs = commitTime
