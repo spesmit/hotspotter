@@ -36,8 +36,7 @@
 
             vm.database = false;
             vm.loading = true;
-            vm.selectedFile = false;
-
+            
             $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
                 // Example structure

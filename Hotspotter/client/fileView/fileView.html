@@ -15,6 +15,7 @@
             <div id="loading" ng-show="vm.loading">
                 <img src = "/images/fireBallGif.gif">
                 Preheating...
+            </div>
             <div ng-if="vm.files && !vm.database">
                 <div style="display: block">
                     <div class="legend-label"><label>Legend</label></div>
@@ -33,7 +34,7 @@
                         <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
                     </ul>
                     <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)' onclick='setTimeout(
-                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 3000)' data-toggle="modal" data-target="#graphModal">Graph</button>
+                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 1000)' data-toggle="modal" data-target="#graphModal">Graph</button>
                 </div>
             </div>
         </div>

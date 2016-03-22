@@ -28,11 +28,11 @@
     position: fixed;
     top: 60px;
     left:0;
+    margin-left: 100px;
 }
 
 .file-details ul {
     list-style-type: none;
-    margin-left: 100px;
 }
 
 #graphModal .modal-dialog {
@@ -53,8 +53,7 @@
     height: 305px;
     width: 1%;
 }
-.graph-body{
+.graph-body {
     float: right;
     width: 99%;
-
 }
