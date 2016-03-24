@@ -68,8 +68,9 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
             commits = []
             var commitsLog = log.all
             count = 0
+            var fileHash = sha1(filePath)
 
-            exec('git log -p --pretty=format:%H --follow ' + path,  { cwd: './'+repoPath }, function(err, std, stderr) {
+            exec('git log -p --pretty=format:%H --follow ' + path + ' > ' + '.' + fileHash + '.txt',  { cwd: './'+repoPath }, function(err, std, stderr) {
 
                 if (err) callback(err)
 
@@ -83,44 +84,41 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                             bugfix = true
                     }
 
+                    // var hashIndex = std.indexOf(commit.hash)
+                    // var newLineIndex = std.indexOf('\n\n', hashIndex)
 
-                    var hashIndex = std.indexOf(commit.hash)
-                    var newLineIndex = std.indexOf('\n\n', hashIndex)
+                    // if (newLineIndex == -1) newLineIndex = std.length-1;
 
-                    if (newLineIndex == -1) newLineIndex = std.length-1;
+                    // //console.log(hashIndex + " " + newLineIndex)
 
-                    //console.log(hashIndex + " " + newLineIndex)
+                    // var diffObject = null
+                    // var diff = std.substring(hashIndex, newLineIndex)
 
-                    var diffObject = null
-                    var diff = std.substring(hashIndex, newLineIndex)
+                    // var content = [], additions, deletions, index = [], to, from, fileNew
 
-                    var content = [], additions, deletions, index = [], to, from, fileNew
+                    // if (diff.indexOf('similarity index 100%') == -1) {
+                    //     diffObject = diffParse(diff)
 
-                    if (diff.indexOf('similarity index 100%') == -1) {
-                        diffObject = diffParse(diff)
+                    //     content = diffObject[0].chunks
+                    //     additions = diffObject[0].additions
+                    //     deletions = diffObject[0].deletions
+                    //     index = diffObject[0].index
+                    //     to = diffObject[0].to
+                    //     from = diffObject[0].from
+                    //     fileNew = false
+                    //     if (diffObject[0].new) fileNew = true 
 
-                        //console.log(diffObject)
-
-                        content = diffObject[0].chunks
-                        additions = diffObject[0].additions
-                        deletions = diffObject[0].deletions
-                        index = diffObject[0].index
-                        to = diffObject[0].to
-                        from = diffObject[0].from
-                        fileNew = false
-                        if (diffObject[0].new) fileNew = true 
-
-                    } else {
-                        content = []
-                        additions = 0
-                        deletions = 0
-                        index = []
-                        var toIndex = diff.indexOf('rename to') + 10
-                        var fromIndex = diff.indexOf('rename from') + 12
-                        to = diff.substring(toIndex, diff.length)
-                        from = diff.substring(fromIndex, diff.indexOf('\n', fromIndex))
-                        fileNew = false
-                    }
+                    // } else {
+                    //     content = []
+                    //     additions = 0
+                    //     deletions = 0
+                    //     index = []
+                    //     var toIndex = diff.indexOf('rename to') + 10
+                    //     var fromIndex = diff.indexOf('rename from') + 12
+                    //     to = diff.substring(toIndex, diff.length)
+                    //     from = diff.substring(fromIndex, diff.indexOf('\n', fromIndex))
+                    //     fileNew = false
+                    // }
 
                     commits.push(new Commit({
                         Time: commit.date,
@@ -128,28 +126,26 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                         Author: commit.author_name,
                         BugFix: bugfix,
                         //Content: content,
-                        Additions: additions,
-                        Deletions: deletions,
+                        //Additions: additions,
+                        //Deletions: deletions,
                         //Index: index,
-                        To: to,
-                        From: from,
-                        New: fileNew
+                        //To: to,
+                        //From: from,
+                        //New: fileNew
                     }))
-
-                    //Hashes.add(commit.hash)
 
                     callback()
                 },
                 function(err) {
-                    //console.log(path)
                     files.push(new File({
                         FullPath: filePath,
                         Commits: commits
                     }))
                 })
-            })
 
-            callback()
+                callback()
+                
+            })               
         })
     },
     function (err) {
