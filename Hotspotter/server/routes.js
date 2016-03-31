@@ -1,6 +1,7 @@
 var repoCtrl = require('./repository/repoCtrl')
 var fileCtrl = require('./file/fileCtrl')
 var scoringCtrl = require('./scoring/scoringCtrl')
+var exportCtrl = require('./export/exportCtrl')
 
 module.exports = function(app) {
 
@@ -18,6 +19,9 @@ module.exports = function(app) {
     //Scoring Api Endpoints
     app.get('/api/scoring/:repoUrl', scoringCtrl.score)
     app.get('/api/scoring/:repoUrl/:sections', scoringCtrl.scoreSection)
+
+    //Export API Endpoint
+    app.get('/api/export/:repoUrl', exportCtrl.export)
 
 //============================= Frontend Routes =========================================================
     // route to handle all angular requests

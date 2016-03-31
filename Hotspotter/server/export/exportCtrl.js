@@ -1,0 +1,22 @@
+var csv = require('express-csv')
+var Repo = require('./repoModel')
+var repoService = require('./repoService')
+var scoringService = require('../scoring/scoringService')
+
+module.exports.export = function (req, res) {
+    var repoURL = req.params.repoUrl
+
+    repoService.retrieveRepo(repoURL, function (err, repo) {
+        if (err) console.log("ERR: " + err)
+        else {
+            scoringService.scoringAlgorithm(repo, function (err, repo) {
+                if (err) console.log("ERR: " + err)
+                else {
+                    res.set('Content-Type', 'application/octet-stream');
+                    res.csv(repo)
+                }
+            })
+        }
+    })
+
+}
