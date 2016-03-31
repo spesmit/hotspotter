@@ -1,7 +1,7 @@
 var csv             = require('express-csv')
 var Repo            = require('../repository/repoModel')
 var repoService     = require('../repository/repoService')
-var scoringService  = require('./scoringService')
+var scoringService  = require('../scoring/scoringService')
 
 module.exports.export = function (req, res) {
     var repoURL = req.params.repoUrl
