@@ -53,7 +53,11 @@
         }
 
         function exportData(repoURL) {
-            console.log("Export data");
+            var Csv = $resource("/api/export/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
+
+            vm.csv = Csv.query({repoUrl : repoURL}, function() {
+                console.log(vm.csv);
+            });
         }
 
     });
