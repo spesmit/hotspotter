@@ -53,11 +53,13 @@
         }
 
         function exportData(repoURL) {
+            /*
             var Csv = $resource("/api/export/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
-
             vm.csv = Csv.query({repoUrl : repoURL}, function() {
                 console.log(vm.csv);
             });
+            */
+            window.open("/api/export/" + encodeURIComponent(repoURL), '_blank');
         }
 
     });

@@ -20,8 +20,8 @@ module.exports.export = function (req, res) {
                         last_touched= file.Commits[file.Commits.length - 1]
                                              .Time
                         row = { "filename": filename,
-                                "score": score,
-                                "commits": commits,
+                                "score":    score,
+                                "commits":  commits,
                                 "last_touched": last_touched }
                         data.push(row)
                     }
@@ -29,13 +29,15 @@ module.exports.export = function (req, res) {
                     var csv = "filename, score, commits, last touched\n"
                     for(var i = 0; i < data.length; i++) {
                         row = data[i];
-                        csv +=  row.filename + "," +
-                                row.score + "," +
-                                row.commits + "," +
+                        csv +=  row.filename     + "," +
+                                row.score        + "," +
+                                row.commits      + "," +
                                 row.last_touched + "\n"
                     }
-
-                    console.log(csv)
+                    console.log('Sending exported CSV...')
+                    res.set('Content-Disposition: attachment; filename="export.csv"')
+                    res.set('Content-Type', 'text/plain')
+                    return res.send(csv)
                 }
             })
         }
