@@ -6,7 +6,7 @@
         //"Global Variables"
         var vm = this;
         var Repo = $resource("/api/repo");
-        
+
         vm.list = true;
         vm.results = false;
         vm.div = false;
@@ -18,6 +18,7 @@
         //"Global Functions"
        vm.scoreRepo = scoreRepo;
        vm.scoreDiv = scoreDiv;
+       vm.exportData = exportData;
 
         //Anything that needs to be instantiated on page load goes in the init
         function init() {
@@ -34,7 +35,7 @@
 
             vm.list = false;
             vm.div = true;
-           
+
             vm.repo = Score.query({repoUrl : repoURL, sections : 100}, function () {
                 console.log(vm.repo);
             });
@@ -45,12 +46,15 @@
 
             vm.list = false;
             vm.results = true;
-            
+
             vm.repo = Score.query({repoUrl : repoURL}, function () {
                 console.log(vm.repo);
             });
         }
 
-        
+        function exportData(repoURL) {
+            console.log("Export data");
+        }
+
     });
 }(window.angular));
