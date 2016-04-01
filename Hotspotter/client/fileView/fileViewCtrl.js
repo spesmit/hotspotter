@@ -74,6 +74,7 @@
         function clearView(){
             vm.database = true;
             vm.graph = false;
+            vm.files = false;
             vm.graph_options = {};
             vm.graph_data = {};
             $scope.structure = [];
