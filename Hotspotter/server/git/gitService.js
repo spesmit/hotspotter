@@ -4,6 +4,7 @@
 var localPath = ('./tempProjects')
 var File      = require('../file/fileModel')
 var Commit    = require('../commit/commitModel')
+var fsService = require('../fs/fsService')
 var async     = require("async")
 var crypto    = require("crypto")
 var diffParse = require("parse-diff")
@@ -74,77 +75,55 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
 
                 if (err) callback(err)
 
-                async.each(commitsLog, function (commit, callback) {
-                    // Determine if commit was a bug fixing commits
-                    // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
-                    var bugfix = false
-                    if(commit.message.indexOf('fix') != -1 ||
-                        commit.message.indexOf('close') != -1 ||
-                        commit.message.indexOf('resolve')!= -1) {
-                            bugfix = true
+                var file = repoPath + '/' + '.' + fileHash + '.txt'
+                fsService.extractDiff(file, function(err, diff_RAW) {
+                    if (err) callback(err)
+                    else {
+
+                        async.each(commitsLog, function (commit, callback) {
+                            // Determine if commit was a bug fixing commits
+                            // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
+                            var bugfix = false
+                            if(commit.message.indexOf('fix') != -1 ||
+                                commit.message.indexOf('close') != -1 ||
+                                commit.message.indexOf('resolve')!= -1) {
+                                    bugfix = true
+                            }
+
+                            var hashIndex = diff_RAW.indexOf(commit.hash)
+                            var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex)
+
+                            if (newLineIndex == -1) newLineIndex = diff_RAW.length-1;
+
+                            console.log(hashIndex + " " + newLineIndex)
+
+                            var diff = diff_RAW.substring(hashIndex, newLineIndex)
+
+                            
+
+                            commits.push(new Commit({
+                                Time: commit.date,
+                                Hash: commit.hash,
+                                Author: commit.author_name,
+                                BugFix: bugfix,
+                                Diff_RAW: diff
+                            })) 
+                            callback() 
+
+                        },
+                        function(err) {
+
+                            if (err) callback(err)
+                            else {
+                                files.push(new File({
+                                    FullPath: filePath,
+                                    Commits: commits
+                                }))
+                                callback()
+                            }
+                        })
                     }
-
-                    // var hashIndex = std.indexOf(commit.hash)
-                    // var newLineIndex = std.indexOf('\n\n', hashIndex)
-
-                    // if (newLineIndex == -1) newLineIndex = std.length-1;
-
-                    // //console.log(hashIndex + " " + newLineIndex)
-
-                    // var diffObject = null
-                    // var diff = std.substring(hashIndex, newLineIndex)
-
-                    // var content = [], additions, deletions, index = [], to, from, fileNew
-
-                    // if (diff.indexOf('similarity index 100%') == -1) {
-                    //     diffObject = diffParse(diff)
-
-                    //     content = diffObject[0].chunks
-                    //     additions = diffObject[0].additions
-                    //     deletions = diffObject[0].deletions
-                    //     index = diffObject[0].index
-                    //     to = diffObject[0].to
-                    //     from = diffObject[0].from
-                    //     fileNew = false
-                    //     if (diffObject[0].new) fileNew = true 
-
-                    // } else {
-                    //     content = []
-                    //     additions = 0
-                    //     deletions = 0
-                    //     index = []
-                    //     var toIndex = diff.indexOf('rename to') + 10
-                    //     var fromIndex = diff.indexOf('rename from') + 12
-                    //     to = diff.substring(toIndex, diff.length)
-                    //     from = diff.substring(fromIndex, diff.indexOf('\n', fromIndex))
-                    //     fileNew = false
-                    // }
-
-                    commits.push(new Commit({
-                        Time: commit.date,
-                        Hash: commit.hash,
-                        Author: commit.author_name,
-                        BugFix: bugfix,
-                        //Content: content,
-                        //Additions: additions,
-                        //Deletions: deletions,
-                        //Index: index,
-                        //To: to,
-                        //From: from,
-                        //New: fileNew
-                    }))
-
-                    callback()
-                },
-                function(err) {
-                    files.push(new File({
-                        FullPath: filePath,
-                        Commits: commits
-                    }))
                 })
-
-                callback()
-                
             })               
         })
     },
@@ -162,4 +141,43 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         })
     })
 
+}
+
+exports.parseDiff = function(diff, callback) {
+
+    // var hashIndex = data.indexOf(commit.hash)
+    // var newLineIndex = data.indexOf('\n\n', hashIndex)
+
+    // if (newLineIndex == -1) newLineIndex = data.length-1;
+
+     //console.log(hashIndex + " " + newLineIndex)
+
+    // var diffObject = null
+    // var diff = std.substring(hashIndex, newLineIndex)
+
+    // var content = [], additions, deletions, index = [], to, from, fileNew
+
+    // if (diff.indexOf('similarity index 100%') == -1) {
+    //     diffObject = diffParse(diff)
+
+    //     content = diffObject[0].chunks
+    //     additions = diffObject[0].additions
+    //     deletions = diffObject[0].deletions
+    //     index = diffObject[0].index
+    //     to = diffObject[0].to
+    //     from = diffObject[0].from
+    //     fileNew = false
+    //     if (diffObject[0].new) fileNew = true 
+
+    // } else {
+    //     content = []
+    //     additions = 0
+    //     deletions = 0
+    //     index = []
+    //     var toIndex = diff.indexOf('rename to') + 10
+    //     var fromIndex = diff.indexOf('rename from') + 12
+    //     to = diff.substring(toIndex, diff.length)
+    //     from = diff.substring(fromIndex, diff.indexOf('\n', fromIndex))
+    //     fileNew = false
+    // }
 }
