@@ -5,6 +5,7 @@ var localPath = ('./tempProjects')
 var File      = require('../file/fileModel')
 var Commit    = require('../commit/commitModel')
 var fsService = require('../fs/fsService')
+var diffService = require('../diff/diffService')
 var async     = require("async")
 var crypto    = require("crypto")
 var diffParse = require("parse-diff")
@@ -91,24 +92,26 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                             }
 
                             var hashIndex = diff_RAW.indexOf(commit.hash)
-                            var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex)
+                            var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex); 
 
                             if (newLineIndex == -1) newLineIndex = diff_RAW.length-1;
 
-                            console.log(hashIndex + " " + newLineIndex)
+                            //console.log(hashIndex + " " + newLineIndex)
 
-                            var diff = diff_RAW.substring(hashIndex, newLineIndex)
+                            var diff_raw = diff_RAW.substring(hashIndex, newLineIndex)
 
-                            
+                            diffService.parseDiff(diff_raw, function (err, diff) {
 
-                            commits.push(new Commit({
-                                Time: commit.date,
-                                Hash: commit.hash,
-                                Author: commit.author_name,
-                                BugFix: bugfix,
-                                Diff_RAW: diff
-                            })) 
-                            callback() 
+                                commits.push(new Commit({
+                                    Time: commit.date,
+                                    Hash: commit.hash,
+                                    Author: commit.author_name,
+                                    BugFix: bugfix,
+                                    Diff_RAW: diff_raw,
+                                    Diff: diff
+                                })) 
+                                callback()          
+                            })
 
                         },
                         function(err) {
@@ -141,43 +144,4 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
         })
     })
 
-}
-
-exports.parseDiff = function(diff, callback) {
-
-    // var hashIndex = data.indexOf(commit.hash)
-    // var newLineIndex = data.indexOf('\n\n', hashIndex)
-
-    // if (newLineIndex == -1) newLineIndex = data.length-1;
-
-     //console.log(hashIndex + " " + newLineIndex)
-
-    // var diffObject = null
-    // var diff = std.substring(hashIndex, newLineIndex)
-
-    // var content = [], additions, deletions, index = [], to, from, fileNew
-
-    // if (diff.indexOf('similarity index 100%') == -1) {
-    //     diffObject = diffParse(diff)
-
-    //     content = diffObject[0].chunks
-    //     additions = diffObject[0].additions
-    //     deletions = diffObject[0].deletions
-    //     index = diffObject[0].index
-    //     to = diffObject[0].to
-    //     from = diffObject[0].from
-    //     fileNew = false
-    //     if (diffObject[0].new) fileNew = true 
-
-    // } else {
-    //     content = []
-    //     additions = 0
-    //     deletions = 0
-    //     index = []
-    //     var toIndex = diff.indexOf('rename to') + 10
-    //     var fromIndex = diff.indexOf('rename from') + 12
-    //     to = diff.substring(toIndex, diff.length)
-    //     from = diff.substring(fromIndex, diff.indexOf('\n', fromIndex))
-    //     fileNew = false
-    // }
 }
