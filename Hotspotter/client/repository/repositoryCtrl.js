@@ -9,6 +9,7 @@
         vm.database = true;
         vm.reposelected = false;
         vm.selected = {};
+        vm.loading = false;
 
         //"Global Functions"
         vm.init =  init;
@@ -28,8 +29,10 @@
         }
 
         function listRepos() {
+            vm.loading = true;
             $http.get('/api/repo').then( function (response){
                 vm.repos = response.data;
+                vm.loading = false;
 
             });
         }
@@ -71,30 +74,36 @@
         }
 
         function scanRepo(repoUrl) {
-           
+           vm.loading = true;
             $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
                 console.log(response.data);
+                vm.loading = false;
             });
         }
 
         function updateRepo(repoUrl) {
+            vm.loading = true;
             $http.get('/api/repo/update/'+ encodeURIComponent(repoUrl)).then( function (response){
                 console.log(response.data);
+                vm.loading = false;
             });
         }
 
         function scoreRepo(repoUrl, snapshots) {
-
+            vm.loading = true;
             $http.get('/api/repo/score/'+ encodeURIComponent(repoUrl) + '/' +  encodeURIComponent(snapshots)).then( function (response){
                 console.log(response.data);
+                vm.loading = false;
             });
         }
 
         function removeRepo(repoUrl) {
+            vm.loading = true;
             $http.delete('/api/repo/'+ encodeURIComponent(repoUrl)).then( function (response){
                 var index = lodash.findIndex(vm.repos, {'URL': repoUrl});
                 vm.repos.splice(index, 1);
                 clearRepo();
+                vm.loading = false;
             });
         }
 

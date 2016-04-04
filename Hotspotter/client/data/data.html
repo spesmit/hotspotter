@@ -1,5 +1,6 @@
 <!-- Page Content -->
 <div class="container" ng-controller="dataCtrl as vm">
+    <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.list == true">
@@ -12,8 +13,12 @@
                     </div>
                 </div>
             </div>
-
-            <div ng-if="vm.div == true">
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBallGif.gif">
+                Loading...
+            </div>
+            <div ng-show="vm.loading == false">
+            <div ng-if="vm.div == true ">
                 <label class="control-label" for="repoUrl">Database:</label>
                 <div ng-repeat="file in vm.repo.Files">
                     <li>{{file.FullPath}}</li>
@@ -31,6 +36,7 @@
                         <li>{{commit.Time}}  {{commit.TimeMs}}  {{commit.Score}}  {{commit.BugFix}}</li>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

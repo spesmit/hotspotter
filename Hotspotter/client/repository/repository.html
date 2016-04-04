@@ -1,7 +1,7 @@
 <div class="container" ng-controller="repositoryCtrl as vm">
     <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
-        <div ng-if='vm.database == false'><button class="btn btn-primary pull-right" ng-click='vm.clearRepo()'>Back</button></div>
+        <div ng-if='vm.database == false && vm.loading == false'><button class="btn btn-primary pull-right" ng-click='vm.clearRepo()'>Back</button></div>
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.database == true">
                 <label class="control-label">Database:</label>
@@ -12,8 +12,11 @@
                     <br>
                 </div>
             </div>
-                
-            <div ng-if="vm.reposelected == true">
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBallGif.gif">
+                Loading...
+            </div>
+            <div ng-if="vm.reposelected == true && vm.loading == false">
                 <label class="control-label">Repository:</label>
                 <div class="clearfix">{{vm.selected.URL}}
                     <form name="snapshots">
