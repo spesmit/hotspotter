@@ -27,6 +27,7 @@ module.exports = function(grunt) {
             CLIENT_DIR + "/dashboard/*.js",
             CLIENT_DIR + "/fileView/*.js",
             CLIENT_DIR + "/admin/*.js",
+            CLIENT_DIR + "/repository/*.js",
             CLIENT_DIR + "/data/*.js",
             CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js",
             "!" + CLIENT_DIR + "/**/*Spec.js"

@@ -1,0 +1,48 @@
+<div class="container" ng-controller="repositoryCtrl as vm">
+    <div id="veil" ng-show="vm.loading"></div>
+    <div class="row">
+        <div ng-if='vm.database == false && vm.loading == false'><button class="btn btn-primary pull-right" ng-click='vm.clearRepo()'>Back</button></div>
+        <div class="col-sm-6 col-sm-offset-3">
+            <div ng-if="vm.database == true">
+                <label class="control-label">Database:</label>
+                <div ng-repeat="repo in vm.repos">
+                    <div class="clearfix">{{repo.URL}}
+                        <button class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.Status)'>Select</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBall.gif">
+                Loading...
+            </div>
+            <div ng-if="vm.reposelected == true && vm.loading == false">
+                <label class="control-label">Repository:</label>
+                <div class="clearfix">{{vm.selected.URL}}
+                    <form name="snapshots">
+                        <div class="form-group">
+                            <label class="control-label" for="snapshot">Snapshots:</label>
+                            <input  type="text"
+                                    ng-model="vm.snapshot" required
+                                    pattern="\d+"
+                                    id="snapshot" 
+                                    class="form-control" 
+                                    placeholder="100"/>
+                        </div>
+                        <label>Default:
+                            <input type="checkbox" ng-model="vm.default">
+                        </label><br/>
+                        <label>Commit Size:
+                            <input type="checkbox" ng-model="vm.commit_size">
+                        </label><br/>
+                        <button ng-disabled="snapshots.$invalid && !vm.selected.Status.scan" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
+                    </form>
+                    <br><br><br>
+                    <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
+                    <button class="btn btn-primary" ng-click='vm.updateRepo(vm.selected.URL)'>Update</button>
+                    <button class="btn btn-primary" ng-click='vm.removeRepo(vm.selected.URL)'>Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

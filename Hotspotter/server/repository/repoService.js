@@ -68,6 +68,13 @@ exports.updateRepo = function (repo, callback) {
     })
 }
 
+exports.updateStatus = function (repoURL, status, callback) {
+    Repo.findOneAndUpdate({URL:repoURL}, {$set:{status:status}}, {new: true}, function (err, result) {
+        if (err) return callback(err)
+        else return callback(null, result)
+    })
+}
+
 exports.listRepo = function (callback) {
 
     Repo.find({}, 'URL Status FirstModified LastModified', function (err, results) {
@@ -76,6 +83,33 @@ exports.listRepo = function (callback) {
     })
 
 }
+
+exports.createRepo = function (repo, callback) {
+    // initial status
+    repo.Status = {
+        clone: true,
+        scan: false,
+        score: false
+    }
+
+    repo.save(function (err, result) {
+        if (err) return callback(err)
+        else return callback(null, result)
+    })
+}
+
+exports.removeRepo = function (repoURL, callback) {
+
+    Repo.remove({URL: repoURL}, function(err, results) {
+        if (err) {
+            return callback(err)
+        } else {
+            console.log('\n' + repoURL + ' repo deleted... \n')
+            return callback(null)
+        }
+    })
+}
+
 
 exports.retrieveRepo = function (repoURL, options, callback) {
 
@@ -87,6 +121,7 @@ exports.retrieveRepo = function (repoURL, options, callback) {
 
     Repo.findOne({ URL : repoURL }, function(err, results) {
         if (err) return callback(err)
-        else return callback(null, results)
+        if (results) return callback(null, results) 
+        else return callback("Not Found: " + repoURL)
     })
 }
