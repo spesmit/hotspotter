@@ -56,13 +56,11 @@ exports.scoringAlgorithm = function (repo, options, callback) {
 
                         // Weight score base off size
                         if (options.Additions) 
-                            if (file.Commits[i].Additions > 0) commitScore * file.Commits[i].Additions * addWeight
+                            if (file.Commits[i].Additions > 0) commitScore * file.Commits[i].Additions.length * addWeight
                         if (options.Deletions) 
-                            if (file.Commits[i].Deletions > 0) commitScore * file.Commits[i].Deletions * delWeight
-
-                        
-                        file.Commits[i].Score = commitScore
-                        file.Commits[i].TimeMs = commitTime
+                            if (file.Commits[i].Deletions > 0) commitScore * file.Commits[i].Deletions.length * delWeight
+                       
+                        file.Commits[i].Scores.push({Score: commitScore, Time: commitTime, SnapshotTime: options.Section[j].To})
 
                         sumScore[j] += commitScore
 
@@ -81,7 +79,14 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     },
     function (err) {
         if (err) return callback(err)
-        else return callback(null, repo)
+        else {
+            repo.Status = {
+                clone: true,
+                scan: true,
+                score: true
+            }
+            return callback(null, repo)
+        }
     })
 }
 

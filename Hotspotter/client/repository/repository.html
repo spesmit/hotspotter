@@ -7,7 +7,7 @@
                 <label class="control-label">Database:</label>
                 <div ng-repeat="repo in vm.repos">
                     <div class="clearfix">{{repo.URL}}
-                        <button class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.status)'>Select</button>
+                        <button class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.Status)'>Select</button>
                     </div>
                     <br>
                 </div>
@@ -35,7 +35,7 @@
                         <label>Commit Size:
                             <input type="checkbox" ng-model="vm.commit_size">
                         </label><br/>
-                        <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
+                        <button ng-disabled="snapshots.$invalid && !vm.selected.Status.scan" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
                     </form>
                     <br><br><br>
                     <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>

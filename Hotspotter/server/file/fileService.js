@@ -56,7 +56,13 @@ exports.listFiles = function (url, callback) {
 
 exports.removeFiles = function (url, callback) {
 
-	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: {}}}, function(err, repo) {
+    var status = {
+        clone: true,
+        scan: false,
+        score: false
+    }
+
+	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: {}}, $set: {Status: status}}, function(err, repo) {
         if (err) return callback(err)
         if (repo) return callback(null, repo)
         else return callback("Repo not found")
@@ -72,6 +78,11 @@ exports.scanFiles = function (repoPath, repo, callback) {
             gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
                 if (err) return callback(err)
                 else {
+                    repo.Status = {
+                        scan: true,
+                        score: false,
+                        clone: true
+                    }
                     console.log("Files scanned...")
                     return callback(null, repo)
                 }

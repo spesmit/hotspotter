@@ -91,6 +91,8 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                     bugfix = true
                             }
 
+                            commit.hash = commit.hash.replace(/\W/g, '')
+
                             var hashIndex = diff_RAW.indexOf(commit.hash)
                             var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex); 
 
@@ -99,18 +101,20 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                             //console.log(hashIndex + " " + newLineIndex)
 
                             var diff_raw = diff_RAW.substring(hashIndex, newLineIndex)
-
+                            
                             diffService.parseDiff(diff_raw, function (err, diff) {
-
-                                commits.push(new Commit({
-                                    Time: commit.date,
-                                    Hash: commit.hash,
-                                    Author: commit.author_name,
-                                    BugFix: bugfix,
-                                    Diff_RAW: diff_raw,
-                                    Diff: diff
-                                })) 
-                                callback()          
+                                if (err) callback(err)
+                                else {
+                                    commits.push(new Commit({
+                                        Time: commit.date,
+                                        Hash: commit.hash,
+                                        Author: commit.author_name,
+                                        BugFix: bugfix,
+                                        Diff_RAW: diff_raw,
+                                        Diff: diff
+                                    })) 
+                                    callback()
+                                }          
                             })
 
                         },

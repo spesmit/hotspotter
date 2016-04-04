@@ -31,7 +31,7 @@
         function listRepos() {
             $http.get('/api/repo').then( function (response){
                 vm.repos = response.data;
-
+                console.log(vm.repos);
             });
         }
 
@@ -41,11 +41,11 @@
 
             if (typeof status === 'undefined') {
                 status = {
-                    scan : true,
+                    scan : false,
                     score : false
                 };
             }
-
+            
             var score = "Score"; 
             var scan = "Scan";
 
@@ -76,6 +76,8 @@
             $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
                 console.log(response.data);
                 vm.loading = false;
+                vm.selected.Status.scan = true;
+                vm.selected.Options.Scan = "Rescan";
             });
         }
 
@@ -92,6 +94,8 @@
             $http.get('/api/repo/score/'+ encodeURIComponent(repoUrl) + '/' +  encodeURIComponent(snapshots)).then( function (response){
                 console.log(response.data);
                 vm.loading = false;
+                vm.selected.Status.score = true;
+                vm.selected.Options.Score = "Rescore";
             });
         }
 

@@ -85,6 +85,12 @@ exports.listRepo = function (callback) {
 }
 
 exports.createRepo = function (repo, callback) {
+    // initial status
+    repo.Status = {
+        clone: true,
+        scan: false,
+        score: false
+    }
 
     repo.save(function (err, result) {
         if (err) return callback(err)

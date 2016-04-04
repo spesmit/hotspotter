@@ -10,8 +10,7 @@ module.exports = mongoose.model('Commit', {
     BugFix: Boolean,
     Hash: String,
     Author: String,
-    Score: Number,
-    TimeMs: Number,
+    Scores : [{Score : Number, Time : Number, SnapshotTime: Number}],
     Diff_RAW: String,
     Diff : diffSchema
 })
