@@ -29,10 +29,8 @@
         }
 
         function listRepos() {
-            vm.loading = true;
             $http.get('/api/repo').then( function (response){
                 vm.repos = response.data;
-                vm.loading = false;
 
             });
         }
