@@ -2,8 +2,12 @@
 <div class="container" ng-controller="dashboardCtrl as vm">
     <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <div ng-if="vm.success == true">
+        <div id="loadingDashbaord" ng-show="vm.loading">
+            <img src = "/images/fireBallGif.gif">
+            Check'n Out...
+        </div>
+        <div ng-show="!vm.loading"class="col-sm-6 col-sm-offset-3">
+            <div ng-if="vm.success">
                 <p>Repository at <a href="{{vm.addedRepo}}" target="_blank">{{vm.addedRepo}}</a> is now being analyzed and monitored...</p>
             </div>
             <form name="addRepo">
@@ -18,10 +22,6 @@
             	</div>
         		<button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository(vm.repoUrl)" class="btn btn-primary">Add Repository</button>
             </form>
-            <div id="loadingDashbaord" ng-show="vm.loading">
-                <img src = "/images/fireBallGif.gif">
-                Check'n Out...
-            </div>
             <label class="control-label" for="repoUrl">Database:</label>
             <div ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>
