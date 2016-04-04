@@ -21,6 +21,7 @@
 
 #loadingDashbaord{
     position: absolute;
+    padding-right: 500px;
     top:100px;
     width:100%;
     text-align: center;

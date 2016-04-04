@@ -13,6 +13,7 @@
     "express": "^4.13.3",
     "fs": "0.0.2",
     "glob": "^5.0.15",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-simple-mocha": "^0.4.1",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
