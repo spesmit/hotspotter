@@ -5,6 +5,9 @@
 var Repo = require('../repository/repoModel')
 var File = require('./fileModel')
 var async = require("async")
+var Glob = require('glob').Glob
+
+var gitService = require('../git/gitService')
 
 exports.storeFiles = function (repo, callback) { 
 
@@ -41,4 +44,50 @@ exports.fetchFiles = function (url, callback) {
     })
 }
 
+exports.listFiles = function (url, callback) {
 
+	Repo.findOne({URL:url}, 'Files', function (err, files) {
+        if (err) return	callback(err)
+        if (files) return callback(null, files.Files)
+        else return callback("Repo not found")
+    })
+
+}
+
+exports.removeFiles = function (url, callback) {
+
+    var status = {
+        clone: true,
+        scan: false,
+        score: false
+    }
+
+	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: {}}, $set: {Status: status}}, function(err, repo) {
+        if (err) return callback(err)
+        if (repo) return callback(null, repo)
+        else return callback("Repo not found")
+	})
+}
+
+exports.scanFiles = function (repoPath, repo, callback) {
+
+	Glob(repoPath + "/**/*",{nodir:true}, function (err, filePaths) {
+        if (err) return callback(err)
+        else {
+            // get file commits
+            gitService.gitLogCommits(repoPath, filePaths, repo, function (err, repo) {
+                if (err) return callback(err)
+                else {
+                    repo.Status = {
+                        scan: true,
+                        score: false,
+                        clone: true
+                    }
+                    console.log("Files scanned...")
+                    return callback(null, repo)
+                }
+        	})
+
+        }
+    })
+}

@@ -3,12 +3,14 @@
  */
 
 var mongoose = require('mongoose')
+var diffSchema = require('../diff/diffModel').schema
 
 module.exports = mongoose.model('Commit', {
     Time: Date,
     BugFix: Boolean,
     Hash: String,
     Author: String,
-    Score: Number,
-    TimeMs: Number
+    Scores : [{Score : Number, Time : Number, SnapshotTime: Number}],
+    Diff_RAW: String,
+    Diff : diffSchema
 })

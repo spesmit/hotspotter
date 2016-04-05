@@ -10,6 +10,7 @@
         'hotspotter.dashboardCtrl',
         'hotspotter.fileViewCtrl',
         'hotspotter.adminCtrl',
+        'hotspotter.repositoryCtrl',
         'hotspotter.dataCtrl'
     ]);
 //==================================Route Provider==============================================================
@@ -22,15 +23,21 @@
             });
 
         $routeProvider.when(
-            '/fileView', {
+            '/files', {
                 templateUrl: 'fileView/fileView.html',
-                pageName: 'FileView'
+                pageName: 'Files'
             });
 
-         $routeProvider.when(
+        $routeProvider.when(
+            '/repository', {
+                templateUrl: 'repository/repository.html',
+                pageName: 'repository'
+            });
+
+        $routeProvider.when(
             '/admin', {
                 templateUrl: 'admin/admin.html',
-                pageName: 'admin'
+                pageName: 'Admin'
             });
 
         $routeProvider.when(

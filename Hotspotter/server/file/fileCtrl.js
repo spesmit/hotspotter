@@ -4,28 +4,32 @@
 
 var File = require('./fileModel')
 var Repo = require('../repository/repoModel')
+var fileService = require('./fileService')
 
 module.exports.list = function (req, res) {
-    Repo.findOne({URL:req.params.repoUrl}, 'Files', function (err, results) {
+    var repoURL = req.params.repoUrl
+
+    fileService.listFiles(repoURL, function (err, files) {
         if (err) {
             console.log("ERR: " + err)
+            res.json([])
         } else {
-            res.json(results.Files)
+            res.json(files)
         }
     })
 }
 
 module.exports.clear = function (req, res) {
-    Repo.findOneAndUpdate(
-    	{URL:req.params.repoUrl},
-    	{$pull: {Files: {}}},
-    	function(err, repo) {
-            if (err) {
-                console.log("ERR: " + err)
-            } else {
-		        console.log('\n' + repo.URL + ' files removed... \n');
-                res.write(JSON.stringify({ status: 'DELETED' }));
-                res.end();
-            }
-		})
+    var repoURL = req.params.repoUrl
+
+    fileService.removeFiles(repoURL, function (err, repo) {
+        if (err) {
+            console.log("ERR: " + err)
+            res.json({})
+        } else {
+            console.log('\n' + repo.URL + ' files removed... \n');
+            res.write(JSON.stringify({ status: 'DELETED' }));
+            res.end();
+        }
+    })
 }

@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div id="loading" ng-show="vm.loading">
-                <img src = "/images/fireBallGif.gif">
+                <img src = "/images/fireBall.gif">
                 Preheating...
             </div>
             <div ng-if="vm.files && !vm.database">
@@ -34,7 +34,7 @@
                         <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
                     </ul>
                     <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)' onclick='setTimeout(
-                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 3000)' data-toggle="modal" data-target="#graphModal">Graph</button>
+                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 1000)' data-toggle="modal" data-target="#graphModal">Graph</button>
                 </div>
             </div>
         </div>
@@ -50,7 +50,12 @@
             <h4 class="modal-title">Hotspot Score versus Time</h4>
           </div>
           <div class="modal-body">
-            <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
+              <div class="legend-and-body">
+                  <div class="legend-bar"></div>
+                  <div class="graph-body">
+                    <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
+                  </div>
+              </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

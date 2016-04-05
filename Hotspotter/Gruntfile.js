@@ -27,6 +27,7 @@ module.exports = function(grunt) {
             CLIENT_DIR + "/dashboard/*.js",
             CLIENT_DIR + "/fileView/*.js",
             CLIENT_DIR + "/admin/*.js",
+            CLIENT_DIR + "/repository/*.js",
             CLIENT_DIR + "/data/*.js",
             CLIENT_DIR + "/thirdParty/angular-tree-view/js/treeView.js",
             "!" + CLIENT_DIR + "/**/*Spec.js"
@@ -75,10 +76,11 @@ module.exports = function(grunt) {
         		dest: 'client/third-party.css'
     	    }
         },
+        clean: ['client/styles.css','client/internal.js', 'client/third-party.js'],
         watch: {
             dev: {
-                files: ['Gruntfile.js', INTERNAL_JS_FILES],
-                tasks: ['jshint', 'concat', 'simplemocha'],
+                files: ['Gruntfile.js', INTERNAL_JS_FILES, INTERNAL_CSS_FILES],
+                tasks: ['clean','jshint', 'concat', 'simplemocha'],
                 options: {
                     atBegin: true
                 }
@@ -106,6 +108,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-simple-mocha');
 
 };
