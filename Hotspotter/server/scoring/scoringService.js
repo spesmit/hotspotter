@@ -8,6 +8,9 @@ var scoringService = require('./scoringService')
 
 exports.scoringAlgorithm = function (repo, options, callback) {
 
+    var addWeight = 1.0
+    var delWeight = 1.0
+
     // check for options
     if (typeof callback === 'undefined') {
         callback = options
@@ -25,7 +28,8 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     }
 
     if (options.Bug == null) options.Bug = false
-
+    if (options.Additions == null) options.Additions = false
+    if (options.Deletions == null) options.Deletions = false
 
  	async.each(repo.Files, function (file, callback) {
         var sumScore = []
@@ -49,9 +53,14 @@ exports.scoringAlgorithm = function (repo, options, callback) {
                         var t = (((commitTime-options.Section[j].First)/(options.Section[j].Last-options.Section[j].First)))
                         // calculate score
                         var commitScore = (1 / (1 + Math.pow(Math.E,(-12*t+12))))
-                        
-                        file.Commits[i].Score = commitScore
-                        file.Commits[i].TimeMs = commitTime
+
+                        // Weight score base off size
+                        if (options.Additions) 
+                            if (file.Commits[i].Additions > 0) commitScore * file.Commits[i].Additions.length * addWeight
+                        if (options.Deletions) 
+                            if (file.Commits[i].Deletions > 0) commitScore * file.Commits[i].Deletions.length * delWeight
+                       
+                        file.Commits[i].Scores.push({Score: commitScore, Time: commitTime, SnapshotTime: options.Section[j].To})
 
                         sumScore[j] += commitScore
 
@@ -70,7 +79,14 @@ exports.scoringAlgorithm = function (repo, options, callback) {
     },
     function (err) {
         if (err) return callback(err)
-        else return callback(null, repo)
+        else {
+            repo.Status = {
+                clone: true,
+                scan: true,
+                score: true
+            }
+            return callback(null, repo)
+        }
     })
 }
 
@@ -133,7 +149,7 @@ exports.normalizeSection = function(repo, options, callback) {
     var max = []
     var min = []
 
-    // Case 0 files or undefined
+    // Case: 0 files or undefined
     if (repo.Files == null || repo.Files.length == 0) {
         return callback("No repo files or undefined")
     }
@@ -143,7 +159,7 @@ exports.normalizeSection = function(repo, options, callback) {
         min[i] = Number.MAX_VALUE
     }
 
-    // Case 1 files
+    // Case: 1 files
     if (repo.Files.length == 1) {
         for (var i = 0; i < repo.Files[0].Scores.length; i++) {
             repo.Files[0].Scores[i].Score = 1
@@ -151,7 +167,7 @@ exports.normalizeSection = function(repo, options, callback) {
 
         return callback(null, repo)
     } else {
-    // Case 2+ files
+    // Case: 2+ files
         for (var j = 0; j < repo.Files.length; j++) {
             for (var i = 0; i < repo.Files[j].Scores.length; i++) {
                 var score = repo.Files[j].Scores[i].Score
@@ -206,34 +222,4 @@ exports.scoreSections = function(repo, divisions, options, callback) {
         if (err) return callback(err)
         return callback(null, repo)
     })
-}
-
-exports.createGraphData = function (repo, callback) {
-    var data = []
-
-    for (var i = 0; i < repo.Files.length; i++) {
-        var points = []
-        var commits = []
-        for (var j = 0; j < repo.Files[i].Scores.length; j++) {
-            points.push({x: repo.Files[i].Scores[j].Time, y: repo.Files[i].Scores[j].Score})   
-        }
-
-        for (var j = 0; j < repo.Files[i].Commits.length; j++) {
-            
-            commits.push({x: repo.Files[i].Commits[j].TimeMs, y: (repo.Files[i].Commits[j].BugFix ? 1 : 0)})   
-        }
-
-        var file = repo.Files[i].FullPath.replace(/.*\//,'')
-        data.push({
-            values: points,
-            key: file,
-            color: '#2ca02c'
-        })
-
-        data.push({
-            values : commits,
-            key : 'commits'
-        })
-    }
-    callback(null, data)
 }

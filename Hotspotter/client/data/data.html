@@ -1,9 +1,10 @@
 <!-- Page Content -->
 <div class="container" ng-controller="dataCtrl as vm">
+    <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <div ng-if="vm.list == true">
-                <label class="control-label" for="repoUrl">Database:</label>
+            <div ng-if="vm.loading == false">
+                <label class="control-label" for="repoUrl">Repos:</label>
                 <div ng-repeat="repo in vm.repos">
                     <div class="clearfix">{{repo.URL}}
                         <br>
@@ -13,9 +14,13 @@
                     </div>
                 </div>
             </div>
-
-            <div ng-if="vm.div == true">
-                <label class="control-label" for="repoUrl">Database:</label>
+            <div id="loading" ng-show="vm.loading">
+                <img src = "/images/fireBall.gif">
+                Loading...
+            </div>
+            <div ng-show="vm.loading == false">
+            <div ng-if="vm.div == true ">
+                <label class="control-label" for="repoUrl">Saved Data:</label>
                 <div ng-repeat="file in vm.repo.Files">
                     <li>{{file.FullPath}}</li>
                     <div ng-repeat="score in file.Scores">
@@ -25,13 +30,14 @@
             </div>
 
             <div ng-if="vm.results == true">
-                <label class="control-label" for="repoUrl">Database:</label>
+                <label class="control-label" for="repoUrl">Saved Data:</label>
                 <div ng-repeat="file in vm.repo.Files">
                     <li>{{file.FullPath}}  {{file.Score}}</li>
                     <div ng-repeat="commit in file.Commits">
                         <li>{{commit.Time}}  {{commit.TimeMs}}  {{commit.Score}}  {{commit.BugFix}}</li>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

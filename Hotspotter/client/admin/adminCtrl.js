@@ -7,6 +7,7 @@
         var vm = this;
         vm.files = [];
         vm.repos = [];
+        vm.loading = false;
 
         vm.clearFiles = clearFiles;
         vm.listFiles = listFiles;
@@ -29,23 +30,29 @@
 
         //Hits api endpoint to list all saved files for a given repo
         function listFiles(url) {
+            vm.loading = true;
            return $http.get("/api/file/" + encodeURIComponent(url)).then(function (response){
                 vm.files = response.data;
+               vm.loading = false;
             });
 
         }
         //Hits api endpoint to delete a repo
         function clearRepo(url) {
+            vm.loading = true;
             return $http.delete('/api/repo/' + encodeURIComponent(url)).then(function (){
                 var index = lodash.findIndex(vm.repos, {'URL': url});
                 vm.repos.splice(index, 1);
+                vm.loading = false;
             });
 
         }
         //Hits api endpoint to delete saved metadata for a given repo
         function clearFiles(url) {
+            vm.loading = true;
             return $http.delete("/api/file/" + encodeURIComponent(url)).then(function (){
                 vm.files = [];
+                vm.loading = false;
             });
         }
     });

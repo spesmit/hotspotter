@@ -10,6 +10,7 @@
         vm.list = true;
         vm.results = false;
         vm.div = false;
+        vm.loading = false;
 
         vm.repo = {};
         vm.repos = [];
@@ -33,22 +34,24 @@
         function scoreDiv(repoURL) {
             var Score = $resource("/api/scoring/:repoUrl/:sections", {}, {'query': {method: 'GET', isArray: false}});
 
-            vm.list = false;
             vm.div = true;
+            vm.loading = true;
 
             vm.repo = Score.query({repoUrl : repoURL, sections : 100}, function () {
                 console.log(vm.repo);
+                vm.loading = false;
             });
         }
 
         function scoreRepo(repoURL) {
             var Score = $resource("/api/scoring/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
 
-            vm.list = false;
             vm.results = true;
-
+            vm.loading = true;
+            
             vm.repo = Score.query({repoUrl : repoURL}, function () {
                 console.log(vm.repo);
+                vm.loading = false;
             });
         }
 
