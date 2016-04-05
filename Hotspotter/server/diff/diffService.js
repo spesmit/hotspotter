@@ -13,7 +13,9 @@ exports.parseDiff = function(diff_raw, callback) {
 	var index_from = diff_raw.indexOf('---')
 	var index_to = diff_raw.indexOf('+++')
 
-	var index_ = diff_raw.indexOf('index ')
+	if (index_to == -1) {
+		index_to = diff_raw.length
+	}
 
 	var index_rename = diff_raw.indexOf('rename ')
 
@@ -33,19 +35,16 @@ exports.parseDiff = function(diff_raw, callback) {
 		from = files[0].replace('a/', '')
 	}
 
-	if (index_ == -1)
-		callback('ERR: bad diff')
-
-	if (index_rename != -1 && index_rename < index_) 
+	if (index_rename != -1 && index_rename < index_to) 
 		type = 'rename'
 
-	if (index_new != -1 && index_new < index_) 
+	if (index_new != -1 && index_new < index_to) 
 		type = 'new'
 	
-	if (index_del != -1 && index_del < index_) 
+	if (index_del != -1 && index_del < index_to) 
 		type = 'remove'
 
-	if (index_cpy != -1 && index_cpy < index_)
+	if (index_cpy != -1 && index_cpy < index_to)
 		type = 'copy'
 
 	if (index_to != -1 && index_from != -1) {
@@ -100,6 +99,6 @@ exports.parseDiff = function(diff_raw, callback) {
 		From : from
 	})
 
-	callback(null, diff)
+	return callback(null, diff)
 }
 
