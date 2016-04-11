@@ -59,19 +59,27 @@ exports.createTree = function (files, callback) {
 
 // work in progress
 exports.updateRepo = function (repo, callback) {
-    data = repo.toObject()
-    delete data._id
 
-    Repo.findOneAndUpdate({URL:repo.URL}, data, function (err, result) {
+    repo.update({URL:repo.URL}, repo, function (err, result) {
         if (err) return callback(err)
-        else return callback(null, result)
+        else return callback(null, repo)
     })
 }
 
-exports.updateStatus = function (repoURL, status, callback) {
-    Repo.findOneAndUpdate({URL:repoURL}, {$set:{status:status}}, {new: true}, function (err, result) {
+exports.updateScore = function (repo, callback) {
+
+    repo.update({URL:repo.URL}, {Files:repo.Files}, function (err, raw) {
         if (err) return callback(err)
-        else return callback(null, result)
+        else return callback(null, repo)
+    })
+
+}
+
+exports.updateStatus = function (repoURL, status, callback) {
+
+    repo.update({URL:repoURL}, {$set:{Status:status}}, {new: true}, function (err, result) {
+        if (err) return callback(err)
+        else return callback(null)
     })
 }
 

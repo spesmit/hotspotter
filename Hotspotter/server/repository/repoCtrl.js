@@ -151,6 +151,7 @@ module.exports.scan = function (req, res) {
     var repoURLHash = sha1(repoURL)
     var repoPath    = "tempProjects/" + repoURLHash
 
+  
     repoService.retrieveRepo(repoURL, function (err, repo) {
         if (err) {
             console.log("ERR: " + err)
@@ -174,6 +175,7 @@ module.exports.scan = function (req, res) {
             })
         }
     })
+
 }
 
 
@@ -189,7 +191,20 @@ module.exports.update = function (req, res) {
                     console.log("ERR: " + err)
                     res.json({})
                 } else {
-                    res.json({})
+                    var status = {
+                        clone: true,
+                        scan: false,
+                        score: false
+                    }
+
+                    repoService.updateStatus(repoURL, status, function (err) {
+                        if (err) {
+                            console.log("ERR: " + err)
+                            res.json({})
+                        } else {
+                            res.json({})
+                        }
+                    })
                 }
             })
         }
@@ -216,7 +231,7 @@ module.exports.score = function (req, res) {
                             console.log("ERR: " + err)
                             res.json({})
                         } else {
-                            repoService.updateRepo(repo, function (err, results) {
+                            repoService.updateScore(repo, function (err, results) {
                                 if (err) {
                                     console.log("ERR: " + err)
                                     res.json({})

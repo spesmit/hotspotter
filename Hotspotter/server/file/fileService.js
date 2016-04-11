@@ -9,32 +9,30 @@ var Glob = require('glob').Glob
 
 var gitService = require('../git/gitService')
 
-exports.storeFiles = function (repo, callback) { 
+exports.storeFile = function (repo, file, callback) { 
 
-	async.each(repo.Files, function (file, callback) {
-		file.save(function(err) {
-			if(err) {
-				callback(err)
-			} else {
-				Repo.findOne({URL:repo.URL}, function(err, result) {
-					if (err) {
-						callback(err)
-					} else {
-						result.Files.push(file)
-						result.save(function (err, result) {
-							if (err) callback(err)
-						})
-					}
-				})
-			}
-		})
-
-    	callback()
-    },
-    function (err) {
-    	if (err) return callback(err)
-        else return callback(null, repo)
+    Repo.findOneAndUpdate({URL:repo.URL}, {$push: {"Files": file}}, {upsert:true}, function(err, result) {
+        if (err) return callback(err)
+        else return callback(null, result)
     })
+
+    // file.save(function(err) {
+    // 	if(err) {
+    // 		callback(err)
+    // 	} else {
+    // 		repo.update({URL:repo.URL}, function(err, result) {
+    // 			if (err) {
+    // 				callback(err)
+    // 			} else {
+    // 				result.Files.push(file)
+    // 				result.save(function (err, result) {
+    // 					if (err) callback(err)
+    // 				})
+    // 			}
+    // 		})
+    // 	}
+    // }
+
 }
 
 exports.fetchFiles = function (url, callback) {
@@ -62,7 +60,7 @@ exports.removeFiles = function (url, callback) {
         score: false
     }
 
-	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: {}}, $set: {Status: status}}, function(err, repo) {
+	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: []}, $set: {Status: status}}, {'new':true}, function(err, repo) {
         if (err) return callback(err)
         if (repo) return callback(null, repo)
         else return callback("Repo not found")

@@ -5,6 +5,7 @@ var localPath = ('./tempProjects')
 var File      = require('../file/fileModel')
 var Commit    = require('../commit/commitModel')
 var fsService = require('../fs/fsService')
+var fileService = require('../file/fileService')
 var diffService = require('../diff/diffService')
 var async     = require("async")
 var crypto    = require("crypto")
@@ -127,6 +128,19 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                     Commits: commits
                                 }))
                                 callback()
+
+                                // var file = new File({
+                                //     FullPath: filePath,
+                                //     Commits: commits
+                                // })
+
+                                // fileService.storeFile(repo, file, function (err, result) {
+                                //     if (err) callback(err)
+                                //     else {
+                                //        console.log("File added: ", file.FullPath)
+                                //        callback() 
+                                //     }
+                                // })         
                             }
                         })
                     }
