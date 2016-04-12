@@ -127,6 +127,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                     FullPath: filePath,
                                     Commits: commits
                                 }))
+
                                 console.log("File", files[files.length-1].FullPath)
                                 // fileService.storeFile(repo, files[files.length-1], function (err, result) {
                                 //     if (err) callback(err)
@@ -134,6 +135,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                 //        callback() 
                                 //     }
                                 // })         
+                                callback()
                             }
                         })
                     }
