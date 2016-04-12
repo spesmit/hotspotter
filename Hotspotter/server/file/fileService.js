@@ -11,9 +11,9 @@ var gitService = require('../git/gitService')
 
 exports.storeFile = function (repo, file, callback) { 
 
-    Repo.findOneAndUpdate({URL:repo.URL}, {$push: {"Files": file}}, {upsert:true}, function(err, result) {
+    Repo.update({URL:repo.URL}, {$push: {"Files": file}}, function(err) {
         if (err) return callback(err)
-        else return callback(null, result)
+        else return callback(null)
     })
 
     // file.save(function(err) {
@@ -60,7 +60,7 @@ exports.removeFiles = function (url, callback) {
         score: false
     }
 
-	Repo.findOneAndUpdate({URL:url}, {$pull: {Files: []}, $set: {Status: status}}, {'new':true}, function(err, repo) {
+	Repo.findOneAndUpdate({URL:url}, {$pull: {Files:{}}, $set: {Status: status}}, {'new':true}, function(err, repo) {
         if (err) return callback(err)
         if (repo) return callback(null, repo)
         else return callback("Repo not found")

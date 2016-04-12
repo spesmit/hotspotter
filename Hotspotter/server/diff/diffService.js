@@ -79,7 +79,7 @@ exports.parseDiff = function(diff_raw, callback) {
 				additions.push({Content: line[i].substring(1).trim(), Line: a_line})
 				a_line++
 			} else if (first == ' ') {
-				noChanges.push({Content: line[i].trim(), Line: a_line})
+				//noChanges.push({Content: line[i].trim(), Line: a_line})
 				d_line++
 				a_line++
 			} else if (first == '') {
@@ -93,7 +93,7 @@ exports.parseDiff = function(diff_raw, callback) {
 	var diff = new Diff({
 		Additions : additions,
 		Deletions : deletions,
-		NoChanges : noChanges,
+		//NoChanges : noChanges,
 		Type : type,
 		To : to,
 		From : from

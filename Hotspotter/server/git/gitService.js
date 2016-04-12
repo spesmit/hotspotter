@@ -127,17 +127,10 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                     FullPath: filePath,
                                     Commits: commits
                                 }))
-                                callback()
-
-                                // var file = new File({
-                                //     FullPath: filePath,
-                                //     Commits: commits
-                                // })
-
-                                // fileService.storeFile(repo, file, function (err, result) {
+                                console.log("File", files[files.length-1].FullPath)
+                                // fileService.storeFile(repo, files[files.length-1], function (err, result) {
                                 //     if (err) callback(err)
                                 //     else {
-                                //        console.log("File added: ", file.FullPath)
                                 //        callback() 
                                 //     }
                                 // })         

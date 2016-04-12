@@ -59,6 +59,7 @@ module.exports.view = function (req, res) {
             console.log("ERR: " + err)
             res.json({})
         } else {
+            console.log(repo.Files.length)
             if (repo.Files.length <= 0) {
                 fileService.scanFiles(repoPath, repo, function (err, repo) {
                     if (err) {
