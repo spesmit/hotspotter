@@ -60,6 +60,7 @@ exports.createTree = function (files, callback) {
 // work in progress
 exports.updateRepo = function (repo, callback) {
     Repo.update({_id:repo._id}, repo, function (err, raw) {
+        //console.log(raw)
         if (err) return callback(err)
         else return callback(null, repo)
     })
@@ -76,7 +77,7 @@ exports.updateScore = function (repo, callback) {
 
 exports.updateStatus = function (repoURL, status, callback) {
 
-    Repo.update({URL:repoURL}, {$set:{Status:status}}, function (err, result) {
+    Repo.update({URL:repoURL}, {$set:{Status:status}}, function (err, raw) {
         if (err) return callback(err)
         else return callback(null)
     })

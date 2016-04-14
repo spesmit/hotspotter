@@ -12,6 +12,5 @@ module.exports = mongoose.model('Commit', {
     Author: String,
     TimeMs: Number,
     Scores : [{Score : Number, Time : Number, SnapshotTime: Number}],
-    Diff_RAW: String,
     Diff : diffSchema
 })

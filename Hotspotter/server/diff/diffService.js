@@ -50,7 +50,7 @@ exports.parseDiff = function(diff_raw, callback) {
 	if (index_to != -1 && index_from != -1) {
 		var to_end = diff_raw.indexOf('\n', index_to)
 	
-		var lines = diff_raw.substring(to_end).replace(/[\\]+ No newline at end of file/g, '').replace(/ @@ /g, ' @@\n ').trim()
+		var lines = diff_raw.substring(to_end).replace(/[\\]+ No newline at end of file/g, '').replace(/^ @@ /g, ' @@\n ').trim()
 		var line = lines.split('\n')
 
 		var header = ''
@@ -73,13 +73,13 @@ exports.parseDiff = function(diff_raw, callback) {
 				a_line = line[i].substring(plus+1, comma_2)
 
 			} else if (first == '-') {
-				deletions.push({Content: line[i].substring(1).trim(), Line: d_line})
+				deletions.push({Content: line[i].substring(1).trim()})
 				d_line++
 			} else if (first == '+') {
-				additions.push({Content: line[i].substring(1).trim(), Line: a_line})
+				additions.push({Content: line[i].substring(1).trim()})
 				a_line++
 			} else if (first == ' ') {
-				//noChanges.push({Content: line[i].trim(), Line: a_line})
+				//noChanges.push(line[i].trim())
 				d_line++
 				a_line++
 			} else if (first == '') {

@@ -62,85 +62,89 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
     var LastModified = new Date()
     //var Hashes = new Set()
 
-    async.each(filePaths, function (filePath, callback) {
+
+    async.each(filePaths, function (filePath, callback_files) {
 
         var path = filePath.replace(repoPath + "/", '')
+        //console.log("File:", filePath)
         simpleGit.log({'file': path}, function (err, log) {
 
             // Loop through commits in log and add to Commits array
-            commits = []
+            var commits = []
             var commitsLog = log.all
-            count = 0
-            var fileHash = sha1(filePath)
+            var fileHash = sha1(filePath) 
 
             exec('git log -p --pretty=format:%H --follow ' + path + ' > ' + '.' + fileHash + '.txt',  { cwd: './'+repoPath }, function(err, std, stderr) {
 
-                if (err) callback(err)
+                if (err) return callback(err)
+                else {
 
-                var file = repoPath + '/' + '.' + fileHash + '.txt'
-                fsService.extractDiff(file, function(err, diff_RAW) {
-                    if (err) callback(err)
-                    else {
+                    var file = repoPath + '/' + '.' + fileHash + '.txt'
+                    fsService.extractDiff(file, function(err, diff_RAW) {
+                        if (err) return callback(err)
+                        else {
+                            //console.log("File:", filePath, file)
+                            async.each(commitsLog, function (commit, callback_commits) {
+                                // Determine if commit was a bug fixing commits
+                                // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
+                                var bugfix = false
+                                if(commit.message.indexOf('fix') != -1 ||
+                                    commit.message.indexOf('close') != -1 ||
+                                    commit.message.indexOf('resolve')!= -1) {
+                                        bugfix = true
+                                }
 
-                        async.each(commitsLog, function (commit, callback) {
-                            // Determine if commit was a bug fixing commits
-                            // Keywords taken from: https://stackoverflow.com/questions/1687262/link-to-github-issue-number-with-commit-
-                            var bugfix = false
-                            if(commit.message.indexOf('fix') != -1 ||
-                                commit.message.indexOf('close') != -1 ||
-                                commit.message.indexOf('resolve')!= -1) {
-                                    bugfix = true
-                            }
+                                commit.hash = commit.hash.replace(/\W/g, '')
 
-                            commit.hash = commit.hash.replace(/\W/g, '')
+                                var hashIndex = diff_RAW.indexOf(commit.hash)
+                                var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex); 
 
-                            var hashIndex = diff_RAW.indexOf(commit.hash)
-                            var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex); 
+                                if (newLineIndex == -1) newLineIndex = diff_RAW.length-1;
 
-                            if (newLineIndex == -1) newLineIndex = diff_RAW.length-1;
+                                //console.log(hashIndex + " " + newLineIndex)
 
-                            //console.log(hashIndex + " " + newLineIndex)
+                                var diff_raw = diff_RAW.substring(hashIndex, newLineIndex)
+                                
+                                diffService.parseDiff(diff_raw, function (err, diff) {
+                                    if (err) return callback(err)
+                                    else {
+                                        commits.push(new Commit({
+                                            Time: commit.date,
+                                            Hash: commit.hash,
+                                            Author: commit.author_name,
+                                            BugFix: bugfix,
+                                            Diff: diff
+                                        })) 
+                                    } 
+                                    callback_commits()         
+                                })
 
-                            var diff_raw = diff_RAW.substring(hashIndex, newLineIndex)
-                            
-                            diffService.parseDiff(diff_raw, function (err, diff) {
-                                if (err) callback(err)
+                            },
+                            function(err) {
+
+                                if (err) return callback(err)
                                 else {
-                                    commits.push(new Commit({
-                                        Time: commit.date,
-                                        Hash: commit.hash,
-                                        Author: commit.author_name,
-                                        BugFix: bugfix,
-                                        Diff_RAW: diff_raw,
-                                        Diff: diff
-                                    })) 
-                                    callback()
-                                }          
+                                    files.push(new File({
+                                        FullPath: filePath,
+                                        Commits: commits
+                                    }))
+
+                                    // fileService.storeFile(repo, files[files.length-1], function (err, result) {
+                                    //     if (err) callback(err)
+                                    //     else {
+                                    //        callback() 
+                                    //     }
+                                    // })   
+                                    //console.log("file:", filePath)      
+                                }
+
+                                
                             })
-
-                        },
-                        function(err) {
-
-                            if (err) callback(err)
-                            else {
-                                files.push(new File({
-                                    FullPath: filePath,
-                                    Commits: commits
-                                }))
-
-                                console.log("File", files[files.length-1].FullPath)
-                                // fileService.storeFile(repo, files[files.length-1], function (err, result) {
-                                //     if (err) callback(err)
-                                //     else {
-                                //        callback() 
-                                //     }
-                                // })         
-                                callback()
-                            }
-                        })
-                    }
-                })
-            })               
+                        }
+                    })
+                }
+            })  
+            callback_files()           
         })
     },
     function (err) {
@@ -155,6 +159,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
             if (err) return callback(err)
             else return callback(null, repo)
         })
+
     })
 
 }
