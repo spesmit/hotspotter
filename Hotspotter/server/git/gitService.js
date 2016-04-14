@@ -62,7 +62,6 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
     var LastModified = new Date()
     //var Hashes = new Set()
 
-
     async.each(filePaths, function (filePath, callback_files) {
 
         var path = filePath.replace(repoPath + "/", '')
@@ -96,6 +95,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
 
                                 commit.hash = commit.hash.replace(/\W/g, '')
 
+
                                 var hashIndex = diff_RAW.indexOf(commit.hash)
                                 var newLineIndex = diff_RAW.indexOf('\n\n', hashIndex); 
 
@@ -114,11 +114,11 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                             Author: commit.author_name,
                                             BugFix: bugfix,
                                             Diff: diff
-                                        })) 
-                                    } 
-                                    callback_commits()         
+                                        }))
+                                        callback_commits()  
+                                    }        
                                 })
-
+                                 
                             },
                             function(err) {
 
@@ -135,7 +135,8 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                                     //        callback() 
                                     //     }
                                     // })   
-                                    //console.log("file:", filePath)      
+                                    //console.log("file:", filePath)    
+                                    callback_files()  
                                 }
 
                                 
@@ -144,7 +145,7 @@ exports.gitLogCommits = function (repoPath, filePaths, repo, callback) {
                     })
                 }
             })  
-            callback_files()           
+                       
         })
     },
     function (err) {

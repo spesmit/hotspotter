@@ -50,38 +50,24 @@ exports.parseDiff = function(diff_raw, callback) {
 	if (index_to != -1 && index_from != -1) {
 		var to_end = diff_raw.indexOf('\n', index_to)
 	
-		var lines = diff_raw.substring(to_end).replace(/[\\]+ No newline at end of file/g, '').replace(/^ @@ /g, ' @@\n ').trim()
+		var lines = diff_raw.substring(to_end).replace(/[\\]+ No newline at end of file/g, '').replace(/(@@ -\d+,\d+ \+\d+,\d+ @@[^\n])/g, '$1\n ').trim()
 		var line = lines.split('\n')
 
-		var header = ''
 		var additions = []
 		var deletions = []
 		var noChanges = []
 
-		var a_line, d_line, a_count, d_count
-
 		for (var i = 0; i < line.length; i++) {
+
 			var first = line[i].charAt(0);
-			if (first == '@' && header != line[i]) {
-				header = line[i]
-				var minus = line[i].indexOf('-')
-				var plus = line[i].indexOf('+')
-				var comma_1 = line[i].indexOf(',', minus)
-				var comma_2 = line[i].indexOf(',', plus)
-
-				d_line = line[i].substring(minus+1, comma_1)
-				a_line = line[i].substring(plus+1, comma_2)
-
+			if (first == '@') {
+				
 			} else if (first == '-') {
-				deletions.push({Content: line[i].substring(1).trim()})
-				d_line++
+				deletions.push(line[i].substring(1).trim().length)
 			} else if (first == '+') {
-				additions.push({Content: line[i].substring(1).trim()})
-				a_line++
+				additions.push(line[i].substring(1).trim().length)
 			} else if (first == ' ') {
 				//noChanges.push(line[i].trim())
-				d_line++
-				a_line++
 			} else if (first == '') {
 
 			} else {
