@@ -117,10 +117,6 @@
 					collapsible = options.collapsible;
 				//var isEditing = false;
 				scope.expanded = collapsible === false;
-				//scope.newNodeName = '';
-				//scope.addErrorMessage = '';
-				//scope.editName = '';
-				//scope.editErrorMessage = '';;
 
 				scope.getFolderIconClass = function () {
 					return 'icon-folder' + (scope.expanded && scope.hasChildren() ? '-open' : '');
@@ -172,81 +168,7 @@
 					return controller.isSelected(node);
 				};
 
-				/*
-				scope.addNode = function () {
-					var addEvent = {
-						commit: function (error) {
-							if (error) {
-								scope.addErrorMessage = error;
-							}
-							else {
-								scope.newNodeName = '';
-								scope.addErrorMessage = '';
-							}
-						}
-					};
-
-					controller.addNode(addEvent, scope.newNodeName, scope.node);
-				};
-
-				scope.isEditing = function () {
-					return isEditing;
-				};
-
-				scope.canRemove = function () {
-					return !(scope.hasChildren());
-				};
-
-				scope.remove = function (event, index) {
-					event.stopPropagation();
-					controller.removeNode(scope.node, index, scope.$parent.node);
-				};
-
-				scope.edit = function (event) {
-				    isEditing = true;
-				    controller.editingScope = scope;
-					//expanded = false;
-					scope.editName = scope.node[displayProperty];
-					event.stopPropagation();
-				};
-
-				scope.canEdit = function () {
-				    return !controller.editingScope || scope == controller.editingScope;
-				};
-
-				scope.canAdd = function () {
-				    return !isEditing && scope.canEdit();
-				};
-
-				scope.rename = function (event) {
-					event.stopPropagation();
-
-					var renameEvent = {
-						commit: function (error) {
-							if (error) {
-								scope.editErrorMessage = error;
-							}
-							else {
-								scope.cancelEdit();
-							}
-						}
-					};
-
-					controller.renameNode(renameEvent, scope.node, scope.editName);
-				};
-
-				scope.cancelEdit = function (event) {
-					if (event) {
-						event.stopPropagation();
-					}
-
-					isEditing = false;
-					scope.editName = '';
-					scope.editErrorMessage = '';
-					controller.editingScope = undefined;
-				};
-				*/
-
+				
 				scope.increment = function () {
 					scope.treeIndex++;
 					if (scope.treeIndex > scope.total-1)

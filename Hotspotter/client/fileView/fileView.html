@@ -42,7 +42,6 @@
     <!-- Modal -->
     <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
@@ -53,7 +52,7 @@
               <div class="legend-and-body">
                   <div class="legend-bar"></div>
                   <div class="graph-body">
-                    <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
+                    <nvd3 class="chart" options="vm.graph_options" data="vm.graph_data"></nvd3>
                   </div>
               </div>
           </div>
@@ -61,7 +60,6 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-
       </div>
     </div>
 </div>
