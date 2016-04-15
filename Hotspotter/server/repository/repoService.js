@@ -65,15 +65,6 @@ exports.updateRepo = function (repo, callback) {
     })
 }
 
-exports.updateScore = function (repo, callback) {
-
-    Repo.update({URL:repo.URL}, {Files:repo.Files}, function (err, raw) {
-        if (err) return callback(err)
-        else return callback(null, repo)
-    })
-
-}
-
 exports.updateStatus = function (repoURL, status, callback) {
 
     Repo.update({URL:repoURL}, {$set:{Status:status}}, function (err, raw) {

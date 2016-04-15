@@ -107,33 +107,33 @@ module.exports.view = function (req, res) {
                         } else {
                             if (repo.Status.score) {
                             // create fileView tree GUI
-                            repoService.createTree(files, function (err, tree) {
-                                if (err) {
-                                    console.log("ERR: " + err)
-                                    res.json({})
-                                } else {
-                                    res.json(tree)
-                                }
-                            })
-                        } else {
-                            scoringService.scoreSections(repo, sections, function (err, repo) {
-                                if (err) {
-                                    console.log("ERR: " + err)
-                                    res.json({})
-                                } else {
-                                    scoringService.normalizeSection(repo, function (err, repo) {
-                                        if (err) {
-                                            console.log("ERR: " + err)
-                                            res.json({})
-                                        } else {
-                                            repoService.updateRepo(repo, function (err, res) {
-                                                if (err) {
-                                                    console.log("ERR: " + err)
-                                                    res.json({})
-                                                } else {
-                                                    console.log("Files stored...")
-                                                }
-                                            })
+                                repoService.createTree(files, function (err, tree) {
+                                    if (err) {
+                                        console.log("ERR: " + err)
+                                        res.json({})
+                                    } else {
+                                        res.json(tree)
+                                    }
+                                })
+                            } else {
+                                scoringService.scoreSections(repo, sections, function (err, repo) {
+                                    if (err) {
+                                        console.log("ERR: " + err)
+                                        res.json({})
+                                    } else {
+                                        scoringService.normalizeSection(repo, function (err, repo) {
+                                            if (err) {
+                                                console.log("ERR: " + err)
+                                                res.json({})
+                                            } else {
+                                                repoService.updateRepo(repo, function (err, res) {
+                                                    if (err) {
+                                                        console.log("ERR: " + err)
+                                                        res.json({})
+                                                    } else {
+                                                        console.log("Files stored...")
+                                                    }
+                                                })
 
                                             // create fileView tree for GUI
                                             repoService.createTree(repo.Files, function (err, tree) {
@@ -265,7 +265,7 @@ module.exports.score = function (req, res) {
                             console.log("ERR: " + err)
                             res.json({})
                         } else {
-                            repoService.updateScore(repo, function (err, results) {
+                            repoService.updateRepo(repo, function (err, results) {
                                 if (err) {
                                     console.log("ERR: " + err)
                                     res.json({})
