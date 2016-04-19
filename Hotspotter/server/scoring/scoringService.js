@@ -60,8 +60,9 @@ exports.scoringAlgorithm = function (repo, options, callback) {
                         if (options.Deletions) 
                             if (file.Commits[i].Deletions > 0) commitScore * file.Commits[i].Deletions.length * delWeight
                        
-                        file.Commits[i].Scores.push({Score: commitScore, Time: commitTime, SnapshotTime: options.Section[j].To})
+                        //file.Commits[i].Scores.push({Score: commitScore, Time: commitTime, SnapshotTime: options.Section[j].To})
 
+                        file.Commits[i].TimeMs = commitTime
                         sumScore[j] += commitScore
 
                     }

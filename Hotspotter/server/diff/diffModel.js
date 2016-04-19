@@ -8,8 +8,8 @@ module.exports = mongoose.model('Diff', {
 	To: String,
 	From: String,
 	// Header @@ from-file-range to-file-range @@
-    Additions: [{Content: String, Line: Number}], // lines
-    Deletions: [{Content: String, Line: Number}], // lines
-    NoChanges: [{Content: String, Line: Number}],
+    Additions: [Number], // lines
+    Deletions: [Number], // lines
+    //NoChanges: [String],
     Type: String // Remove, Add, Change, Rename
 })
