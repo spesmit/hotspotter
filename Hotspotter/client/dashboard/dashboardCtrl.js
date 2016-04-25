@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
     var ngModule = angular.module('hotspotter.dashboardCtrl', []);
-    ngModule.controller('dashboardCtrl', function ($http) {
+    ngModule.controller('dashboardCtrl', function ($http, dataCtrl, fileViewCtrl, repositoryCtrl) {
 
         //"Global Variables"
         var vm = this;
