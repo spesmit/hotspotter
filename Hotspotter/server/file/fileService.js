@@ -55,9 +55,9 @@ exports.listFiles = function (url, callback) {
 exports.removeFiles = function (url, callback) {
 
     var status = {
-        clone: true,
-        scan: false,
-        score: false
+        clone: 1,
+        scan: -1,
+        score: -1
     }
 
 	Repo.findOneAndUpdate({URL:url}, {$pull: {Files:{}}, $set: {Status: status}}, {'new':true}, function(err, repo) {
@@ -77,9 +77,9 @@ exports.scanFiles = function (repoPath, repo, callback) {
                 if (err) return callback(err)
                 else {
                     repo.Status = {
-                        scan: true,
-                        score: false,
-                        clone: true
+                        scan: 1,
+                        score: -1,
+                        clone: 1
                     }
                     console.log("Files scanned...")
                     return callback(null, repo)

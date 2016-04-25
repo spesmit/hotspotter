@@ -25,6 +25,7 @@
             <label class="control-label" for="repoUrl">Database:</label>
             <div ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>
+                <li>Clone: {{repo.Status.clone}} Score:{{repo.Status.score}} Scan:{{repo.Status.scan}}</li>
             </div>
         </div>
     </div>

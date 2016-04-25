@@ -12,8 +12,8 @@ module.exports = mongoose.model('repo', {
 	ProjectOwner: String,
 	Files: [fileSchema],
 	Status: {
-		clone: Boolean,
-		scan: Boolean,
-		score: Boolean
+		clone: Number,
+		scan: Number,
+		score: Number
 	}
 })

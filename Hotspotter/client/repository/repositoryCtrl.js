@@ -38,20 +38,13 @@
         function selectRepo(url, status) {
             vm.database = false;
             vm.reposelected = true;
-
-            if (typeof status === 'undefined') {
-                status = {
-                    scan : false,
-                    score : false
-                };
-            }
             
             var score = "Score"; 
             var scan = "Scan";
 
-            if (status.score) score = "Rescore";
+            if (status.score > 0) score = "Rescore";
 
-            if (status.scan) scan = "Rescan";
+            if (status.scan > 0) scan = "Rescan";
 
             vm.selected = {
                 URL: url,

@@ -48,9 +48,9 @@ exports.gitPull = function (repoURL, callback) {
             stdout.pipe(process.stdout)
             stderr.pipe(process.stderr)
         })
-        .pull(repoURL, function(err) {
+        .pull(repoURL, function(err, update) {
             if (err) callback(err)
-            else callback(null)
+            else callback(null, update)
         })
 }
 
