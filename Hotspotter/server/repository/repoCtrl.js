@@ -30,7 +30,9 @@ module.exports.create = function (req, res) {
                     console.log("ERR: " + err)
                     res.json([])
                 } else {
-                    scanFiles(repo)
+                    scanFiles(repo, repoPath, function (err, repo) {
+                         if (err) console.log("ERR: " + err)
+                    })
                     res.json(repo)
                 }
             })
@@ -54,7 +56,7 @@ module.exports.view = function (req, res) {
     var repoURL     = req.params.repo
     var repoURLHash = sha1(repoURL)
     var repoPath    = "tempProjects/" + repoURLHash
-    var sections    = 10
+    var snapshots    = 10
 
 
     repoService.retrieveRepo(repoURL, function (err, repo) {
@@ -63,39 +65,22 @@ module.exports.view = function (req, res) {
             res.json({})
         } else {
             if (repo.Status.scan == -1) {
-                fileService.scanFiles(repoPath, repo, function (err, repo) {
+                scanFiles(repo, repoPath, function (err, repo) {
                     if (err) {
                         console.log("ERR: " + err)
                         res.json({})
                     } else {
-                        scoringService.scoreSections(repo, sections, function (err, repo) {
+                        scoreFiles(repo, snapshots, function (err, repo) {
                             if (err) {
                                 console.log("ERR: " + err)
                                 res.json({})
-                            } else {
-                                scoringService.normalizeSection(repo, function (err, repo) {
+                            } else { 
+                                repoService.createTree(repo.Files, function (err, tree) {
                                     if (err) {
                                         console.log("ERR: " + err)
                                         res.json({})
                                     } else {
-                                        repoService.updateRepo(repo, function (err, res) {
-                                            if (err) {
-                                                console.log("ERR: " + err)
-                                                res.json({})
-                                            } else {
-                                                console.log("Files stored...")
-                                            }
-                                        })
-
-                                        // create fileView tree for GUI
-                                        repoService.createTree(repo.Files, function (err, tree) {
-                                            if (err) {
-                                                console.log("ERR: " + err)
-                                                res.json({})
-                                            } else {
-                                                res.json(tree)
-                                            }
-                                        })
+                                        res.json(tree)
                                     }
                                 })
                             }
@@ -104,52 +89,36 @@ module.exports.view = function (req, res) {
                 })
             } else {
                 fileService.fetchFiles(repo.URL, function (err, files) {
-                        if (err) {
-                            console.log("ERR: " + err)
-                            res.json({})
+                    if (err) {
+                        console.log("ERR: " + err)
+                        res.json({})
+                    } else {
+                        if (repo.Status.score == 1) {
+                        // create fileView tree GUI
+                            repoService.createTree(files, function (err, tree) {
+                                if (err) {
+                                    console.log("ERR: " + err)
+                                    res.json({})
+                                } else {
+                                    res.json(tree)
+                                }
+                            })
                         } else {
-                            if (repo.Status.score) {
-                            // create fileView tree GUI
-                                repoService.createTree(files, function (err, tree) {
-                                    if (err) {
-                                        console.log("ERR: " + err)
-                                        res.json({})
-                                    } else {
-                                        res.json(tree)
-                                    }
-                                })
-                            } else {
-                                scoringService.scoreSections(repo, sections, function (err, repo) {
-                                    if (err) {
-                                        console.log("ERR: " + err)
-                                        res.json({})
-                                    } else {
-                                        scoringService.normalizeSection(repo, function (err, repo) {
-                                            if (err) {
-                                                console.log("ERR: " + err)
-                                                res.json({})
-                                            } else {
-                                                repoService.updateRepo(repo, function (err, res) {
-                                                    if (err) {
-                                                        console.log("ERR: " + err)
-                                                        res.json({})
-                                                    } else {
-                                                        console.log("Files stored...")
-                                                    }
-                                                })
-
-                                            // create fileView tree for GUI
-                                            repoService.createTree(repo.Files, function (err, tree) {
-                                                if (err) {
-                                                    console.log("ERR: " + err)
-                                                    res.json({})
-                                                } else {
-                                                    res.json(tree)
-                                                }
-                                            })
+                            scoreFiles(repo, snapshots, function (err, repo) {
+                                if (err) {
+                                    console.log("ERR: " + err)
+                                    res.json({})
+                                } else {
+                                    // create fileView tree for GUI
+                                    repoService.createTree(repo.Files, function (err, tree) {
+                                        if (err) {
+                                            console.log("ERR: " + err)
+                                            res.json({})
+                                        } else {
+                                            res.json(tree)
                                         }
                                     })
-                                }
+                                } 
                             })
                         }
                     }
@@ -198,7 +167,9 @@ module.exports.scan = function (req, res) {
                 console.log("Scan in progress...")
                 res.json({})
             } else {
-                scanFiles(repo, repoPath)
+                scanFiles(repo, repoPath, function (err, repo) {
+                    if (err) console.log("ERR: " + err)
+                })
                 res.json(repo)
             }
             
@@ -207,39 +178,37 @@ module.exports.scan = function (req, res) {
 
 }
 
-var scanFiles = function (repo, repoPath) {
+var scanFiles = function (repo, repoPath, callback) {
     repo.Status = {
         clone: 1,
         scan:  0, // scan inprogress
         score: -1
     }
     repoService.updateStatus(repo, repo.Status, function (err) {
-        if (err) {
-            console.log("ERR: " + err)
-            res.json({})
-        } else {
+        if (err) callback(err)
+        else {
             fileService.scanFiles(repoPath, repo, function (err, repo) {
                 if (err) {
-                    console.log("ERR: " + err)
+                    var scan_err = err
                     repo.Status = {
                         clone: 1,
                         scan:  -1, // scan fail
                         score: -1
                     }
                     repoService.updateStatus(repo, repo.Status, function (err) {
-                        if (err) {
-                            console.log("ERR: " + err)
-                        } else {
+                        if (err) callback(err)
+                        else {
                             console.log("Scan Failed...")
+                            callback(scan_err)
                         }
                     })
 
                 } else {
                     repoService.updateRepo(repo, function (err) {
-                        if (err) {
-                            console.log("ERR: " + err)
-                        } else {
+                        if (err) callback(err)
+                        else {
                             console.log("Files stored...")
+                            callback(null, repo)
                         }
                     })
                 }
@@ -260,54 +229,60 @@ module.exports.update = function (req, res) {
         } else {
             if (repo.Status.clone == 0) {
                 console.log("Pull in progress")
+                res.json({})
             } else {
-
-                repo.Status = {
-                    clone: 0,
-                    scan: -1,
-                    score: -1
-                }
-                repoService.updateStatus(repo, repo.Status, function (err) {
-                    if (err) {
-                        console.log("ERR: " + err)
-                    } else {
-                        gitService.gitPull(repoURL, function (err, update) {
-                            if (err) {
-                                console.log("ERR: " + err)
-                                repo.Status = {
-                                    clone: -1,
-                                    scan: -1,
-                                    score: -1
-                                }
-                                repoService.updateStatus(repo, repo.Status, function (err) {
-                                    if (err) {
-                                        console.log("ERR: " + err) 
-                                    } else {
-                                        console.log("Pull Fail...")
-                                    }
-                                })
-                            } else {
-                                console.log("Pull successful...")
-                                if (update && update.summary.changes > 0) {
-                                    scanFiles(repo, repoPath)   
-                                } else {
-                                    repo.Status = {
-                                        clone: 1,
-                                        scan: -1,
-                                        score: -1
-                                    }
-                                    repoService.updateStatus(repo, repo.Status, function (err) {
-                                        if (err) {
-                                            console.log("ERR: " + err) 
-                                        } 
-                                    })
-                                }
-                            }
-                        })
-                    }
+                updateFiles(repo, repoPath, function (err, repo) {
+                    if (err) console.log("ERR: " + err) 
                 })
                 res.json(repo)
             }
+        }
+    })
+}
+
+var updateFiles = function(repo, repoPath, callback) {
+    repo.Status = {
+        clone: 0,
+        scan: -1,
+        score: -1
+    }
+    repoService.updateStatus(repo, repo.Status, function (err) {
+        if (err) callback(err)
+        else {
+            gitService.gitPull(repo.URL, function (err, update) {
+                if (err) {
+                    repo.Status = {
+                        clone: -1,
+                        scan: -1,
+                        score: -1
+                    }
+                    repoService.updateStatus(repo, repo.Status, function (err) {
+                        if (err) callback(err)
+                        else {
+                            console.log("Pull Fail...")
+                        }
+                    })
+                    callback(err)
+                } else {
+                    console.log("Pull successful...")
+                    if (update && update.summary.changes > 0) {
+                        scanFiles(repo, repoPath, function (err, repo) {
+                            if (err) callback(err)
+                            else callback(null, repo)
+                        })   
+                    } else {
+                        repo.Status = {
+                            clone: 1,
+                            scan: -1,
+                            score: -1
+                        }
+                        repoService.updateStatus(repo, repo.Status, function (err) {
+                            if (err) callback(err)
+                        })
+                        callback(null, repo)
+                    }
+                }
+            })
         }
     })
 }
@@ -326,43 +301,46 @@ module.exports.score = function (req, res) {
                 console.log("Scoring in progress...")
                 res.json({})
             } else {
-
-                repo.Status = {
-                    clone: 1,
-                    scan: 1,
-                    score: 0
-                }
-                repoService.updateStatus(repo, repo.Status, function (err) {
+                scoreFiles(repo, snapshots, function (err, repo) {
                     if (err) {
                         console.log("ERR: " + err)
                         res.json({})
                     } else {
-                        scoringService.scoreSections(repo, snapshots, function (err, repo) {
-                            if (err) {
-                                console.log("ERR: " + err)
-                                res.json({})
-                            } else {
-                                scoringService.normalizeSection(repo, function (err, repo) {
-                                    if (err) {
-                                        console.log("ERR: " + err)
-                                        res.json({})
-                                    } else {
-                                        repoService.updateRepo(repo, function (err, results) {
-                                            if (err) {
-                                                console.log("ERR: " + err)
-                                                res.json({})
-                                            } else {
-                                                console.log("Scores stored...")
-                                            }
-                                        })
-                                        res.json(repo)
-                                    }
-                                })
-                            }
-                        })
+                        res.json(repo)
                     }
                 })
             }
+        }
+    })
+}
+
+var scoreFiles = function(repo, snapshots, callback) {
+
+    repo.Status = {
+        clone: 1,
+        scan: 1,
+        score: 0
+    }
+    repoService.updateStatus(repo, repo.Status, function (err) {
+        if (err) callback(err) 
+        else {
+            scoringService.scoreSections(repo, snapshots, function (err, repo) {
+                if (err) callback(err) 
+                else {
+                    scoringService.normalizeSection(repo, function (err, repo) {
+                        if (err) callback(err) 
+                        else {
+                            repoService.updateRepo(repo, function (err, results) {
+                                if (err) callback(err) 
+                                else {
+                                    console.log("Scores stored...")
+                                }
+                            })
+                            callback(null, repo)
+                        }
+                    })
+                }
+            })
         }
     })
 }
