@@ -15,10 +15,23 @@
         vm.graph_options = {};
         vm.graph_data = {};
 
+
+        //ADVANCED SETTINGS
+        vm.database = true;
+        vm.reposelected = false;
+        vm.selected = {};
+
+        //"Global Functions"
+        vm.selectRepo = selectRepo;
+        vm.scanRepo = scanRepo;
+        vm.scoreRepo = scoreRepo;
+
+
         //"Global Functions"
         vm.viewRepository = viewRepository;
         vm.listRepos = listRepos;
         vm.clearView = clearView;
+        vm.clearRepo = clearRepo;
         vm.fileGraph = fileGraph;
         vm.init =  init;
 
@@ -36,7 +49,8 @@
 
             vm.database = false;
             vm.loading = true;
-            
+            vm.reposelected = false;
+
             $http.get('/api/repo/' + encodeURIComponent(repoURL)).then(function (response){
 
                 // Example structure
@@ -78,9 +92,84 @@
             vm.graph_options = {};
             vm.graph_data = {};
             $scope.structure = [];
+            clearRepo();
 
         }
+        
+   // ADANCED SETTINGS
+        function selectRepo(url, status) {
+            vm.database = false;
+            vm.reposelected = true;
 
+            if (typeof status === 'undefined') {
+                status = {
+                    scan : false,
+                    score : false
+                };
+            }
+
+            var score = "Score";
+            var scan = "Scan";
+
+            if (status.score) score = "Rescore";
+
+            if (status.scan) scan = "Rescan";
+
+            vm.selected = {
+                URL: url,
+                Status: status,
+                Options : {
+                    Score : score,
+                    Scan : scan
+                }
+            };
+
+            scanRepo();
+
+
+        }
+        
+        function scanRepo(repoUrl) {
+            vm.loading = true;
+            $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
+                console.log(response.data);
+                vm.loading = false;
+                vm.selected.Status.scan = true;
+                vm.selected.Options.Scan = "Rescan";
+            });
+        }
+
+        function clearRepo() {
+            vm.database = true;
+            vm.reposelected = false;
+            vm.selected = {};
+        }
+
+        function scoreRepo(repoUrl, snapshots) {
+            vm.loading = true;
+            $http.get('/api/repo/score/'+ encodeURIComponent(repoUrl) + '/' +  encodeURIComponent(snapshots)).then( function (response){
+                console.log(response.data);
+                vm.loading = false;
+                vm.selected.Status.score = true;
+                vm.selected.Options.Score = "Rescore";
+            });
+        }
+
+       
+        
+
+        //
+        //
+        //
+        // GRAPH CODE
+        //
+        //
+        //
+        //
+        //
+        //
+        //
+        //
         function fileGraph(data) {
             vm.graph = true;
 
