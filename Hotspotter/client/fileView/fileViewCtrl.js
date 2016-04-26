@@ -216,15 +216,7 @@
                     }
                 },
                 duration : 0,
-                zoom: {
-                    enabled: true,
-                    scaleExtent: [1, 10],
-                    useFixedDomain: false,
-                    useNiceScale: false,
-                    horizontalOff: false,
-                    verticalOff: true,
-                    unzoomEventType: 'dblclick.zoom'
-                },
+               
                 callback: function(chart){
                     console.log("!!! lineChart callback !!!");
                 }
@@ -232,7 +224,15 @@
             title: {
                 enable: true,
                 text: data.name + ' lifetime'
-            }
+            },
+            "styles": {
+                "classes": {
+                  "with-3d-shadow": false,
+                  "nv-line": false,
+                  "gallery": false
+                },
+                "css": {}
+              }
             };
 
             console.log(data);

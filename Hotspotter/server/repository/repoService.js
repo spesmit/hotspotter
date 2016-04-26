@@ -65,9 +65,8 @@ exports.updateRepo = function (repo, callback) {
     })
 }
 
-exports.updateStatus = function (repoURL, status, callback) {
-
-    Repo.update({URL:repoURL}, {$set:{Status:status}}, function (err, raw) {
+exports.updateStatus = function (repo, status, callback) {
+    Repo.update({_id:repo._id}, {$set:{Status:status}}, function (err, raw) {
         if (err) return callback(err)
         else return callback(null)
     })
@@ -85,9 +84,9 @@ exports.listRepo = function (callback) {
 exports.createRepo = function (repo, callback) {
     // initial status
     repo.Status = {
-        clone: true,
-        scan: false,
-        score: false
+        clone: 1,
+        scan: -1,
+        score: -1
     }
 
     repo.save(function (err, result) {

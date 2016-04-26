@@ -82,9 +82,9 @@ exports.scoringAlgorithm = function (repo, options, callback) {
         if (err) return callback(err)
         else {
             repo.Status = {
-                clone: true,
-                scan: true,
-                score: true
+                clone: 1,
+                scan: 1,
+                score: 1
             }
             return callback(null, repo)
         }
