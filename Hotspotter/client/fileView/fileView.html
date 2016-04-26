@@ -9,10 +9,9 @@
                 <label class="control-label">Database:</label>
                 <div style="margin-bottom: 10px;" ng-repeat="repo in vm.repos">
                     <div class="clearfix">{{repo.URL}}
-                        <button style="margin-left: 10px;" class="btn btn-primary pull-right"
-                                ng-click='vm.selectRepo(repo.URL, repo.Status)'>
-                            Advanced Settings
-                        </button>
+                        <button style = "margin-left: 10px;" class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.Status)'>
+                        Advanced Settings
+                    </button>
                         <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View
                             Hotspots
                         </button>
@@ -21,7 +20,7 @@
                 </div>
                 <br>
             </div>
-        </div>
+
         <div id="loading" ng-show="vm.loading">
             <img src="/images/fireball.gif">
             Preheating...
@@ -51,58 +50,61 @@
                 </button>
             </div>
         </div>
-
-        <!-- Modal -->
-        <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Hotspot Score versus Time</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="legend-and-body">
-                            <div class="legend-bar"></div>
-                            <div class="graph-body">
-                                <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
-                            </div>
+    </div>
+    <!-- Modal -->
+    <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Hotspot Score versus Time</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="legend-and-body">
+                        <div class="legend-bar"></div>
+                        <div class="graph-body">
+                            <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-        <div ng-if="vm.reposelected == true && vm.loading == false">
-            <label class="control-label">Repository:</label>
-            <div class="clearfix">{{vm.selected.URL}}
-                <form name="snapshots">
-                    <div class="form-group">
-                        <label class="control-label" for="snapshot">Snapshots:</label>
-                        <input type="text"
-                               ng-model="vm.snapshot" required
-                               pattern="\d+"
-                               id="snapshot"
-                               class="form-control"
-                               placeholder="100"/>
-                    </div>
-                    <label>Default:
-                        <input type="checkbox" ng-model="vm.default">
-                    </label><br/>
-                    <label>Commit Size:
-                        <input type="checkbox" ng-model="vm.commit_size">
-                    </label><br/>
-                    <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan"
-                            ng-click='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">
-                        {{vm.selected.Options.Score}}
+    </div>
+        <div class="col-sm-6 col-sm-offset-3">
+            <div ng-if="vm.reposelected == true && vm.loading == false">
+                <label class="control-label">Repository:</label>
+                <div class="clearfix">{{vm.selected.URL}}
+                    <form name="snapshots">
+                        <div class="form-group">
+                            <label class="control-label" for="snapshot">Snapshots:</label>
+                            <input type="text"
+                                   ng-model="vm.snapshot" required
+                                   pattern="\d+"
+                                   id="snapshot"
+                                   class="form-control"
+                                   placeholder="100"/>
+                        </div>
+                        <label>Default:
+                            <input type="checkbox" ng-model="vm.default">
+                        </label><br/>
+                        <label>Commit Size:
+                            <input type="checkbox" ng-model="vm.commit_size">
+                        </label><br/>
+                        <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan"
+                                ng-click='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">
+                            {{vm.selected.Options.Score}}
+                        </button>
+                    </form>
+                    <br>
+                    <br>
+                    <button class="btn btn-primary pull-left" ng-click='vm.viewRepository(vm.selected.URL)'>View
+                        Hotspots
                     </button>
-                </form>
-                <br><br><br>
-                <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(vm.selected.URL)'>View
-                    Hotspots
-                </button>
+                </div>
             </div>
         </div>
     </div>
