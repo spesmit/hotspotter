@@ -22,9 +22,9 @@
                 <button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository(vm.repoUrl)" class="btn btn-primary">Add Repository</button>
             </form>
             <label class="control-label" for="repoUrl">Database:</label>
-            <div ng-repeat="repo in vm.repos">
+            <div style="margin-bottom: 10px;" ng-repeat="repo in vm.repos">
                 <li>{{repo.URL}}</li>
-                <a href="/files" class="btn btn-primary">View</a>
+                <a href="/repositoryView" class="btn btn-primary">View</a>
                 <button ng-click ="vm.scanRepo(repo.URL)" class="btn btn-primary">Rescore</button>
                 <button ng-click ="vm.updateRepo(repo.URL)" class="btn btn-primary">Update</button>
                 <button ng-click ="vm.exportData(repo.URL)" class="btn btn-primary">Export Data</button>
