@@ -11,7 +11,7 @@ module.exports.export = function (req, res) {
             scoringService.scoreSections(repo, 100, function (err, repo) {
                 if (err) console.log("ERR: " + err)
                 else {
-                    scoringService.normalizeSection(repo, function (err, repo) {
+                    scoringService.normalizeSection(repo, {"Offset": 0}, function (err, repo) {
                         if (err) console.log("ERR: " + err)
                         else {
                             data = []
