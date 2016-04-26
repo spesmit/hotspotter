@@ -65,9 +65,9 @@
                     <br><br><br>
                     <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
                     <button class="btn btn-primary" ng-click='vm.updateRepo(vm.selected.URL)'>Update</button>
-                    <button class="btn btn-primary" ng-click='vm.removeRepo(vm.selected.URL)'>Delete</button>
+                    <button class="btn btn-primary" ng-click='vm.deleteRepo(vm.selected.URL)'>Delete</button>
                     <button class="btn btn-primary" ng-click='vm.viewRepository(vm.selected.URL)'>View Hotspots</button>
-                    <button class="btn btn-primary" ng-disabled='!vm.selected.Status.score==1' ng-click ="vm.exportData(vm.selected.URL)">Export Data</button>
+                    <button class="btn btn-primary" ng-disabled='!vm.selected.Status.score===1' ng-click ="vm.exportData(vm.selected.URL)">Export Data</button>
                 </div>
             </div>
 

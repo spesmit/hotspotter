@@ -40,6 +40,7 @@
         vm.viewRepository = viewRepository;
         vm.clearView = clearView;
         vm.fileGraph = fileGraph;
+        vm.scoreRepo = scoreRepo;
 
         vm.init = init;
 
@@ -297,23 +298,6 @@
 
         }
 
-        // function scanRepo(repoUrl){
-        //     vm.loadingMessage = 'Scanning';
-        //     vm.loading = true;
-        //     $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then(function () {
-        //         vm.loading = false;
-        //     });
-        // }
-        
-        // function updateRepo(repoUrl){
-        //     vm.loadingMessage = 'Updating';
-        //     vm.loading = true;
-        //     $http.get('/api/repo/update/' + encodeURIComponent(repoUrl)).then(function (response) {
-        //         console.log(response.data);
-        //         vm.loading = false;
-        //     });
-            
-        // }
 
         function exportData(repoUrl){
             /*
@@ -333,6 +317,8 @@
                 var index = lodash.findIndex(vm.repos, {'URL': repoUrl});
                 vm.repos.splice(index, 1);
                 vm.loading = false;
+                vm.adding = true;
+                vm.advanced = false;
             });
         }
     }
