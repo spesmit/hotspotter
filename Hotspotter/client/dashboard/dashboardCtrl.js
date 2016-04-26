@@ -1,9 +1,11 @@
-(function (angular) {
-    'use strict';
-    var ngModule = angular.module('hotspotter.dashboardCtrl', ['hotspotter,dataCtrl', 'hotspotter.fileViewCtrl', 'hotspotter.repositoryCtrl']);
-    ngModule.controller('dashboardCtrl', function ($http, dataCtrl, fileViewCtrl, repositoryCtrl) {
+(function () {
+    angular
+        .module('hotspotter.dashboardCtrl', ['hotspotter.dataCtrl', 'hotspotter.repositoryCtrl'])
+        .controller('dashboardCtrl', dashboardCtrl);
 
-        //"Global Variables"
+    function dashboardCtrl($http, $scope,  dataCtrl, repositoryCtrl) {
+
+        //"Global Variables", 'hotspotter.fileViewCtrl'  fileViewCtrl,
         var vm = this;
         vm.success = false;
         vm.loading = false;
@@ -18,12 +20,13 @@
         function init() {
             vm.listRepos();
         }
+
         init();
 
         // Add a repository
         function addRepository(repoUrl) {
             vm.loading = true;
-            return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function (){
+            return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function () {
                 vm.success = true;
                 vm.addedRepo = vm.repoUrl;
                 vm.repoUrl = '';
@@ -31,12 +34,13 @@
                 listRepos();
             });
         }
+
         //Lists all repos that have been checked out
         function listRepos() {
-            return $http.get('/api/repo').then( function (response){
+            return $http.get('/api/repo').then(function (response) {
                 vm.repos = response.data;
 
             });
         }
-    });
-}(window.angular));
+    }
+})();
