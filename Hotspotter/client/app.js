@@ -24,7 +24,7 @@
 
         $routeProvider.when(
             '/files', {
-                templateUrl: 'fileView/fileView.html',
+               templateUrl: 'fileView/fileView.html',
                 pageName: 'Files'
             });
 

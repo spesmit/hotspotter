@@ -35,41 +35,9 @@
             });
         }
 
-        function selectRepo(url, status) {
-            vm.database = false;
-            vm.reposelected = true;
 
-            if (typeof status === 'undefined') {
-                status = {
-                    scan : false,
-                    score : false
-                };
-            }
-            
-            var score = "Score"; 
-            var scan = "Scan";
 
-            if (status.score) score = "Rescore";
 
-            if (status.scan) scan = "Rescan";
-
-            vm.selected = {
-                URL: url,
-                Status: status,
-                Options : {
-                    Score : score,
-                    Scan : scan
-                }
-            };
-    
-
-        }
-
-        function clearRepo() {
-            vm.database = true;
-            vm.reposelected = false;
-            vm.selected = {};
-        }
 
         function scanRepo(repoUrl) {
            vm.loading = true;
@@ -89,15 +57,7 @@
             });
         }
 
-        function scoreRepo(repoUrl, snapshots) {
-            vm.loading = true;
-            $http.get('/api/repo/score/'+ encodeURIComponent(repoUrl) + '/' +  encodeURIComponent(snapshots)).then( function (response){
-                console.log(response.data);
-                vm.loading = false;
-                vm.selected.Status.score = true;
-                vm.selected.Options.Score = "Rescore";
-            });
-        }
+
 
         function removeRepo(repoUrl) {
             vm.loading = true;

@@ -1,151 +1,112 @@
-<div class="container" ng-controller="dashboardCtrl as vm">
-    <div id="veil1" ng-show="vm.loading"></div>
-    <div class="row">
-        <div id="loadingDashbaord" ng-show="vm.loading">
-            <img src = "/images/fireball.gif">
-            <br>{{vm.loadingMessage}}
-        </div>
-        <div ng-show="!vm.loading"class="col-sm-6 col-sm-offset-3">
-            <div ng-if="vm.success">
-                <p>Repository at <a href="{{vm.addedRepo}}" target="_blank">{{vm.addedRepo}}</a> is now being analyzed and monitored...</p>
-            </div>
-            <form name="addRepo">
-                <div class="form-group">
-                    <label class="control-label" for="repoUrl">Repository:</label>
-                    <input  type="text"
-                            ng-model="vm.repoUrl" required
-                            pattern="^https?://.+\.git$"
-                            id="repoUrl"
-                            class="form-control"
-                            placeholder="https://github.com/example/repository.git"/>
-                </div>
-                <button ng-disabled="addRepo.$invalid" ng-click ="vm.addRepository(vm.repoUrl)" class="btn btn-primary">Add Repository</button>
-            </form>
-            <label class="control-label" for="repoUrl">Database:</label>
-            <div ng-repeat="repo in vm.repos">
-                <li>{{repo.URL}}</li>
-                <button ng-click ="" class="btn btn-primary">View</button>
-                <button ng-click ="vm.scanRepo(repo.URL)" class="btn btn-primary">Rescore</button>
-                <button ng-click ="vm.updateRepo(repo.URL)" class="btn btn-primary">Update</button>
-                <button ng-click ="vm.exportData(repo.URL)" class="btn btn-primary">Export Data</button>
-                <button ng-click ="vm.deleteRepo(repo.URL)" class="btn btn-primary">Delete</button>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /.container -->
 <div class="container" ng-controller="fileViewCtrl as vm">
     <div id="veil" ng-show="vm.loading"></div>
     <div class="row">
-        <div ng-if='!vm.database && !vm.loading'><button class="btn btn-primary pull-right" ng-click='vm.clearView()'>Back</button></div>
+        <div ng-if='!vm.database && !vm.loading'>
+            <button class="btn btn-primary pull-right" ng-click='vm.clearView()'>Back</button>
+        </div>
         <div class="col-sm-6 col-sm-offset-3">
             <div ng-if="vm.database == true">
                 <label class="control-label">Database:</label>
-                <div ng-repeat="repo in vm.repos">
+                <div style="margin-bottom: 10px;" ng-repeat="repo in vm.repos">
                     <div class="clearfix">{{repo.URL}}
-                        <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View</button>
+                        <button style="margin-left: 10px;" class="btn btn-primary pull-right"
+                                ng-click='vm.selectRepo(repo.URL, repo.Status)'>
+                            Advanced Settings
+                        </button>
+                        <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(repo.URL)'>View
+                            Hotspots
+                        </button>
                     </div>
-                    <br>
-                </div>
-            </div>
-            <div id="loading2" ng-show="vm.loading">
-                <img src = "/images/fireball.gif">
-                Preheating...
-            </div>
-            <div ng-if="vm.files && !vm.database">
-                <div style="display: block">
-                    <div class="legend-label"><label>Legend</label></div>
-                    <div><span class="hot-label" >Hot</span></div>
-                    <div><span class="cold-label">Cold</span></div>
-                    <div class="color-legend"></div>
+
                 </div>
                 <br>
-                <label class="control-label">File System:</label>
-                <div tree-view="structure" tree-view-options="options" tree-index="vm.index"></div>
-                <div ng-if="vm.selectedFile && !vm.loading" class="file-details">
-                    <h1>{{vm.selectedFile.name}}</h1>
-                    <ul>
-                        <li>{{ ((1 - vm.selectedFile.score[vm.index].Score) * 100).toFixed(1) }}% Likelihood of Containing Bugs</li>
-                        <li>Last Touched By: {{ vm.selectedFile.last_touched_by }}</li>
-                        <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
-                    </ul>
-                    <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)' onclick='setTimeout(
-                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 1000)' data-toggle="modal" data-target="#graphModal">Graph</button>
+            </div>
+        </div>
+        <div id="loading" ng-show="vm.loading">
+            <img src="/images/fireball.gif">
+            Preheating...
+        </div>
+        <div ng-if="vm.files && !vm.database">
+            <div style="display: block">
+                <div class="legend-label"><label>Legend</label></div>
+                <div><span class="hot-label">Hot</span></div>
+                <div><span class="cold-label">Cold</span></div>
+                <div class="color-legend"></div>
+            </div>
+            <br>
+            <label class="control-label">File System:</label>
+            <div tree-view="structure" tree-view-options="options" tree-index="vm.index"></div>
+            <div ng-if="vm.selectedFile && !vm.loading" class="file-details">
+                <h1>{{vm.selectedFile.name}}</h1>
+                <ul>
+                    <li>{{ ((1 - vm.selectedFile.score[vm.index].Score) * 100).toFixed(1) }}% Likelihood of Containing
+                        Bugs
+                    </li>
+                    <li>Last Touched By: {{ vm.selectedFile.last_touched_by }}</li>
+                    <li><p ng-bind="vm.selectedFile.last_updated | date:'EEE MMM dd, yyyy - h:mma'"></p></li>
+                </ul>
+                <button class="btn btn-primary pull-right" ng-click='vm.fileGraph(vm.selectedFile)' onclick='setTimeout(
+                    function() { window.dispatchEvent(new Event("resize"));console.log("resize"); }, 1000)'
+                        data-toggle="modal" data-target="#graphModal">Graph
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Hotspot Score versus Time</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="legend-and-body">
+                            <div class="legend-bar"></div>
+                            <div class="graph-body">
+                                <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal -->
-    <div ng-if="vm.graph == true" id="graphModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Hotspot Score versus Time</h4>
-          </div>
-          <div class="modal-body">
-              <div class="legend-and-body">
-                  <div class="legend-bar"></div>
-                  <div class="graph-body">
-                    <nvd3 options="vm.graph_options" data="vm.graph_data"></nvd3>
-                  </div>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+        <div ng-if="vm.reposelected == true && vm.loading == false">
+            <label class="control-label">Repository:</label>
+            <div class="clearfix">{{vm.selected.URL}}
+                <form name="snapshots">
+                    <div class="form-group">
+                        <label class="control-label" for="snapshot">Snapshots:</label>
+                        <input type="text"
+                               ng-model="vm.snapshot" required
+                               pattern="\d+"
+                               id="snapshot"
+                               class="form-control"
+                               placeholder="100"/>
+                    </div>
+                    <label>Default:
+                        <input type="checkbox" ng-model="vm.default">
+                    </label><br/>
+                    <label>Commit Size:
+                        <input type="checkbox" ng-model="vm.commit_size">
+                    </label><br/>
+                    <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan"
+                            ng-click='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">
+                        {{vm.selected.Options.Score}}
+                    </button>
+                </form>
+                <br><br><br>
+                <button class="btn btn-primary pull-right" ng-click='vm.viewRepository(vm.selected.URL)'>View
+                    Hotspots
+                </button>
+            </div>
         </div>
-      </div>
     </div>
 </div>
 
-<div class="container" ng-controller="repositoryCtrl as vm">
-    <div id="veil3" ng-show="vm.loading"></div>
-    <div class="row">
-        <div ng-if='vm.database == false && vm.loading == false'><button class="btn btn-primary pull-right" ng-click='vm.clearRepo()'>Back</button></div>
-        <div class="col-sm-6 col-sm-offset-3">
-            <div ng-if="vm.database == true">
-                <label class="control-label">Database:</label>
-                <div ng-repeat="repo in vm.repos">
-                    <div class="clearfix">{{repo.URL}}
-                        <button class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.Status)'>Select</button>
-                    </div>
-                    <br>
-                </div>
-            </div>
-            <div id="loading" ng-show="vm.loading">
-                <img src = "/images/fireball.gif">
-                Loading...
-            </div>
-            <div ng-if="vm.reposelected == true && vm.loading == false">
-                <label class="control-label">Repository:</label>
-                <div class="clearfix">{{vm.selected.URL}}
-                    <form name="snapshots">
-                        <div class="form-group">
-                            <label class="control-label" for="snapshot">Snapshots:</label>
-                            <input  type="text"
-                                    ng-model="vm.snapshot" required
-                                    pattern="\d+"
-                                    id="snapshot"
-                                    class="form-control"
-                                    placeholder="100"/>
-                        </div>
-                        <label>Default:
-                            <input type="checkbox" ng-model="vm.default">
-                        </label><br/>
-                        <label>Commit Size:
-                            <input type="checkbox" ng-model="vm.commit_size">
-                        </label><br/>
-                        <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
-                    </form>
-                    <br><br><br>
-                    <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
-                    <button class="btn btn-primary" ng-click='vm.updateRepo(vm.selected.URL)'>Update</button>
-                    <button class="btn btn-primary" ng-click='vm.removeRepo(vm.selected.URL)'>Remove</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+<!--THIS IS THE ADVANCED SETTINGS-->
