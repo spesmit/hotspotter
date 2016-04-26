@@ -1,19 +1,25 @@
 (function () {
     angular
-        .module('hotspotter.dashboardCtrl', ['hotspotter.dataCtrl', 'hotspotter.repositoryCtrl'])
+        .module('hotspotter.dashboardCtrl', ['hotspotter.dataCtrl'])
         .controller('dashboardCtrl', dashboardCtrl);
 
-    function dashboardCtrl($http, $scope,  dataCtrl, repositoryCtrl) {
+    function dashboardCtrl($http, lodash, dataCtrl) {
 
         //"Global Variables", 'hotspotter.fileViewCtrl'  fileViewCtrl,
         var vm = this;
         vm.success = false;
         vm.loading = false;
+        vm.loadingMessage = 'Loading';
         vm.repos = [];
 
         //"Global Functions"
         vm.addRepository = addRepository;
         vm.listRepos = listRepos;
+        vm.scanRepo = scanRepo;
+        vm.updateRepo = updateRepo;
+        vm.exportData = exportData;
+        vm.deleteRepo = deleteRepo;
+
         vm.init = init;
 
         //Anything that needs to be instantiated on page load goes in the init
@@ -25,6 +31,7 @@
 
         // Add a repository
         function addRepository(repoUrl) {
+            vm.loadingMessage = 'Checking Out';
             vm.loading = true;
             return $http.post("/api/repo/" + encodeURIComponent(repoUrl)).then(function () {
                 vm.success = true;
@@ -40,6 +47,38 @@
             return $http.get('/api/repo').then(function (response) {
                 vm.repos = response.data;
 
+            });
+        }
+
+        function scanRepo(repoUrl){
+            vm.loadingMessage = 'Scanning';
+            vm.loading = true;
+            $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then(function () {
+                vm.loading = false;
+            });
+        }
+        
+        function updateRepo(repoUrl){
+            vm.loadingMessage = 'Updating';
+            vm.loading = true;
+            $http.get('/api/repo/update/' + encodeURIComponent(repoUrl)).then(function (response) {
+                console.log(response.data);
+                vm.loading = false;
+            });
+            
+        }
+        function exportData(repoUrl){
+            dataCtrl.exportData(repoUrl);
+
+        }
+        
+        function deleteRepo(repoUrl){
+            vm.loadingMessage = 'Deleting';
+            vm.loading = true;
+            return $http.delete('/api/repo/' + encodeURIComponent(repoUrl)).then(function () {
+                var index = lodash.findIndex(vm.repos, {'URL': repoUrl});
+                vm.repos.splice(index, 1);
+                vm.loading = false;
             });
         }
     }

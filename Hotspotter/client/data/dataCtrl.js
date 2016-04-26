@@ -7,8 +7,7 @@
 
                 //"Global Variables"
                 var vm = this;
-                var Repo = $resource("/api/repo");
-
+                
                 vm.list = true;
                 vm.results = false;
                 vm.div = false;
@@ -24,17 +23,7 @@
                     scoreDiv: scoreDiv,
                     exportData: exportData
                 };
-                //Anything that needs to be instantiated on page load goes in the init
-                function init() {
-                    listRepos();
-                }
-
-                //  init();
-
-                function listRepos() {
-                    vm.repos = Repo.query();
-                }
-
+                
                 function scoreDiv(repoURL) {
                     var Score = $resource("/api/scoring/:repoUrl/:sections", {}, {
                         'query': {

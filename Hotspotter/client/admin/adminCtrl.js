@@ -14,24 +14,8 @@
                 return {
                     clearFiles: clearFiles,
                     listFiles: listFiles,
-                    clearRepo: clearRepo,
-                    listRepos: listRepos
-
+                    deleteRepo: deleteRepo
                 };
-
-                //  init();
-
-                //Anything that needs to be instantiated on page load goes in the init
-                function init() {
-                    listRepos();
-                }
-
-                //Hits api endpoint to list all repos stored
-                function listRepos() {
-                    return $http.get("/api/repo").then(function (response) {
-                        vm.repos = response.data;
-                    });
-                }
 
                 //Hits api endpoint to list all saved files for a given repo
                 function listFiles(url) {
@@ -44,13 +28,8 @@
                 }
 
                 //Hits api endpoint to delete a repo
-                function clearRepo(url) {
-                    vm.loading = true;
-                    return $http.delete('/api/repo/' + encodeURIComponent(url)).then(function () {
-                        var index = lodash.findIndex(vm.repos, {'URL': url});
-                        vm.repos.splice(index, 1);
-                        vm.loading = false;
-                    });
+                function deleteRepo(url) {
+                   
 
                 }
 
