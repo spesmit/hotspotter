@@ -1,9 +1,9 @@
 (function () {
     angular
-        .module('hotspotter.dashboardCtrl', ['hotspotter.dataCtrl'])
+        .module('hotspotter.dashboardCtrl', [])
         .controller('dashboardCtrl', dashboardCtrl);
 
-    function dashboardCtrl($http, lodash, dataCtrl) {
+    function dashboardCtrl($http, lodash) {
 
         //"Global Variables", 'hotspotter.fileViewCtrl'  fileViewCtrl,
         var vm = this;
@@ -68,7 +68,13 @@
             
         }
         function exportData(repoUrl){
-            dataCtrl.exportData(repoUrl);
+            /*
+             var Csv = $resource("/api/export/:repoUrl", {}, {'query': {method: 'GET', isArray: false}});
+             vm.csv = Csv.query({repoUrl : repoURL}, function() {
+             console.log(vm.csv);
+             });
+             */
+            window.open("/api/export/" + encodeURIComponent(repoUrl), '_blank');
 
         }
         
