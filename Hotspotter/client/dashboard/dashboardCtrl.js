@@ -9,6 +9,12 @@
         vm.loading = false;
         vm.repos = [];
 
+        vm.StatusEnum = {
+           '-1': 'False',
+            '0': 'In progress',
+            '1': 'True'
+        };      
+
         //"Global Functions"
         vm.addRepository = addRepository;
         vm.listRepos = listRepos;

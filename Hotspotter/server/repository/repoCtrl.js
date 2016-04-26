@@ -195,6 +195,7 @@ var scanFiles = function (repo, repoPath, callback) {
                         scan:  -1, // scan fail
                         score: -1
                     }
+                    
                     repoService.updateStatus(repo, repo.Status, function (err) {
                         if (err) callback(err)
                         else {
@@ -290,7 +291,6 @@ var updateFiles = function(repo, repoPath, callback) {
 module.exports.score = function (req, res) {
     var repoURL     = req.params.repoUrl
     var snapshots   = req.params.sections
-
 
     repoService.retrieveRepo(repoURL, function (err, repo) {
         if (err) {
