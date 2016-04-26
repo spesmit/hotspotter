@@ -168,7 +168,7 @@
                     type : 'line',
                     values : points,
                     key : data.name,
-                    color : "gray"
+                    color : 'black'
                 });
             }
             if (commits.length > 0) {

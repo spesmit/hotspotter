@@ -10,11 +10,12 @@
                         <br>
                         <button class="btn btn-primary" ng-click='vm.scoreRepo(repo.URL)'>Score</button>
                         <button class="btn btn-primary" ng-click='vm.scoreDiv(repo.URL)'>Sections</button>
+                        <button class="btn btn-primary" ng-click='vm.exportData(repo.URL)'>Export</button>
                     </div>
                 </div>
             </div>
             <div id="loading" ng-show="vm.loading">
-                <img src = "/images/fireBall.gif">
+                <img src = "/images/fireball.gif">
                 Loading...
             </div>
             <div ng-show="vm.loading == false">
