@@ -17,7 +17,7 @@ module.exports.export = function (req, res) {
                 last_touched= file.Commits[file.Commits.length - 1].Time
                 scores      = ""
                 for(var j = 0; j < file.Scores.length; j++) {
-                    scores += file.Scores[j].Score
+                    scores +=  1 - +file.Scores[j].Score
                     if(j != file.Scores.length - 1) {
                         scores += ","
                     }
