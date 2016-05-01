@@ -26,7 +26,8 @@
                 
                 <div style="margin-bottom: 10px;" ng-repeat="repo in vm.repos">
                     <li>{{repo.URL}}
-                        <button class="btn btn-primary pull-right" ng-click='vm.selectRepo(repo.URL, repo.Status)'>Select</button>
+                        <button class="btn btn-primary pull-right" ng-disabled="!(repo.Status.scan==1)" ng-click='vm.selectRepo(repo.URL, repo.Status)'>Select</button>
+                         <button class="btn btn-primary pull-right" ng-click='vm.removeRepo(repo.URL)'>Delete</button>
                     </li>
                     <ul><li>
                         Clone: {{vm.StatusEnum[repo.Status.clone]}} 
@@ -63,11 +64,9 @@
                             <button ng-disabled="snapshots.$invalid || !vm.selected.Status.scan==1" ng-click ='vm.scoreRepo(vm.selected.URL, vm.snapshot)' class="btn btn-primary pull-left">{{vm.selected.Options.Score}}</button>
                     </form>
                     <br><br><br>
-                    <button class="btn btn-primary" ng-click='vm.scanRepo(vm.selected.URL)'>{{vm.selected.Options.Scan}}</button>
                     <button class="btn btn-primary" ng-click='vm.updateRepo(vm.selected.URL)'>Update</button>
-                    <button class="btn btn-primary" ng-click='vm.removeRepo(vm.selected.URL)'>Delete</button>
                     <button class="btn btn-primary" ng-click='vm.viewRepository(vm.selected.URL)'>View Hotspots</button>
-                    <button class="btn btn-primary" ng-disabled='!vm.selected.Status.score==1' ng-click ="vm.exportData(vm.selected.URL)">Export Data</button>
+                    <button class="btn btn-primary" ng-disabled='!(vm.selected.Status.score==1)' ng-click ="vm.exportData(vm.selected.URL)">Export Data</button>
                 </div>
             </div>
 
@@ -124,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 <!-- /.row -->

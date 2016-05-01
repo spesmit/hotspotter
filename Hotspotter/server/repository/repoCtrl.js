@@ -274,7 +274,7 @@ var updateFiles = function(repo, repoPath, callback) {
                     } else {
                         repo.Status = {
                             clone: 1,
-                            scan: -1,
+                            scan: 1,
                             score: -1
                         }
                         repoService.updateStatus(repo, repo.Status, function (err) {

@@ -124,8 +124,7 @@
                 }
             };
 
-            scanRepo();
-
+            console.log(status);
 
         }
         
