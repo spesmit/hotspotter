@@ -34,7 +34,8 @@
         //vm.scanRepo = scanRepo;
         vm.updateRepo = updateRepo;
         vm.exportData = exportData;
-        vm.removeRepo = deleteRepo;
+        vm.deleteRepo = deleteRepo;
+        vm.scoreRepo = scoreRepo;
         vm.selectRepo = selectRepo;
         vm.clearRepo = clearRepo;
         vm.viewRepository = viewRepository;
