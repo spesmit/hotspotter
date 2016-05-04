@@ -31,7 +31,6 @@
         //"Global Functions"
         vm.addRepository = addRepository;
         vm.listRepos = listRepos;
-        //vm.scanRepo = scanRepo;
         vm.updateRepo = updateRepo;
         vm.exportData = exportData;
         vm.deleteRepo = deleteRepo;
@@ -41,6 +40,7 @@
         vm.viewRepository = viewRepository;
         vm.clearView = clearView;
         vm.fileGraph = fileGraph;
+        vm.scanRepo = scanRepo;
 
         vm.init = init;
 
@@ -62,6 +62,7 @@
             var scan = "Scan";
 
             if (status.score > 0) score = "Rescore";
+            if (status.scan > 0) scan = "Rescan";
 
             vm.selected = {
                 URL: url,
@@ -82,14 +83,14 @@
             listRepos();
         }
 
-        // function scanRepo(repoUrl) {
-        //    vm.loading = true;
-        //     $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
-        //         console.log(response.data);
-        //         vm.loading = false;
-        //         vm.selected.Options.Scan = "Rescan";
-        //     });
-        // }
+        function scanRepo(repoUrl) {
+           vm.loading = true;
+            $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
+                console.log(response.data);
+                vm.loading = false;
+                vm.selected.Options.Scan = "Rescan";
+            });
+        }
 
         function updateRepo(repoUrl) {
             
@@ -300,23 +301,6 @@
 
         }
 
-        // function scanRepo(repoUrl){
-        //     vm.loadingMessage = 'Scanning';
-        //     vm.loading = true;
-        //     $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then(function () {
-        //         vm.loading = false;
-        //     });
-        // }
-        
-        // function updateRepo(repoUrl){
-        //     vm.loadingMessage = 'Updating';
-        //     vm.loading = true;
-        //     $http.get('/api/repo/update/' + encodeURIComponent(repoUrl)).then(function (response) {
-        //         console.log(response.data);
-        //         vm.loading = false;
-        //     });
-            
-        // }
 
         function exportData(repoUrl){
             /*
@@ -336,6 +320,8 @@
                 var index = lodash.findIndex(vm.repos, {'URL': repoUrl});
                 vm.repos.splice(index, 1);
                 vm.loading = false;
+                vm.adding = true;
+                vm.advanced = false;
             });
         }
     }
