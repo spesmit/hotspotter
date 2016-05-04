@@ -31,16 +31,16 @@
         //"Global Functions"
         vm.addRepository = addRepository;
         vm.listRepos = listRepos;
-        vm.scanRepo = scanRepo;
         vm.updateRepo = updateRepo;
         vm.exportData = exportData;
         vm.deleteRepo = deleteRepo;
+        vm.scoreRepo = scoreRepo;
         vm.selectRepo = selectRepo;
         vm.clearRepo = clearRepo;
         vm.viewRepository = viewRepository;
         vm.clearView = clearView;
         vm.fileGraph = fileGraph;
-        vm.scoreRepo = scoreRepo;
+        vm.scanRepo = scanRepo;
 
         vm.init = init;
 
@@ -56,11 +56,12 @@
             vm.adding = false;
             vm.advanced = true;
             
+            console.log(status);
+
             var score = "Score"; 
             var scan = "Scan";
 
             if (status.score > 0) score = "Rescore";
-
             if (status.scan > 0) scan = "Rescan";
 
             vm.selected = {
@@ -79,6 +80,7 @@
             vm.adding = true;
             vm.advanced = false;
             vm.selected = {};
+            listRepos();
         }
 
         function scanRepo(repoUrl) {
@@ -86,15 +88,16 @@
             $http.get('/api/repo/scan/' + encodeURIComponent(repoUrl)).then( function (response){
                 console.log(response.data);
                 vm.loading = false;
-                vm.selected.Status.scan = true;
                 vm.selected.Options.Scan = "Rescan";
             });
         }
 
         function updateRepo(repoUrl) {
+            
             vm.loading = true;
             $http.get('/api/repo/update/'+ encodeURIComponent(repoUrl)).then( function (response){
                 console.log(response.data);
+                clearRepo();
                 vm.loading = false;
             });
         }

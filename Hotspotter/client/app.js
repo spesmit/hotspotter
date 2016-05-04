@@ -18,12 +18,6 @@
                 templateUrl: 'dashboard/dashboard.html',
                 pageName: 'Dashboard'
             });
-
-        $routeProvider.when(
-            '/repositoryView', {
-               templateUrl: 'fileView/fileView.html',
-                pageName: 'Repository View'
-            });
         
         $routeProvider.otherwise({redirectTo: '/'});
         $locationProvider.html5Mode(true);

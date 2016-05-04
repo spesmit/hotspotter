@@ -274,7 +274,7 @@ var updateFiles = function(repo, repoPath, callback) {
                     } else {
                         repo.Status = {
                             clone: 1,
-                            scan: -1,
+                            scan: 1,
                             score: -1
                         }
                         repoService.updateStatus(repo, repo.Status, function (err) {
@@ -330,6 +330,11 @@ var scoreFiles = function(repo, snapshots, callback) {
                     scoringService.normalizeSection(repo, function (err, repo) {
                         if (err) callback(err) 
                         else {
+                            repo.Status = {
+                                clone: 1,
+                                scan: 1,
+                                score: 1
+                            }
                             repoService.updateRepo(repo, function (err, results) {
                                 if (err) callback(err) 
                                 else {
